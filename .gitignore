@@ -21,3 +21,4 @@ Thumbs.db
 
 # Generated artifacts
 tmp_pdf/
+.tools/

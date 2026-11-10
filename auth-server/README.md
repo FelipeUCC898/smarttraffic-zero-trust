@@ -4,7 +4,11 @@ Servicio de autoridad para SmartTraffic. Expone `POST /token` y será el único 
 
 ## Estado actual
 
-El endpoint valida que `clientId` y `clientSecret` no estén vacíos, pero responde `501 Not Implemented` hasta integrar la firma JWT y la validación de clientes.
+El endpoint `POST /token` valida las credenciales configuradas y emite un JWT firmado con HMAC. La clave se proporciona mediante la variable `JWT_SECRET`; nunca debe almacenarse en el repositorio.
+
+Credenciales de desarrollo: `traffic-simulator` / `demo-secret`.
+
+La prueba unitaria de `JwtService` verifica la emisión y firma del token.
 
 ## Ejecución
 
