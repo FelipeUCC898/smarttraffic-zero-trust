@@ -3,4 +3,8 @@ server:
 spring:
   application:
     name: auth-server
+security:
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration-seconds: ${JWT_EXPIRATION_SECONDS:900}
 
