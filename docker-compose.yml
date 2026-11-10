@@ -1,4 +1,20 @@
 services:
+  auth-server:
+    build:
+      context: ./auth-server
+    environment:
+      AUTH_SERVER_PORT: 8080
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET must be set in .env}
+      JWT_EXPIRATION_SECONDS: ${JWT_EXPIRATION_SECONDS:-900}
+    ports:
+      - "127.0.0.1:8080:8080"
+    networks: [data-net]
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+
   postgres-db:
     image: postgres:16-alpine
     environment:
