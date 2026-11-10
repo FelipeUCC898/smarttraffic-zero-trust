@@ -10,10 +10,12 @@ Proyecto final de POO, Sistemas Distribuidos y Sistemas Operativos.
 
 ## Flujo de trabajo
 
-1. `main` permanece protegida y contiene únicamente versiones revisadas.
-2. Cada tarea se desarrolla en una rama `feature/<responsable>-<tarea>`.
-3. Los cambios se integran mediante Pull Request y revisión cruzada.
-4. Los commits deben ser pequeños y describir una sola intención.
+1. `main` es la rama de producción y permanece protegida.
+2. `develop` es la rama de integración del equipo.
+3. Cada integrante trabaja en ramas propias, por ejemplo `dev-uno/feat-auth-server`, `dev-dos/feat-traffic-processor` y `dev-tres/feat-persistence-tests`.
+4. Cada rama personal se actualiza desde `develop` y se integra a `develop` mediante Pull Request y revisión cruzada.
+5. Cuando `develop` está estable, se abre un Pull Request de `develop` hacia `main` para la entrega.
+6. Los commits deben ser pequeños y describir una sola intención.
 
 ## Convención de commits
 
