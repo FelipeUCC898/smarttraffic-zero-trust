@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SmartTraffic | Estado por zona</title>
+  <style>
+    body { font: 16px system-ui, sans-serif; max-width: 52rem; margin: 3rem auto; padding: 0 1rem; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: .65rem; border-bottom: 1px solid #ddd; text-align: left; }
+  </style>
+</head>
+<body>
+  <h1>Estado del tráfico por zona</h1>
+  <p id="status" role="status">Conectando…</p>
+  <table>
+    <thead><tr><th>Zona</th><th>Densidad</th><th>Congestión</th><th>Actualizado</th></tr></thead>
+    <tbody id="zones"></tbody>
+  </table>
+  <script>
+    const status = document.querySelector('#status');
+    const table = document.querySelector('#zones');
+    const rows = new Map();
+
+    function connect() {
+      const endpoint = new URL('/ws/zones', window.location.href);
+      endpoint.protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const socket = new WebSocket(endpoint);
+
+      socket.onopen = () => {
+        rows.clear();
+        table.replaceChildren();
+        status.textContent = 'Conectado. Esperando estados de tráfico.';
+      };
+      socket.onmessage = ({data}) => {
+        const event = JSON.parse(data);
+        if (!rows.has(event.zoneId)) {
+          const row = table.insertRow();
+          for (let i = 0; i < 4; i++) row.insertCell();
+          rows.set(event.zoneId, row);
+        }
+        const values = [event.zoneId, event.density, event.congestionState,
+          new Date(event.measuredAt).toLocaleString()];
+        values.forEach((value, index) => {
+          rows.get(event.zoneId).cells[index].textContent = value;
+        });
+        status.textContent = 'Conectado. Recibiendo estados de tráfico.';
+      };
+      socket.onclose = () => {
+        status.textContent = 'Conexión interrumpida. Reconectando…';
+        setTimeout(connect, 2000);
+      };
+    }
+
+    connect();
+  </script>
+</body>
+</html>
