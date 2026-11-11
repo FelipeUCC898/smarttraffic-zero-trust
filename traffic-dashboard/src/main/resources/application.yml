@@ -1,0 +1,16 @@
+server:
+  address: ${DASHBOARD_BIND_ADDRESS:127.0.0.1}
+  port: ${DASHBOARD_PORT:8081}
+spring:
+  config:
+    import: 'optional:file:.env[.properties]'
+  application:
+    name: traffic-dashboard
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASSWORD}
