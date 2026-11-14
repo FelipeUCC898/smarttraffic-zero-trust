@@ -1,0 +1,47 @@
+# Overlay de B. Usar desde la raíz junto con docker-compose.yml de A; no lo modifica.
+services:
+  density-processor:
+    build:
+      context: ./density-processor
+    environment:
+      SPRING_PROFILES_ACTIVE: docker-local
+      AUTH_TOKEN_ENDPOINT: http://auth-server:8080/token
+      AUTH_CLIENT_ID: processor
+      AUTH_CLIENT_SECRET: ${AUTH_CLIENT_PROCESSOR_SECRET:?Falta AUTH_CLIENT_PROCESSOR_SECRET}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_VHOST: /
+      RABBITMQ_USER: ${RABBITMQ_USER:?Falta RABBITMQ_USER}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:?Falta RABBITMQ_PASSWORD}
+    volumes:
+      - processor_local_state:/app/state
+    networks: [data-net]
+    depends_on:
+      auth-server:
+        condition: service_started
+      kafka-init:
+        condition: service_completed_successfully
+      rabbitmq:
+        condition: service_healthy
+    restart: on-failure
+
+  traffic-sensor-simulator:
+    build:
+      context: ./traffic-sensor-simulator
+    environment:
+      SPRING_PROFILES_ACTIVE: docker-local
+      AUTH_TOKEN_ENDPOINT: http://auth-server:8080/token
+      AUTH_CLIENT_ID: traffic-simulator
+      AUTH_CLIENT_SECRET: ${AUTH_CLIENT_TRAFFIC_SIMULATOR_SECRET:?Falta AUTH_CLIENT_TRAFFIC_SIMULATOR_SECRET}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SIMULATOR_RUN_ONCE: ${SIMULATOR_RUN_ONCE:-true}
+    networks: [data-net]
+    depends_on:
+      auth-server:
+        condition: service_started
+      kafka-init:
+        condition: service_completed_successfully
+
+volumes:
+  processor_local_state:
