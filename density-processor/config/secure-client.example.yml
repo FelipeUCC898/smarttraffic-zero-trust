@@ -1,0 +1,16 @@
+# Plantilla de B: usar con processor o processor-demo, sin direcciones/secretos por defecto.
+traffic:
+  auth:
+    tls:
+      ca-certificate: ${AUTH_CA_CERTIFICATE}
+  processor:
+    kafka:
+      "[ssl.truststore.location]": ${KAFKA_TRUSTSTORE}
+      "[ssl.truststore.type]": ${KAFKA_TRUSTSTORE_TYPE}
+      "[ssl.truststore.password]": ${KAFKA_TRUSTSTORE_PASSWORD}
+spring:
+  rabbitmq:
+    ssl:
+      trust-store: ${RABBITMQ_TRUSTSTORE}
+      trust-store-type: ${RABBITMQ_TRUSTSTORE_TYPE}
+      trust-store-password: ${RABBITMQ_TRUSTSTORE_PASSWORD}

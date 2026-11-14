@@ -8,11 +8,11 @@ import com.smarttraffic.processor.infrastructure.messaging.kafka.TrafficDelivery
 import com.smarttraffic.processor.infrastructure.messaging.kafka.TrafficProcessingTopology;
 import com.smarttraffic.processor.infrastructure.messaging.rabbitmq.RabbitTrafficStatePublisher;
 import com.smarttraffic.processor.infrastructure.security.AuthServerTokenClient;
+import com.smarttraffic.processor.infrastructure.security.AuthHttpClientFactory;
 import com.smarttraffic.processor.infrastructure.security.ServiceAccessTokenProvider;
 import com.smarttraffic.processor.infrastructure.security.ServiceOAuthCallbackHandler;
 import com.smarttraffic.processor.infrastructure.security.RabbitJwtCredentialsProvider;
 import com.rabbitmq.client.impl.DefaultCredentialsRefreshService;
-import java.net.http.HttpClient;
 import java.time.Clock;
 import java.time.Duration;
 import java.util.HashMap;
@@ -41,13 +41,12 @@ import org.slf4j.LoggerFactory;
 
 @Configuration(proxyBeanMethods = false)
 @Profile({"processor", "processor-demo"})
-@EnableConfigurationProperties({ProcessorRuntimeProperties.class, AuthClientProperties.class, RabbitProperties.class})
+@EnableConfigurationProperties({ProcessorRuntimeProperties.class, AuthClientProperties.class, AuthTlsProperties.class, RabbitProperties.class})
 public class ProcessorRuntimeConfiguration {
     private static final Logger LOG = LoggerFactory.getLogger(ProcessorRuntimeConfiguration.class);
     @Bean
-    ServiceAccessTokenProvider processorTokens(AuthClientProperties properties, ObjectMapper mapper) {
-        var http = HttpClient.newBuilder().connectTimeout(Duration.ofMillis(properties.timeoutMs()))
-                .followRedirects(HttpClient.Redirect.NEVER).build();
+    ServiceAccessTokenProvider processorTokens(AuthClientProperties properties, ObjectMapper mapper, AuthTlsProperties tls) {
+        var http = AuthHttpClientFactory.create(properties, tls);
         return new AuthServerTokenClient(properties, http, mapper, Clock.systemUTC());
     }
 
