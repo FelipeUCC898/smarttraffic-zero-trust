@@ -1,0 +1,10 @@
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+  application:
+    name: traffic-sensor-simulator
+  main:
+    web-application-type: none
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
