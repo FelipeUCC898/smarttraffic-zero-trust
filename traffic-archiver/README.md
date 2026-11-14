@@ -58,6 +58,10 @@ Remove-Item Env:SMARTTRAFFIC_POSTGRES_TEST
 Cuando B publique su productor, repite la prueba de punta a punta en
 `develop` con un evento real y valida los permisos del broker con A.
 
+En el arranque integrado de Compose no es necesario crear manualmente el
+tópico: `kafka-init` garantiza la existencia de `raw_traffic_data` antes de
+iniciar este consumidor.
+
 ## Conexión a Kafka
 
 El broker de Felipe anuncia kafka:9092 para clientes dentro de Docker.

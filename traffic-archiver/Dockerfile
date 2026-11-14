@@ -9,4 +9,5 @@ WORKDIR /app
 RUN useradd --system --uid 10001 appuser
 COPY --from=build /workspace/target/traffic-archiver-0.1.0-SNAPSHOT.jar app.jar
 USER 10001
+HEALTHCHECK --interval=15s --timeout=5s --retries=5 CMD java -version || exit 1
 ENTRYPOINT ["java", "-jar", "app.jar"]
