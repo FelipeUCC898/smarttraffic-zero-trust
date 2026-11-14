@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.never;
@@ -28,6 +27,8 @@ import com.smarttraffic.processor.domain.model.ZoneTrafficState;
 import com.smarttraffic.processor.domain.strategy.DensityCalculationStrategy;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
@@ -274,6 +275,72 @@ class ProcessTrafficObservationServiceTest {
         assertThat(replay).isEqualTo(ProcessingResult.ignored(next.eventId()));
         verify(publisher).publish(first.state().orElseThrow());
         verify(stateStore).save(eq("north"), any(ZoneTrafficAggregate.class));
+    }
+
+    @Test
+    void rejectsConflictingReuseOfTheLastEventWithoutPublishingOrSaving() {
+        ZoneTrafficAggregate confirmed = aggregate(STRATEGY);
+        ZoneTrafficState previous = confirmed.recordLatestObservation(observation(1, START, 5)).orElseThrow();
+        when(stateStore.getOrCreate("north")).thenReturn(confirmed);
+
+        assertThatIllegalArgumentException().isThrownBy(() -> service.process(
+                observation(1, START.plusSeconds(1), 25))).withMessageContaining("eventId");
+
+        assertThat(confirmed.currentState()).contains(previous);
+        verify(stateStore).getOrCreate("north");
+        verifyNoMoreInteractions(stateStore);
+        verifyNoInteractions(publisher);
+    }
+
+    @Test
+    void canDuplicateAPublicationWhenAcceptanceOccursBeforeAConfirmationFailure() {
+        ZoneTrafficAggregate confirmed = aggregate(STRATEGY);
+        TrafficObservation next = observation(1, START, 25);
+        List<ZoneTrafficState> acceptedPublications = new ArrayList<>();
+        IllegalStateException uncertain = new IllegalStateException("Confirmación de publicación perdida de prueba");
+        when(stateStore.getOrCreate("north")).thenReturn(confirmed);
+        doAnswer(invocation -> {
+            acceptedPublications.add(invocation.getArgument(0));
+            if (acceptedPublications.size() == 1) {
+                throw uncertain;
+            }
+            return null;
+        }).when(publisher).publish(any(ZoneTrafficState.class));
+
+        assertThatThrownBy(() -> service.process(next)).isSameAs(uncertain);
+        assertThat(acceptedPublications).hasSize(1);
+        assertThat(confirmed.currentState()).isEmpty();
+        verify(stateStore, never()).save(any(), any());
+        ProcessingResult retried = service.process(next);
+
+        assertThat(retried.outcome()).isEqualTo(Outcome.PROCESSED);
+        assertThat(acceptedPublications).containsExactly(
+                retried.state().orElseThrow(), retried.state().orElseThrow());
+        verify(publisher, times(2)).publish(retried.state().orElseThrow());
+        verify(stateStore).save(eq("north"), any(ZoneTrafficAggregate.class));
+    }
+
+    @Test
+    void ignoresReplayWhenSaveCommittedBeforeItsConfirmationFailed() {
+        ZoneTrafficAggregate original = aggregate(STRATEGY);
+        AtomicReference<ZoneTrafficAggregate> stored = new AtomicReference<>(original);
+        TrafficObservation next = observation(1, START, 25);
+        IllegalStateException uncertain = new IllegalStateException("Confirmación de guardado perdida de prueba");
+        when(stateStore.getOrCreate("north")).thenAnswer(ignored -> stored.get());
+        doAnswer(invocation -> {
+            stored.set(invocation.getArgument(1));
+            throw uncertain;
+        }).when(stateStore).save(eq("north"), any(ZoneTrafficAggregate.class));
+
+        assertThatThrownBy(() -> service.process(next)).isSameAs(uncertain);
+        assertThat(original.currentState()).isEmpty();
+        ZoneTrafficState committed = stored.get().currentState().orElseThrow();
+        ProcessingResult replay = service.process(next);
+
+        assertThat(replay).isEqualTo(ProcessingResult.ignored(next.eventId()));
+        verify(publisher).publish(committed);
+        verify(stateStore).save(eq("north"), any(ZoneTrafficAggregate.class));
+        verify(stateStore, times(2)).getOrCreate("north");
     }
 
     @Test
