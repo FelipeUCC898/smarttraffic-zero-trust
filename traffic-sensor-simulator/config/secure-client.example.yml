@@ -1,21 +1,22 @@
-# Plantilla de B: todos los endpoints, identidades y certificados son externos.
-# Usar con perfil kafka; no convierte el Compose PLAINTEXT en un entorno seguro.
+# Configuración no secreta de demostración para el perfil secure-integration.
+# Cambiar los escenarios fuera de Git para pruebas reales.
 traffic:
   auth:
     tls:
       ca-certificate: ${AUTH_CA_CERTIFICATE}
   simulator:
-    interval-ms: ${SIMULATOR_INTERVAL_MS}
+    interval-ms: 30000
     sensors:
-      - sensor-id: ${SIMULATOR_SENSOR_ID}
-        zone-id: ${SIMULATOR_ZONE_ID}
+      - sensor-id: demo-sensor-north
+        zone-id: north
         samples:
-          - vehicle-count: ${SIMULATOR_VEHICLE_COUNT}
-            average-speed-kmh: ${SIMULATOR_AVERAGE_SPEED_KMH}
-            congestion-state: ${SIMULATOR_CONGESTION_STATE}
+          - vehicle-count: 42
+            average-speed-kmh: 21.0
+            congestion-state: CONGESTIONADA
 spring:
   kafka:
     properties:
-      "[ssl.truststore.location]": ${KAFKA_TRUSTSTORE}
-      "[ssl.truststore.type]": ${KAFKA_TRUSTSTORE_TYPE}
-      "[ssl.truststore.password]": ${KAFKA_TRUSTSTORE_PASSWORD}
+      security.protocol: SASL_SSL
+      ssl.truststore.location: ${KAFKA_TRUSTSTORE}
+      ssl.truststore.type: ${KAFKA_TRUSTSTORE_TYPE:PKCS12}
+      ssl.truststore.password: ${KAFKA_TRUSTSTORE_PASSWORD}

@@ -154,9 +154,71 @@ services:
           cpus: "0.75"
           memory: 768M
 
+  traffic-sensor-simulator:
+    profiles: [secure-integration]
+    build:
+      context: ./traffic-sensor-simulator
+    environment:
+      SPRING_PROFILES_ACTIVE: kafka
+      KAFKA_BOOTSTRAP_SERVERS: ${SECURE_KAFKA_BOOTSTRAP_SERVERS-}
+      AUTH_TOKEN_ENDPOINT: ${SECURE_AUTH_TOKEN_ENDPOINT-}
+      AUTH_CLIENT_ID: traffic-simulator
+      AUTH_CLIENT_SECRET: ${AUTH_CLIENT_TRAFFIC_SIMULATOR_SECRET-}
+      AUTH_TIMEOUT_MS: ${AUTH_TIMEOUT_MS:-5000}
+      TRAFFIC_SIMULATOR_INTERVAL_MS: ${TRAFFIC_SIMULATOR_INTERVAL_MS:-30000}
+      KAFKA_PUBLICATION_TOPIC: ${KAFKA_PUBLICATION_TOPIC:-raw_traffic_data}
+      KAFKA_PUBLICATION_TIMEOUT_MS: ${KAFKA_PUBLICATION_TIMEOUT_MS:-30000}
+      AUTH_CA_CERTIFICATE: ${AUTH_CA_CERTIFICATE-}
+      KAFKA_TRUSTSTORE: ${KAFKA_TRUSTSTORE-}
+      KAFKA_TRUSTSTORE_TYPE: ${KAFKA_TRUSTSTORE_TYPE:-PKCS12}
+      KAFKA_TRUSTSTORE_PASSWORD: ${KAFKA_TRUSTSTORE_PASSWORD-}
+      SPRING_CONFIG_ADDITIONAL_LOCATION: /run/config/secure-client.yml
+    volumes:
+      - ${SECURE_CERTS_DIR-./infra/tls}:/run/secrets:ro
+      - ${SIMULATOR_CONFIG_FILE-./traffic-sensor-simulator/config/secure-client.example.yml}:/run/config/secure-client.yml:ro
+    networks: [data-net]
+
+  density-processor:
+    profiles: [secure-integration]
+    build:
+      context: ./density-processor
+    environment:
+      SPRING_PROFILES_ACTIVE: processor-demo
+      AUTH_TOKEN_ENDPOINT: ${SECURE_AUTH_TOKEN_ENDPOINT-}
+      AUTH_CLIENT_ID: processor
+      AUTH_CLIENT_SECRET: ${AUTH_CLIENT_PROCESSOR_SECRET-}
+      AUTH_TIMEOUT_MS: ${AUTH_TIMEOUT_MS:-5000}
+      KAFKA_BOOTSTRAP_SERVERS: ${SECURE_KAFKA_BOOTSTRAP_SERVERS-}
+      PROCESSOR_APPLICATION_ID: ${PROCESSOR_APPLICATION_ID:-density-processor-demo}
+      PROCESSOR_STATE_DIRECTORY: /var/lib/smarttraffic/state
+      PROCESSOR_ZONE_STORE: ${PROCESSOR_ZONE_STORE:-zone-store}
+      PROCESSOR_PENDING_STORE: ${PROCESSOR_PENDING_STORE:-pending-store}
+      PROCESSOR_RETRY_INTERVAL_MS: ${PROCESSOR_RETRY_INTERVAL_MS:-1000}
+      PROCESSOR_RETRY_BATCH_SIZE: ${PROCESSOR_RETRY_BATCH_SIZE:-100}
+      PROCESSOR_CONFIRMATION_TIMEOUT_MS: ${PROCESSOR_CONFIRMATION_TIMEOUT_MS:-5000}
+      PROCESSOR_SHUTDOWN_TIMEOUT_MS: ${PROCESSOR_SHUTDOWN_TIMEOUT_MS:-10000}
+      RABBITMQ_HOST: ${SECURE_RABBITMQ_HOST-}
+      RABBITMQ_PORT: ${SECURE_RABBITMQ_PORT:-5671}
+      RABBITMQ_VHOST: ${SECURE_RABBITMQ_VHOST:-/smarttraffic}
+      RABBITMQ_CONNECTION_TIMEOUT: ${RABBITMQ_CONNECTION_TIMEOUT:-5000}
+      AUTH_CA_CERTIFICATE: ${AUTH_CA_CERTIFICATE-}
+      KAFKA_TRUSTSTORE: ${KAFKA_TRUSTSTORE-}
+      KAFKA_TRUSTSTORE_TYPE: ${KAFKA_TRUSTSTORE_TYPE:-PKCS12}
+      KAFKA_TRUSTSTORE_PASSWORD: ${KAFKA_TRUSTSTORE_PASSWORD-}
+      RABBITMQ_TRUSTSTORE: ${RABBITMQ_TRUSTSTORE-}
+      RABBITMQ_TRUSTSTORE_TYPE: ${RABBITMQ_TRUSTSTORE_TYPE:-PKCS12}
+      RABBITMQ_TRUSTSTORE_PASSWORD: ${RABBITMQ_TRUSTSTORE_PASSWORD-}
+      SPRING_CONFIG_ADDITIONAL_LOCATION: /run/config/secure-client.yml
+    volumes:
+      - ${SECURE_CERTS_DIR-./infra/tls}:/run/secrets:ro
+      - ./density-processor/config/secure-client.example.yml:/run/config/secure-client.yml:ro
+      - processor_state:/var/lib/smarttraffic/state
+    networks: [data-net]
+
 networks:
   data-net:
     driver: bridge
 
 volumes:
   postgres_data:
+  processor_state:
