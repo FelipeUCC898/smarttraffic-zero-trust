@@ -44,7 +44,8 @@ public final class TrafficProcessingTopology {
                         Grouped.with(Serdes.String(), new TrafficObservationSerde()))
                 .aggregate(() -> null, this::update,
                         Materialized.<String, ZoneTrafficSnapshot>as(Stores.persistentKeyValueStore(storeName))
-                                .withKeySerde(Serdes.String()).withValueSerde(new ZoneTrafficSnapshotSerde()));
+                                .withKeySerde(Serdes.String()).withValueSerde(new ZoneTrafficSnapshotSerde())
+                                .withCachingDisabled());
     }
 
     private ZoneTrafficSnapshot update(String zoneId, TrafficObservation observation, ZoneTrafficSnapshot previous) {
