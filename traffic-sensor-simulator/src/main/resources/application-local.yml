@@ -1,0 +1,21 @@
+# Datos artificiales de demostración. Este perfil solo escribe en consola.
+# Sustituye los escenarios mediante configuración externa para tus propias pruebas.
+traffic:
+  simulator:
+    interval-ms: 2000
+    sensors:
+      - sensor-id: demo-sensor-north
+        zone-id: demo-north
+        samples:
+          - vehicle-count: 5
+            average-speed-kmh: 45.5
+            congestion-state: DESPEJADA
+          - vehicle-count: 18
+            average-speed-kmh: 22.0
+            congestion-state: MODERADA
+      - sensor-id: demo-sensor-south
+        zone-id: demo-south
+        samples:
+          - vehicle-count: 30
+            average-speed-kmh: 8.5
+            congestion-state: CONGESTIONADA
