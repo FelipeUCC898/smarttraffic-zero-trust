@@ -1,0 +1,13 @@
+# Sin sensores de demostración ni credenciales por defecto: proporcionar YAML externo.
+spring:
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+traffic:
+  kafka:
+    topic: raw_traffic_data
+    publish-timeout-ms: 30000
+  auth:
+    token-endpoint: ${AUTH_TOKEN_ENDPOINT}
+    client-id: ${AUTH_CLIENT_ID}
+    client-secret: ${AUTH_CLIENT_SECRET}
+    timeout-ms: 5000
