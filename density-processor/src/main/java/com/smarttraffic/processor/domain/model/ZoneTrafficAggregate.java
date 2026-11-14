@@ -2,6 +2,8 @@ package com.smarttraffic.processor.domain.model;
 
 import com.smarttraffic.processor.domain.state.ClearTrafficState;
 import com.smarttraffic.processor.domain.state.CongestionBehavior;
+import com.smarttraffic.processor.domain.state.CongestedTrafficState;
+import com.smarttraffic.processor.domain.state.ModerateTrafficState;
 import com.smarttraffic.processor.domain.strategy.DensityCalculationStrategy;
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -41,6 +43,36 @@ public final class ZoneTrafficAggregate {
         copy.latestObservation = latestObservation;
         copy.latestState = latestState;
         return copy;
+    }
+
+    /**
+     * Captura solo valores inmutables desde el hilo propietario.
+     * Capturar no significa persistir ni confirmar una publicación.
+     */
+    public ZoneTrafficSnapshot snapshot() {
+        return new ZoneTrafficSnapshot(zoneId, thresholds, latestObservation, latestState);
+    }
+
+    /**
+     * Reconstruye sin recalcular ni publicar. El llamador debe proporcionar una
+     * estrategia compatible con la utilizada antes de la captura; su identidad
+     * no forma parte de esta instantánea interna. Conserva los umbrales capturados.
+     */
+    public static ZoneTrafficAggregate restore(ZoneTrafficSnapshot snapshot,
+            DensityCalculationStrategy densityStrategy) {
+        DomainValidation.requirePresent(snapshot, "snapshot");
+        ZoneTrafficAggregate restored = new ZoneTrafficAggregate(
+                snapshot.zoneId(), densityStrategy, snapshot.thresholds());
+        restored.latestObservation = snapshot.latestObservation();
+        restored.latestState = snapshot.latestState();
+        if (restored.latestState != null) {
+            restored.behavior = switch (restored.latestState.congestionState()) {
+                case DESPEJADA -> new ClearTrafficState();
+                case MODERADA -> new ModerateTrafficState();
+                case CONGESTIONADA -> new CongestedTrafficState();
+            };
+        }
+        return restored;
     }
 
     /**
