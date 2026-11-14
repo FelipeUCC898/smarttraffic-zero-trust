@@ -25,4 +25,12 @@ class KafkaStreamsLifecycleTest {
         assertThatIllegalArgumentException().isThrownBy(() -> new KafkaStreamsLifecycle(null, Duration.ofSeconds(1)));
         assertThatIllegalArgumentException().isThrownBy(() -> new KafkaStreamsLifecycle(mock(KafkaStreams.class), Duration.ZERO));
     }
+    @Test void failedPreflightClosesClientWithoutStartingConsumption() {
+        var streams = mock(KafkaStreams.class);
+        var failure = new IllegalStateException("Identidad rechazada");
+        var lifecycle = new KafkaStreamsLifecycle(streams, Duration.ofSeconds(5), () -> { throw failure; });
+        assertThatThrownBy(lifecycle::start).isSameAs(failure);
+        verify(streams, never()).start(); verify(streams).close(Duration.ofSeconds(5));
+        assertThat(lifecycle.isRunning()).isFalse();
+    }
 }

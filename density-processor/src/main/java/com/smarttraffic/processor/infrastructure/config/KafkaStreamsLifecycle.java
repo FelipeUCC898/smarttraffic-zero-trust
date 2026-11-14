@@ -13,13 +13,19 @@ public final class KafkaStreamsLifecycle implements SmartLifecycle {
     private static final Logger LOG = LoggerFactory.getLogger(KafkaStreamsLifecycle.class);
     private final KafkaStreams streams;
     private final Duration shutdownTimeout;
+    private final Runnable beforeStart;
     private final AtomicBoolean running = new AtomicBoolean();
 
     public KafkaStreamsLifecycle(KafkaStreams streams, Duration shutdownTimeout) {
-        if (streams == null || shutdownTimeout == null || shutdownTimeout.toMillis() < 1)
+        this(streams, shutdownTimeout, () -> { });
+    }
+
+    public KafkaStreamsLifecycle(KafkaStreams streams, Duration shutdownTimeout, Runnable beforeStart) {
+        if (streams == null || shutdownTimeout == null || shutdownTimeout.toMillis() < 1 || beforeStart == null)
             throw new IllegalArgumentException("Streams y timeout de cierre son obligatorios");
         this.streams = streams;
         this.shutdownTimeout = shutdownTimeout;
+        this.beforeStart = beforeStart;
         streams.setUncaughtExceptionHandler((StreamsUncaughtExceptionHandler) exception -> {
             running.set(false);
             LOG.error("Kafka Streams se detuvo por un fallo no recuperable; revisar datos/configuración antes de reiniciar");
@@ -29,8 +35,8 @@ public final class KafkaStreamsLifecycle implements SmartLifecycle {
 
     @Override public void start() {
         if (running.compareAndSet(false, true)) {
-            try { streams.start(); }
-            catch (RuntimeException exception) { running.set(false); throw exception; }
+            try { beforeStart.run(); streams.start(); }
+            catch (RuntimeException exception) { running.set(false); streams.close(shutdownTimeout); throw exception; }
         }
     }
     @Override public void stop() {

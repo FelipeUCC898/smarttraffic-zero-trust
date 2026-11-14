@@ -46,6 +46,7 @@ public class ProcessorRuntimeConfiguration {
     private static final Logger LOG = LoggerFactory.getLogger(ProcessorRuntimeConfiguration.class);
     @Bean
     ServiceAccessTokenProvider processorTokens(AuthClientProperties properties, ObjectMapper mapper, AuthTlsProperties tls) {
+        if (properties.allowInsecureHttp()) throw new IllegalArgumentException("HTTP sin TLS solo se permite con docker-local");
         var http = AuthHttpClientFactory.create(properties, tls);
         return new AuthServerTokenClient(properties, http, mapper, Clock.systemUTC());
     }
@@ -99,9 +100,14 @@ public class ProcessorRuntimeConfiguration {
         var topology = new TrafficDeliveryTopology().build(new StreamsBuilder(), processing, publisher,
                 "raw_traffic_data", properties.zoneStore(), properties.pendingStore(),
                 Duration.ofMillis(properties.retryIntervalMs()), properties.retryBatchSize());
-        return new KafkaStreamsLifecycle(createStreams(topology, new StreamsConfig(kafkaProperties(properties, tokens))),
-                Duration.ofMillis(properties.shutdownTimeoutMs()));
+        return new KafkaStreamsLifecycle(createStreams(topology, new StreamsConfig(streamSettings(properties, tokens))),
+                Duration.ofMillis(properties.shutdownTimeoutMs()), beforeStreamsStart(tokens));
     }
+
+    protected Map<String, Object> streamSettings(ProcessorRuntimeProperties properties, ServiceAccessTokenProvider tokens) {
+        return kafkaProperties(properties, tokens);
+    }
+    protected Runnable beforeStreamsStart(ServiceAccessTokenProvider tokens) { return () -> { }; }
 
     protected KafkaStreams createStreams(Topology topology, StreamsConfig config) { return new KafkaStreams(topology, config); }
 

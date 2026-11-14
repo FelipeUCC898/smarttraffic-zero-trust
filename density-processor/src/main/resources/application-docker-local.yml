@@ -1,0 +1,33 @@
+# SOLO desarrollo Docker: datos simulados; sin TLS/OAuth2 en los brokers.
+traffic:
+  auth:
+    token-endpoint: ${AUTH_TOKEN_ENDPOINT:http://auth-server:8080/token}
+    client-id: ${AUTH_CLIENT_ID:processor}
+    client-secret: ${AUTH_CLIENT_SECRET}
+    timeout-ms: ${AUTH_TIMEOUT_MS:5000}
+    allow-insecure-http: true
+  processor:
+    application-id: ${PROCESSOR_APPLICATION_ID:smarttraffic-processor-docker-local}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
+    state-directory: ${PROCESSOR_STATE_DIRECTORY:/app/state}
+    zone-store: docker-zone-state
+    pending-store: docker-pending-state
+    retry-interval-ms: 1000
+    retry-batch-size: 10
+    confirmation-timeout-ms: 5000
+    shutdown-timeout-ms: 10000
+    zone-length-km:
+      north: 2
+    thresholds:
+      moderate-from: 10
+      congested-from: 20
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST:rabbitmq}
+    port: ${RABBITMQ_PORT:5672}
+    virtual-host: ${RABBITMQ_VHOST:/}
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASSWORD}
+    connection-timeout: 5s
+    ssl:
+      enabled: false
