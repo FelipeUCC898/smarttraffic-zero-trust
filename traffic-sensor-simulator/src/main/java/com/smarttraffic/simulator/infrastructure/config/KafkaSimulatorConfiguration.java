@@ -6,10 +6,9 @@ import com.smarttraffic.simulator.application.port.out.TrafficObservationPublish
 import com.smarttraffic.simulator.application.service.SimulateTrafficService;
 import com.smarttraffic.simulator.infrastructure.messaging.kafka.KafkaTrafficObservationPublisher;
 import com.smarttraffic.simulator.infrastructure.security.AuthServerTokenClient;
+import com.smarttraffic.simulator.infrastructure.security.AuthHttpClientFactory;
 import com.smarttraffic.simulator.infrastructure.security.ServiceOAuthCallbackHandler;
-import java.net.http.HttpClient;
 import java.time.Clock;
-import java.time.Duration;
 import java.util.Map;
 import java.util.UUID;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -32,7 +31,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Profile("kafka")
 @EnableScheduling
 @EnableConfigurationProperties({SimulatorProperties.class, KafkaProperties.class,
-        KafkaPublicationProperties.class, AuthClientProperties.class})
+        KafkaPublicationProperties.class, AuthClientProperties.class, AuthTlsProperties.class})
 public class KafkaSimulatorConfiguration {
     public KafkaSimulatorConfiguration(Environment environment) {
         if (environment.acceptsProfiles(Profiles.of("local"))) {
@@ -46,9 +45,8 @@ public class KafkaSimulatorConfiguration {
     }
 
     @Bean
-    ServiceAccessTokenProvider serviceAccessTokenProvider(AuthClientProperties properties, ObjectMapper mapper) {
-        HttpClient http = HttpClient.newBuilder().connectTimeout(Duration.ofMillis(properties.timeoutMs()))
-                .followRedirects(HttpClient.Redirect.NEVER).build();
+    ServiceAccessTokenProvider serviceAccessTokenProvider(AuthClientProperties properties, ObjectMapper mapper, AuthTlsProperties tls) {
+        var http = AuthHttpClientFactory.create(properties, tls);
         return new AuthServerTokenClient(properties, http, mapper, Clock.systemUTC());
     }
 
