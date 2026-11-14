@@ -26,6 +26,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks: [data-net]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     deploy:
       resources:
         limits:
@@ -58,6 +63,11 @@ services:
     ports:
       - "127.0.0.1:${KAFKA_PORT:-9092}:9092"
     networks: [data-net]
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-topics --bootstrap-server localhost:9092 --list >/dev/null 2>&1"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
     deploy:
       resources:
         limits:
@@ -66,15 +76,81 @@ services:
 
   rabbitmq:
     image: rabbitmq:3.13-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-guest}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-guest}
     ports:
       - "127.0.0.1:${RABBITMQ_PORT:-5672}:5672"
       - "127.0.0.1:${RABBITMQ_MANAGEMENT_PORT:-15672}:15672"
     networks: [data-net]
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
     deploy:
       resources:
         limits:
           cpus: "0.5"
           memory: 512M
+
+  traffic-archiver:
+    build:
+      context: ./traffic-archiver
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      kafka-init:
+        condition: service_completed_successfully
+    environment:
+      POSTGRES_HOST: postgres-db
+      POSTGRES_DB: ${POSTGRES_DB:-smarttraffic}
+      POSTGRES_USER: ${POSTGRES_USER:-smarttraffic}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me-locally}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_ARCHIVER_GROUP: ${KAFKA_ARCHIVER_GROUP:-traffic-archiver-v1}
+    networks: [data-net]
+    deploy:
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: 768M
+
+  kafka-init:
+    image: confluentinc/cp-kafka:7.6.1
+    depends_on:
+      kafka:
+        condition: service_healthy
+    command: >-
+      bash -c "kafka-topics --bootstrap-server kafka:9092
+      --create --if-not-exists --topic raw_traffic_data
+      --partitions 1 --replication-factor 1"
+    networks: [data-net]
+
+  traffic-dashboard:
+    build:
+      context: ./traffic-dashboard
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: ${RABBITMQ_USER:-guest}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-guest}
+      DASHBOARD_BIND_ADDRESS: 0.0.0.0
+      DASHBOARD_PORT: 8081
+    ports:
+      - "127.0.0.1:${DASHBOARD_PORT:-8081}:8081"
+    networks: [data-net]
+    deploy:
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: 768M
 
 networks:
   data-net:

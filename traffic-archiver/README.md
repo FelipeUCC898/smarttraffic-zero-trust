@@ -12,19 +12,10 @@ Usa líneas `CLAVE=valor` para que Docker Compose y Spring puedan leer el mismo
 archivo. Ambos módulos deben arrancar desde la raíz para leerlo.
 
 ```powershell
-docker compose up -d postgres-db zookeeper kafka rabbitmq
+docker compose up -d
 docker compose exec postgres-db pg_isready
 docker compose exec rabbitmq rabbitmq-diagnostics -q ping
-docker build -t smarttraffic-archiver:local ./traffic-archiver
-mvn -f traffic-dashboard/pom.xml package
-```
-
-Con el proyecto Compose llamado smarttraffic-zero-trust, ejecuta desde la raíz. Si el contenedor del archivador ya existe y tiene la configuración indicada, usa docker start smarttraffic-archiver-local.
-
-```powershell
-docker compose exec kafka kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic raw_traffic_data --partitions 1 --replication-factor 1
-docker run -d --name smarttraffic-archiver-local --network smarttraffic-zero-trust_data-net --env-file .env -e POSTGRES_HOST=postgres-db -e POSTGRES_PORT=5432 -e KAFKA_BOOTSTRAP_SERVERS=kafka:9092 smarttraffic-archiver:local
-java -jar traffic-dashboard/target/traffic-dashboard-0.1.0-SNAPSHOT.jar
+docker compose ps
 ```
 
 Abre http://127.0.0.1:8081. Cuando ambos módulos estén en ejecución, publica en
@@ -58,6 +49,10 @@ Remove-Item Env:SMARTTRAFFIC_POSTGRES_TEST
 Cuando B conecte la topología Kafka con el publicador RabbitMQ, repite la prueba de punta a punta en
 `develop` con un evento real y valida los permisos del broker con A.
 
+En el arranque integrado de Compose no es necesario crear manualmente el
+tópico: `kafka-init` garantiza la existencia de `raw_traffic_data` antes de
+iniciar este consumidor.
+
 ## Conexión a Kafka
 
 El broker de Felipe anuncia kafka:9092 para clientes dentro de Docker.
@@ -70,6 +65,11 @@ El grupo del archivador es traffic-archiver-v1 y debe ser distinto al del
 procesador de densidad. Los offsets se confirman después del guardado.
 Los tests usan Java 17. La ejecución verificada con Java 25 necesitó el agente
 Byte Buddy y net.bytebuddy.experimental=true.
+
+En el arranque integrado de Compose no es necesario crear manualmente el
+tópico: `kafka-init` garantiza la existencia de `raw_traffic_data` antes de
+iniciar este consumidor.
+
 ## Recuperación y orden de mensajes
 
 - Archivador: publica una observación y confirma que PostgreSQL guarda una fila.

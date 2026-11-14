@@ -26,3 +26,22 @@ Ejemplo: `feat(auth): emitir JWT con roles`.
 ## Arquitectura prevista
 
 El sistema se distribuye en `vm-auth`, `vm-data`, `vm-ingest`, `vm-core` y `vm-app`, con autenticación servicio-a-servicio mediante JWT, Kafka para ingesta y RabbitMQ para distribución de estado.
+
+## Arranque integrado local
+
+El Compose también construye y conecta los módulos de archivado y dashboard
+con la infraestructura compartida. El inicializador `kafka-init` crea de forma
+idempotente el tópico `raw_traffic_data` antes de arrancar el consumidor.
+
+```powershell
+docker compose up -d
+docker compose ps
+```
+
+Los servicios de aplicación quedan disponibles en `127.0.0.1:8080` para auth y
+`127.0.0.1:8081` para el dashboard. Kafka, PostgreSQL y RabbitMQ sólo se
+publican en loopback. Para apagar el entorno:
+
+```powershell
+docker compose down
+```
