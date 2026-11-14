@@ -12,18 +12,10 @@ Usa líneas `CLAVE=valor` para que Docker Compose y Spring puedan leer el mismo
 archivo. Ambos módulos deben arrancar desde la raíz para leerlo.
 
 ```powershell
-docker compose up -d postgres-db zookeeper kafka rabbitmq
+docker compose up -d
 docker compose exec postgres-db pg_isready
 docker compose exec rabbitmq rabbitmq-diagnostics -q ping
-mvn -f traffic-archiver/pom.xml package
-mvn -f traffic-dashboard/pom.xml package
-```
-
-Ejecuta cada comando Java en una terminal distinta desde la raíz.
-
-```powershell
-java -jar traffic-archiver/target/traffic-archiver-0.1.0-SNAPSHOT.jar
-java -jar traffic-dashboard/target/traffic-dashboard-0.1.0-SNAPSHOT.jar
+docker compose ps
 ```
 
 Abre http://127.0.0.1:8081. Cuando ambos módulos estén en ejecución, publica en
@@ -32,7 +24,6 @@ usar la consola de RabbitMQ en http://127.0.0.1:15672. Ejemplo de cuerpo JSON.
 
 ```json
 {
-  "eventId": "ca620302-913d-49de-af36-bb1173016f9c",
   "zoneId": "north",
   "measuredAt": "2026-11-10T15:00:00Z",
   "density": 0.6,
@@ -55,7 +46,7 @@ mvn -f traffic-archiver/pom.xml "-Dspring.config.additional-location=file:../.en
 Remove-Item Env:SMARTTRAFFIC_POSTGRES_TEST
 ```
 
-Cuando B publique su productor, repite la prueba de punta a punta en
+Cuando B conecte la topología Kafka con el publicador RabbitMQ, repite la prueba de punta a punta en
 `develop` con un evento real y valida los permisos del broker con A.
 
 En el arranque integrado de Compose no es necesario crear manualmente el
@@ -74,3 +65,19 @@ El grupo del archivador es traffic-archiver-v1 y debe ser distinto al del
 procesador de densidad. Los offsets se confirman después del guardado.
 Los tests usan Java 17. La ejecución verificada con Java 25 necesitó el agente
 Byte Buddy y net.bytebuddy.experimental=true.
+
+En el arranque integrado de Compose no es necesario crear manualmente el
+tópico: `kafka-init` garantiza la existencia de `raw_traffic_data` antes de
+iniciar este consumidor.
+
+## Recuperación y orden de mensajes
+
+- Archivador: publica una observación y confirma que PostgreSQL guarda una fila.
+  Reinicia el archivador, espera a que Kafka le asigne la partición, reenvía el
+  mismo evento y envía otro con un eventId nuevo. Ambos conteos deben dar 1.
+- Dashboard: publica tres estados para una zona nueva en orden de envío 10:00,
+  10:02 y 10:01, con densidades 10, 30 y 20. Debe conservar la densidad 30.
+  Reinicia el dashboard y publica un estado de una zona nueva cuando vuelva
+  a conectarse. La fila debe aparecer sin recargar el navegador.
+
+Ambas comprobaciones pasaron manualmente con los servicios locales.

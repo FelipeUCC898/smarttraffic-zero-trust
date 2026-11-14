@@ -1,0 +1,33 @@
+# Demostración autorizada: north=2 km y umbrales 10/20 SON SIMULADOS.
+# No activar junto con processor. application-id debe terminar en -demo.
+traffic:
+  auth:
+    token-endpoint: ${AUTH_TOKEN_ENDPOINT}
+    client-id: ${AUTH_CLIENT_ID}
+    client-secret: ${AUTH_CLIENT_SECRET}
+    timeout-ms: ${AUTH_TIMEOUT_MS}
+  processor:
+    application-id: ${PROCESSOR_APPLICATION_ID}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    state-directory: ${PROCESSOR_STATE_DIRECTORY}
+    zone-store: ${PROCESSOR_ZONE_STORE}
+    pending-store: ${PROCESSOR_PENDING_STORE}
+    retry-interval-ms: ${PROCESSOR_RETRY_INTERVAL_MS}
+    retry-batch-size: ${PROCESSOR_RETRY_BATCH_SIZE}
+    confirmation-timeout-ms: ${PROCESSOR_CONFIRMATION_TIMEOUT_MS}
+    shutdown-timeout-ms: ${PROCESSOR_SHUTDOWN_TIMEOUT_MS}
+    zone-length-km:
+      north: 2
+    thresholds:
+      moderate-from: 10
+      congested-from: 20
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    virtual-host: ${RABBITMQ_VHOST}
+    connection-timeout: ${RABBITMQ_CONNECTION_TIMEOUT}
+    ssl:
+      enabled: true
+      validate-server-certificate: true
+      verify-hostname: true
