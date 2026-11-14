@@ -15,14 +15,15 @@ archivo. Ambos módulos deben arrancar desde la raíz para leerlo.
 docker compose up -d postgres-db zookeeper kafka rabbitmq
 docker compose exec postgres-db pg_isready
 docker compose exec rabbitmq rabbitmq-diagnostics -q ping
-mvn -f traffic-archiver/pom.xml package
+docker build -t smarttraffic-archiver:local ./traffic-archiver
 mvn -f traffic-dashboard/pom.xml package
 ```
 
-Ejecuta cada comando Java en una terminal distinta desde la raíz.
+Con el proyecto Compose llamado smarttraffic-zero-trust, ejecuta desde la raíz. Si el contenedor del archivador ya existe y tiene la configuración indicada, usa docker start smarttraffic-archiver-local.
 
 ```powershell
-java -jar traffic-archiver/target/traffic-archiver-0.1.0-SNAPSHOT.jar
+docker compose exec kafka kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic raw_traffic_data --partitions 1 --replication-factor 1
+docker run -d --name smarttraffic-archiver-local --network smarttraffic-zero-trust_data-net --env-file .env -e POSTGRES_HOST=postgres-db -e POSTGRES_PORT=5432 -e KAFKA_BOOTSTRAP_SERVERS=kafka:9092 smarttraffic-archiver:local
 java -jar traffic-dashboard/target/traffic-dashboard-0.1.0-SNAPSHOT.jar
 ```
 
@@ -32,7 +33,6 @@ usar la consola de RabbitMQ en http://127.0.0.1:15672. Ejemplo de cuerpo JSON.
 
 ```json
 {
-  "eventId": "ca620302-913d-49de-af36-bb1173016f9c",
   "zoneId": "north",
   "measuredAt": "2026-11-10T15:00:00Z",
   "density": 0.6,
@@ -55,7 +55,7 @@ mvn -f traffic-archiver/pom.xml "-Dspring.config.additional-location=file:../.en
 Remove-Item Env:SMARTTRAFFIC_POSTGRES_TEST
 ```
 
-Cuando B publique su productor, repite la prueba de punta a punta en
+Cuando B conecte la topología Kafka con el publicador RabbitMQ, repite la prueba de punta a punta en
 `develop` con un evento real y valida los permisos del broker con A.
 
 ## Conexión a Kafka
@@ -70,3 +70,14 @@ El grupo del archivador es traffic-archiver-v1 y debe ser distinto al del
 procesador de densidad. Los offsets se confirman después del guardado.
 Los tests usan Java 17. La ejecución verificada con Java 25 necesitó el agente
 Byte Buddy y net.bytebuddy.experimental=true.
+## Recuperación y orden de mensajes
+
+- Archivador: publica una observación y confirma que PostgreSQL guarda una fila.
+  Reinicia el archivador, espera a que Kafka le asigne la partición, reenvía el
+  mismo evento y envía otro con un eventId nuevo. Ambos conteos deben dar 1.
+- Dashboard: publica tres estados para una zona nueva en orden de envío 10:00,
+  10:02 y 10:01, con densidades 10, 30 y 20. Debe conservar la densidad 30.
+  Reinicia el dashboard y publica un estado de una zona nueva cuando vuelva
+  a conectarse. La fila debe aparecer sin recargar el navegador.
+
+Ambas comprobaciones pasaron manualmente con los servicios locales.
