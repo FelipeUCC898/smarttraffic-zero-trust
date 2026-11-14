@@ -5,12 +5,14 @@ import com.smarttraffic.simulator.application.service.SimulateTrafficService;
 import com.smarttraffic.simulator.domain.model.SensorReading;
 import java.util.List;
 import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /** Pendientes en memoria, de un solo hilo; no sustituye un outbox durable. */
 @Component
-@Profile("kafka")
+@Profile({"kafka", "docker-local"})
+@ConditionalOnProperty(name = "traffic.simulator.run-once", havingValue = "false", matchIfMissing = true)
 public class KafkaSimulationScheduler {
     private final SimulateTrafficService simulator;
     private final TrafficObservationPublisher publisher;

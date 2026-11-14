@@ -34,7 +34,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         KafkaPublicationProperties.class, AuthClientProperties.class, AuthTlsProperties.class})
 public class KafkaSimulatorConfiguration {
     public KafkaSimulatorConfiguration(Environment environment) {
-        if (environment.acceptsProfiles(Profiles.of("local"))) {
+        if (environment.acceptsProfiles(Profiles.of("local", "docker-local"))) {
             throw new IllegalArgumentException("Los perfiles local y kafka son mutuamente excluyentes");
         }
     }
@@ -46,6 +46,7 @@ public class KafkaSimulatorConfiguration {
 
     @Bean
     ServiceAccessTokenProvider serviceAccessTokenProvider(AuthClientProperties properties, ObjectMapper mapper, AuthTlsProperties tls) {
+        if (properties.allowInsecureHttp()) throw new IllegalArgumentException("HTTP sin TLS solo se permite con docker-local");
         var http = AuthHttpClientFactory.create(properties, tls);
         return new AuthServerTokenClient(properties, http, mapper, Clock.systemUTC());
     }

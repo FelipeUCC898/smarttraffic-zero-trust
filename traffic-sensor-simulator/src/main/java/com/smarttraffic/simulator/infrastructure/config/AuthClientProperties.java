@@ -2,11 +2,17 @@ package com.smarttraffic.simulator.infrastructure.config;
 
 import java.net.URI;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.bind.ConstructorBinding;
 
 @ConfigurationProperties(prefix = "traffic.auth")
-public record AuthClientProperties(URI tokenEndpoint, String clientId, String clientSecret, long timeoutMs) {
+public record AuthClientProperties(URI tokenEndpoint, String clientId, String clientSecret, long timeoutMs, boolean allowInsecureHttp) {
+    public AuthClientProperties(URI tokenEndpoint, String clientId, String clientSecret, long timeoutMs) {
+        this(tokenEndpoint, clientId, clientSecret, timeoutMs, false);
+    }
+    @ConstructorBinding
     public AuthClientProperties {
-        if (tokenEndpoint == null || !"https".equalsIgnoreCase(tokenEndpoint.getScheme())
+        if (tokenEndpoint == null || (!"https".equalsIgnoreCase(tokenEndpoint.getScheme())
+                && !(allowInsecureHttp && "http".equalsIgnoreCase(tokenEndpoint.getScheme())))
                 || tokenEndpoint.getHost() == null || tokenEndpoint.getUserInfo() != null
                 || tokenEndpoint.getQuery() != null || tokenEndpoint.getFragment() != null) {
             throw new IllegalArgumentException("token-endpoint requiere HTTPS y no admite credenciales ni parámetros en la URL");

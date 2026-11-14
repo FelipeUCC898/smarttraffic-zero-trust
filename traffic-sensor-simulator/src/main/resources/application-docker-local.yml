@@ -1,0 +1,24 @@
+# SOLO desarrollo Docker. Un sensor y datos artificiales; por defecto publica una sola observación.
+spring:
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
+traffic:
+  auth:
+    token-endpoint: ${AUTH_TOKEN_ENDPOINT:http://auth-server:8080/token}
+    client-id: ${AUTH_CLIENT_ID:traffic-simulator}
+    client-secret: ${AUTH_CLIENT_SECRET}
+    timeout-ms: ${AUTH_TIMEOUT_MS:5000}
+    allow-insecure-http: true
+  kafka:
+    topic: raw_traffic_data
+    publish-timeout-ms: 30000
+  simulator:
+    run-once: ${SIMULATOR_RUN_ONCE:true}
+    interval-ms: 2000
+    sensors:
+      - sensor-id: sensor-1
+        zone-id: north
+        samples:
+          - vehicle-count: 42
+            average-speed-kmh: 35.5
+            congestion-state: MODERADA
