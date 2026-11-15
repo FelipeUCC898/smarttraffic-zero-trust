@@ -10,8 +10,11 @@ El Auth Server valida dos clientes independientes:
 |---|---|---|
 | Simulador | `traffic-simulator` | `AUTH_CLIENT_TRAFFIC_SIMULATOR_SECRET` |
 | Procesador | `processor` | `AUTH_CLIENT_PROCESSOR_SECRET` |
+| Archivador | `traffic-archiver` | `AUTH_CLIENT_TRAFFIC_ARCHIVER_SECRET` |
 
 Los secretos sólo deben existir en `.env` local o en el gestor de secretos del proveedor cloud. No se deben escribir en `docker-compose.yml`, commits, logs ni Pull Requests.
+
+El mismo secreto de `traffic-archiver` debe estar registrado en el Auth Server seguro y en el `.env` del entorno que ejecuta el archivador. Si ambos valores no coinciden, el Auth Server rechazará el token.
 
 ## Arranque del perfil seguro
 
