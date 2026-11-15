@@ -221,6 +221,7 @@ services:
     build:
       context: ./traffic-archiver
     environment:
+      SPRING_PROFILES_ACTIVE: secure-integration
       POSTGRES_HOST: postgres-db
       POSTGRES_DB: ${POSTGRES_DB:-smarttraffic}
       POSTGRES_USER: ${POSTGRES_USER:-smarttraffic}
