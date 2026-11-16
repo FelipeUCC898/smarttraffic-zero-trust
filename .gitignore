@@ -22,3 +22,11 @@ Thumbs.db
 # Generated artifacts
 tmp_pdf/
 .tools/
+
+# Terraform local state and saved plans (may contain sensitive values)
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfvars
+!*.tfvars.example

@@ -5,7 +5,7 @@ spring:
     name: auth-server
 security:
   jwt:
-    secret: ${JWT_SECRET}
+    secret: ${JWT_SECRET:}
     expiration-seconds: ${JWT_EXPIRATION_SECONDS:900}
     mode: hmac
     issuer: ${AUTH_JWT_ISSUER:smarttraffic-auth}
@@ -17,3 +17,4 @@ security:
       traffic-archiver: ${AUTH_CLIENT_TRAFFIC_ARCHIVER_SECRET:}
       alert-dispatcher: ${AUTH_CLIENT_ALERT_DISPATCHER_SECRET:}
       query-client: ${AUTH_CLIENT_QUERY_CLIENT_SECRET:}
+      traffic-dashboard: ${AUTH_CLIENT_TRAFFIC_DASHBOARD_SECRET:}

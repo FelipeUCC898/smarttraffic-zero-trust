@@ -11,6 +11,7 @@ services:
       AUTH_CLIENT_TRAFFIC_ARCHIVER_SECRET: ${AUTH_CLIENT_TRAFFIC_ARCHIVER_SECRET:?AUTH_CLIENT_TRAFFIC_ARCHIVER_SECRET must be set in .env}
       AUTH_CLIENT_ALERT_DISPATCHER_SECRET: ${AUTH_CLIENT_ALERT_DISPATCHER_SECRET:?AUTH_CLIENT_ALERT_DISPATCHER_SECRET must be set in .env}
       AUTH_CLIENT_QUERY_CLIENT_SECRET: ${AUTH_CLIENT_QUERY_CLIENT_SECRET:?AUTH_CLIENT_QUERY_CLIENT_SECRET must be set in .env}
+      AUTH_CLIENT_TRAFFIC_DASHBOARD_SECRET: ${AUTH_CLIENT_TRAFFIC_DASHBOARD_SECRET-}
     ports:
       - "127.0.0.1:8080:8080"
     networks: [data-net]
@@ -137,7 +138,8 @@ services:
 
   traffic-dashboard:
     build:
-      context: ./traffic-dashboard
+      context: .
+      dockerfile: traffic-dashboard/Dockerfile
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -288,8 +290,17 @@ services:
   traffic-dashboard-secure:
     profiles: [secure-integration]
     build:
-      context: ./traffic-dashboard
+      context: .
+      dockerfile: traffic-dashboard/Dockerfile
     environment:
+      SPRING_PROFILES_ACTIVE: secure
+      AUTH_TOKEN_ENDPOINT: ${SECURE_AUTH_TOKEN_ENDPOINT-}
+      AUTH_CLIENT_ID: traffic-dashboard
+      AUTH_CLIENT_SECRET: ${AUTH_CLIENT_TRAFFIC_DASHBOARD_SECRET-}
+      AUTH_CA_CERTIFICATE: ${AUTH_CA_CERTIFICATE-}
+      AUTH_JWT_ISSUER: ${AUTH_JWT_ISSUER:-smarttraffic-auth}
+      AUTH_JWT_AUDIENCE: ${AUTH_JWT_AUDIENCE:-smarttraffic-brokers}
+      AUTH_JWT_PUBLIC_KEY: ${SECURITY_JWT_PUBLIC_KEY-}
       DASHBOARD_BIND_ADDRESS: 0.0.0.0
       DASHBOARD_PORT: 8081
       RABBITMQ_HOST: ${RABBITMQ_HOST-}
@@ -320,6 +331,7 @@ services:
       AUTH_TOKEN_ENDPOINT: ${SECURE_AUTH_TOKEN_ENDPOINT-}
       AUTH_CLIENT_ID: alert-dispatcher
       AUTH_CLIENT_SECRET: ${AUTH_CLIENT_ALERT_DISPATCHER_SECRET-}
+      AUTH_CA_CERTIFICATE: ${AUTH_CA_CERTIFICATE-}
       AUTH_JWT_ISSUER: ${AUTH_JWT_ISSUER:-smarttraffic-auth}
       AUTH_JWT_AUDIENCE: ${AUTH_JWT_AUDIENCE:-smarttraffic-brokers}
       AUTH_JWT_PUBLIC_KEY: ${SECURITY_JWT_PUBLIC_KEY-}
@@ -350,12 +362,13 @@ services:
       AUTH_TOKEN_ENDPOINT: ${SECURE_AUTH_TOKEN_ENDPOINT-}
       AUTH_CLIENT_ID: query-client
       AUTH_CLIENT_SECRET: ${AUTH_CLIENT_QUERY_CLIENT_SECRET-}
+      AUTH_CA_CERTIFICATE: ${AUTH_CA_CERTIFICATE-}
       AUTH_JWT_ISSUER: ${AUTH_JWT_ISSUER:-smarttraffic-auth}
       AUTH_JWT_AUDIENCE: ${AUTH_JWT_AUDIENCE:-smarttraffic-brokers}
       AUTH_JWT_PUBLIC_KEY: ${SECURITY_JWT_PUBLIC_KEY-}
-      RABBITMQ_HOST: ${SECURE_RABBITMQ_HOST-}
-      RABBITMQ_PORT: ${SECURE_RABBITMQ_PORT:-5671}
-      RABBITMQ_VHOST: ${SECURE_RABBITMQ_VHOST:-/smarttraffic}
+      RABBITMQ_HOST: ${RABBITMQ_HOST-}
+      RABBITMQ_PORT: ${RABBITMQ_PORT:-5671}
+      RABBITMQ_VHOST: ${RABBITMQ_VHOST:-/smarttraffic}
       RABBITMQ_SSL_ENABLED: "true"
       RABBITMQ_SSL_VALIDATE_SERVER_CERTIFICATE: "true"
       RABBITMQ_SSL_VERIFY_HOSTNAME: "true"

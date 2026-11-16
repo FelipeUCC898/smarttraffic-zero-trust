@@ -1,0 +1,58 @@
+#!/bin/bash
+set -euo pipefail
+# Secrets must be delivered separately; never place them in EC2 user data.
+dnf install -y docker nftables
+install -d -m 0700 /opt/smarttraffic/secrets
+install -d -m 0755 /etc/nftables
+hostnamectl set-hostname vm-${zone}
+cat > /etc/nftables/smarttraffic.nft <<'NFT'
+table inet smarttraffic {
+  chain input {
+    type filter hook input priority 0; policy drop;
+    iifname "lo" accept
+    ct state established,related accept
+    ct state invalid drop
+    udp sport 67 udp dport 68 accept
+    ip protocol icmp icmp type { destination-unreachable, time-exceeded, parameter-problem } accept
+%{ for rule in incoming ~}
+    ${rule}
+%{ endfor ~}
+  }
+  chain output {
+    type filter hook output priority 0; policy drop;
+    oifname "lo" accept
+    ct state established,related accept
+    ip daddr 10.42.0.2 udp dport 53 accept
+    ip daddr 10.42.0.2 tcp dport 53 accept
+    ip daddr 169.254.169.254 tcp dport 80 accept
+    ip daddr 169.254.169.123 udp dport 123 accept
+    udp sport 68 udp dport 67 accept
+    # Explicit maintenance exception for SSM and package/image downloads.
+    tcp dport 443 accept
+%{ for rule in outgoing ~}
+    ${rule}
+%{ endfor ~}
+  }
+  chain forward {
+    type filter hook forward priority 0; policy drop;
+  }
+}
+NFT
+nft --check --file /etc/nftables/smarttraffic.nft
+cat > /etc/systemd/system/smarttraffic-firewall.service <<'UNIT'
+[Unit]
+Description=SmartTraffic zone firewall
+After=network-online.target
+Before=docker.service
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/nft -f /etc/nftables/smarttraffic.nft
+RemainAfterExit=yes
+[Install]
+WantedBy=multi-user.target
+UNIT
+systemctl daemon-reload
+systemctl enable --now smarttraffic-firewall.service
+systemctl enable --now docker amazon-ssm-agent
+# Host networking is required for application containers: bridge forwarding is denied.
+# Bootstrap does not start application services or claim end-to-end readiness.

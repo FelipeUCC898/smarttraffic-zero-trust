@@ -71,10 +71,16 @@ En cloud, Kafka debe usar `SASL_SSL` con `OAUTHBEARER` y RabbitMQ debe usar
 TLS con validación de hostname y JWT como credencial de servicio. Los
 truststores se montan desde el secret manager; nunca se suben al repositorio.
 Los clientes OAuth2 independientes son `traffic-simulator`, `processor`,
-`traffic-archiver`, `alert-dispatcher` y `query-client`. Las credenciales se
+`traffic-archiver`, `alert-dispatcher`, `query-client` y `traffic-dashboard`. Las credenciales se
 inyectan con `AUTH_CLIENT_*_SECRET`; no se guardan en Compose ni en Git.
 
 ## Criterio de integración
+
+Las consultas de una zona devuelven `status`, `state`, `path` y `requestId` basados
+en el último evento recibido. Una zona aún no observada devuelve `NOT_FOUND`.
+No se informa una ETA ficticia: el cálculo de trayectos entre zonas requiere
+incorporar un mapa vial. El dispatcher responde `ROUTE_UNAVAILABLE` cuando recibe
+una solicitud entre zonas distintas.
 
 1. B configura sus clientes usando las variables anteriores.
 2. Se solicita un JWT válido al Auth Server.

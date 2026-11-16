@@ -52,10 +52,24 @@ La topología declarada por los servicios es:
 | `traffic_updates` | fanout | `traffic.alerts.dispatcher.v1`, dashboard y query state |
 | `traffic_alerts` | fanout | consumidores de alertas |
 | `query_traffic` | direct | `query_traffic_queue` con `query-client.query` |
-| `query_answers` | direct | `query_answers.query-client.v1` con `query-client.answer` |
+| `query_answers` | topic | cola exclusiva `query_answers.query-client.<UUID>` por instancia; routing key igual al nombre de cola |
 
 El vhost y los permisos deben limitar cada identidad a los exchanges y colas que utiliza. El repositorio declara la topología y valida TLS; el plugin OAuth2, los permisos efectivos y la política de usuarios deben ser configurados por infraestructura antes de una prueba cloud.
 
 ## JWT seguro
 
 El perfil local conserva HMAC para no exigir certificados al desarrollador. El perfil seguro usa `RS256`: `SECURITY_JWT_PRIVATE_KEY` sólo existe en el Auth Server y `SECURITY_JWT_PUBLIC_KEY` se monta en los consumidores. Auth Server publica `/.well-known/jwks.json`; ningún token, secreto o clave privada se registra o se commitea.
+
+El dashboard usa `traffic-dashboard` y `AUTH_CLIENT_TRAFFIC_DASHBOARD_SECRET`.
+Dashboard, consultas y alertas cargan `AUTH_CA_CERTIFICATE` como CA del endpoint
+HTTPS; el truststore de RabbitMQ se configura por separado. Nunca se desactiva
+la verificación TLS para aceptar una CA privada.
+
+`query_answers` cambió de direct a topic. RabbitMQ no permite cambiar el tipo de
+un exchange existente: usar un vhost nuevo durante la migración o realizar un
+reemplazo coordinado después de drenar los mensajes. No borrar automáticamente
+el exchange ni las colas del entorno anterior.
+
+La prueba reproducible de TLS/OAuth2 y permisos está en
+`infra/local-security/Test-Security.ps1`. Las pruebas locales no sustituyen la
+verificación de Kafka y el flujo completo en las cinco zonas.
