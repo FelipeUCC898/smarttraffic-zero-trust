@@ -20,6 +20,14 @@ El mismo secreto de `traffic-archiver` debe estar registrado en el Auth Server s
 
 Completar `.env` a partir de `.env.example`, colocar los certificados/truststores en un directorio fuera del repositorio y verificar que los endpoints pertenezcan al entorno TLS real. Después:
 
+Antes de arrancar, ejecutar el preflight sin revelar secretos en la consola:
+
+```powershell
+.\infra\validate-secure-config.ps1
+```
+
+El preflight comprueba que el endpoint sea HTTPS y termine en `/token`, que Kafka tenga formato `host:puerto`, que existan la CA y el truststore dentro de `SECURE_CERTS_DIR` y que Git ignore `.env`. No puede comprobar desde el repositorio que el cliente `traffic-archiver` esté registrado en el Auth Server ni que el broker haya concedido permisos; esas dos verificaciones deben hacerse en el proveedor.
+
 ```powershell
 docker compose --profile secure-integration build traffic-sensor-simulator density-processor
 docker compose --profile secure-integration up -d traffic-sensor-simulator density-processor traffic-archiver-secure traffic-dashboard-secure
@@ -29,4 +37,4 @@ docker compose --profile secure-integration logs --tail=100 traffic-sensor-simul
 
 El perfil no se inicia con `docker compose up` normal, porque no sería correcto apuntar servicios que requieren TLS a los brokers locales PLAINTEXT. Antes de ejecutar, confirmar: `SECURE_AUTH_TOKEN_ENDPOINT` por HTTPS, Kafka en 9093, RabbitMQ en 5671, CA/truststores válidos y permisos de los clientes.
 
-El archivador seguro usa su propia credencial para solicitar el JWT por HTTPS y consumir Kafka mediante SASL_SSL/OAUTHBEARER. El entorno seguro debe autorizar esa identidad en el tópico raw_traffic_data y en el grupo del archivador. Configura también la credencial del dashboard con infraestructura antes de ejecutar la prueba completa.
+El archivador obtiene su token OAuthBearer mediante el endpoint HTTPS configurado y carga la CA/truststore declarada para no depender de la confianza global de la JVM. Consume Kafka mediante SASL_SSL/OAUTHBEARER con una credencial propia. La prueba completa requiere que el proveedor haya registrado esa identidad, que el secreto coincida y que Kafka autorice al archivador en el tópico `raw_traffic_data` y en el grupo `traffic-archiver-v1`. La credencial del dashboard también debe configurarse antes de ejecutar la prueba completa.

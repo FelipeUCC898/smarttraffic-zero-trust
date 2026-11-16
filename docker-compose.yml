@@ -235,6 +235,11 @@ services:
       SPRING_KAFKA_PROPERTIES_SASL_JAAS_CONFIG: org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required\;
       AUTH_CLIENT_ID: traffic-archiver
       AUTH_CLIENT_SECRET: ${AUTH_CLIENT_TRAFFIC_ARCHIVER_SECRET-}
+      AUTH_CA_CERTIFICATE: ${AUTH_CA_CERTIFICATE-}
+      AUTH_TRUSTSTORE: ${AUTH_TRUSTSTORE-}
+      AUTH_TRUSTSTORE_TYPE: ${AUTH_TRUSTSTORE_TYPE:-PKCS12}
+      AUTH_TRUSTSTORE_PASSWORD: ${AUTH_TRUSTSTORE_PASSWORD-}
+      AUTH_TIMEOUT_MS: ${AUTH_TIMEOUT_MS:-5000}
     volumes:
       - ${SECURE_CERTS_DIR-./infra/tls}:/run/secrets:ro
     depends_on:
