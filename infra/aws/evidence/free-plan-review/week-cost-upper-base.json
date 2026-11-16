@@ -1,0 +1,11 @@
+{
+  "From": "2026-11-16T00:00:00.0000000-05:00",
+  "Until": "2026-11-23T00:00:00.0000000-05:00",
+  "RunningHours": 168.0,
+  "DiskHours": 168.0,
+  "ComputeAndIPv4Usd": 45.0156,
+  "EbsUsd": 2.2093,
+  "TransferScenarioUsd": 0.0,
+  "BaseTotalUsd": 47.2249,
+  "Excludes": "Taxes, other services/account usage, credit expiry/sharing/coverage. Not a spending cap."
+}

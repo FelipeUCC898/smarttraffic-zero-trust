@@ -29,6 +29,14 @@ El sistema se distribuye en `vm-auth`, `vm-data`, `vm-ingest`, `vm-core` y `vm-a
 
 ## Arranque integrado local
 
+Para el laboratorio **Zero Trust** usa [infra/local-integration](infra/local-integration/README.md).
+El Compose de desarrollo descrito a continuación no acredita TLS ni aislamiento EC2.
+La preparación AWS, el acceso IAM temporal y los resultados de esta revisión están
+en [infra/aws/READINESS.md](infra/aws/READINESS.md). No hay despliegue autorizado.
+La entrega actual y el tutorial para apagar las VMs están en
+[RELEASE-READINESS.md](infra/aws/RELEASE-READINESS.md) y
+[POWER-GUIDE.md](infra/aws/POWER-GUIDE.md).
+
 El Compose también construye y conecta los módulos de archivado y dashboard
 con la infraestructura compartida. El inicializador `kafka-init` crea de forma
 idempotente el tópico `raw_traffic_data` antes de arrancar el consumidor.

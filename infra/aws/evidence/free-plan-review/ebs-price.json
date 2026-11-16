@@ -1,0 +1,6 @@
+{
+    "PriceList": [
+        "{\"product\":{\"productFamily\":\"Storage\",\"attributes\":{\"maxThroughputvolume\":\"2000 MiB/s\",\"volumeType\":\"General Purpose\",\"maxIopsvolume\":\"80000\",\"usagetype\":\"USE2-EBS:VolumeUsage.gp3\",\"locationType\":\"AWS Region\",\"maxVolumeSize\":\"64 TiB\",\"storageMedia\":\"SSD-backed\",\"regionCode\":\"us-east-2\",\"servicecode\":\"AmazonEC2\",\"volumeApiName\":\"gp3\",\"location\":\"US East (Ohio)\",\"servicename\":\"Amazon Elastic Compute Cloud\",\"operation\":\"\",\"group\":\"EBS Storage\"},\"sku\":\"M6UGCCQ3CDJQAA37\"},\"serviceCode\":\"AmazonEC2\",\"terms\":{\"OnDemand\":{\"M6UGCCQ3CDJQAA37.JRTCKXETXF\":{\"priceDimensions\":{\"M6UGCCQ3CDJQAA37.JRTCKXETXF.6YS6EN2CT7\":{\"unit\":\"GB-Mo\",\"endRange\":\"Inf\",\"description\":\"$0.08 per GB-month of General Purpose (gp3) provisioned storage - US East (Ohio)\",\"appliesTo\":[],\"rateCode\":\"M6UGCCQ3CDJQAA37.JRTCKXETXF.6YS6EN2CT7\",\"beginRange\":\"0\",\"pricePerUnit\":{\"USD\":\"0.0800000000\"}}},\"sku\":\"M6UGCCQ3CDJQAA37\",\"effectiveDate\":\"2026-11-01T00:00:00Z\",\"offerTermCode\":\"JRTCKXETXF\",\"termAttributes\":{}}}},\"version\":\"20261114012926\",\"publicationDate\":\"2026-11-14T01:29:26Z\"}"
+    ],
+    "FormatVersion": "aws_v1"
+}

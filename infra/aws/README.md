@@ -1,5 +1,25 @@
 # AWS laboratory foundation
 
+**Entrega actual:** [RELEASE-READINESS.md](RELEASE-READINESS.md), con pruebas locales
+reales y preparación hasta el 22/11/2026. [DEPLOYMENT.md](DEPLOYMENT.md),
+[POWER-GUIDE.md](POWER-GUIDE.md), [TEARDOWN.md](TEARDOWN.md) y [COSTS.md](COSTS.md)
+contienen despliegue, apagado/encendido, eliminación y revisión económica.
+No se ha desplegado AWS. El uso propuesto de créditos requiere revisar cobertura
+y aprobar el plan; el estado PAID/ACTIVE se conserva.
+
+**Revisión autenticada actual:** [FEASIBILITY.md](FEASIBILITY.md). AWS informa
+plan **PAID/ACTIVE**, USD 100 y una organización existente. No se modificaron esos
+estados. Solo lectura y preparación: sin apply ni autorización para consumir créditos.
+
+**Restricción actual: solo cuenta gratuita.** Ver [FREE-PLAN.md](FREE-PLAN.md)
+para cobertura, consumo de créditos y condiciones antes de desplegar. Ninguna
+tarifa o saldo histórico en este archivo demuestra cobertura vigente.
+
+**Current workstation review:** see [READINESS.md](READINESS.md) and
+[ACCESS.md](ACCESS.md). The historical AWS session/credit assertions below
+are superseded by FEASIBILITY.md. No account-plan change, credit
+use, Organizations, SSO, apply or launch is authorized.
+
 Account `223455088753`, region `us-east-2`, profile `smarttraffic-project`.
 This foundation is based on `origin/develop` at `84d71a7` (PR #19 merged).
 It provisions infrastructure only. A successful plan or bootstrap does **not**
@@ -45,20 +65,25 @@ secret permissions and delivery remain to be added after broker validation.
 User decision on 2026-11-16: **prepare and validate only; do not launch VMs**.
 No apply is authorized by this document. The saved plan is for review.
 
-From PowerShell with AWS CLI and Docker Desktop available:
+From PowerShell with AWS CLI and Terraform available on PATH (or supply
+`-TerraformPath /path/to/terraform`). `-Runtime Docker` retains the container option:
 
 ```powershell
 ./infra/aws/Invoke-Terraform.ps1 -Action init
 ./infra/aws/Invoke-Terraform.ps1 -Action fmt
 ./infra/aws/Invoke-Terraform.ps1 -Action validate
 ./infra/aws/Invoke-Terraform.ps1 -Action plan
+# Review-only plan including the five instances; still does not apply:
+./infra/aws/Invoke-Terraform.ps1 -Action plan -CreateInstances
 ./infra/aws/Invoke-Terraform.ps1 -Action show
 ```
 
 The helper exports temporary AWS credentials into the child process environment
 and restores the previous values afterwards. It has no apply/destroy action.
-The plan explicitly enables five instances; the raw Terraform default leaves
-instances disabled. Review `lab.tfplan` before any apply. The plan and local state
+Both the helper and raw Terraform leave instances disabled by default.
+`-CreateInstances` includes the five VMs in a review plan only. A plan without
+instances still contains VPC/IAM resources and does not authorize apply.
+Review `lab.tfplan` before any apply. The plan and local state
 are ignored by Git; protect and retain state if resources are created. This is a
 single-operator lab backend, not a configured shared state service.
 
@@ -77,7 +102,8 @@ NAT gateways or paid VPC interface endpoints are declared.
   trust stores for HTTPS and broker TLS. Test rejection of wrong CA/hostname/token.
 - Per-zone Compose, resource limits and persistent volumes are prepared in
   [zones](zones/README.md). Image/certificate delivery and Compose plugin installation
-  on actual VMs remain deployment steps.
+  on actual VMs remain deployment steps. The bootstrap now installs checksum-pinned
+  Compose 5.1.3 and arms a systemd poweroff timer before package downloads.
 - Exclusive reply queues and observed-state queries are implemented and tested.
   Road-graph routing/travel-time calculation still needs domain data and logic.
 - Run complete ingest -> Kafka -> processor/archiver -> RabbitMQ -> dashboard,
@@ -86,7 +112,7 @@ NAT gateways or paid VPC interface endpoints are declared.
 See [VALIDATION.md](VALIDATION.md) and the local integration harness for the exact
 executed checks. Local results do not prove VM bootstrap or cloud network behavior.
 
-## Price snapshot (2026-11-16)
+## Historical price snapshot (2026-11-16, preceding workstation)
 
 Queried the AWS Price List API for Ohio, Linux, shared tenancy, On-Demand:
 
@@ -104,6 +130,9 @@ Credits are consumed by eligible usage; Free Tier eligibility is not unlimited
 free operation. The account API reported USD 100 remaining and a 32-vCPU quota.
 No running EC2 instances or existing budgets were returned by the inventory.
 
-After approval of a future launch window, add and verify an automatic stop
-mechanism and budget notifications before starting the lab. Neither is deployed
-by this foundation. A budget alert is not a spending cap.
+The prepared stop timer uses `lab_duration_minutes` (default 60, range 1–480)
+from each boot, with EC2 instance-initiated shutdown explicitly set to stop.
+Neither the timer nor budget notifications have been deployed or tested on EC2.
+EBS remains billable after stop; bootstrap/OS failure can prevent this timer from
+protecting the account. Verify the timer and notifications during a separately
+authorized launch window. A budget alert is not a spending cap.

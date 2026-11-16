@@ -1,0 +1,52 @@
+[
+    {
+        "Zone":  "app",
+        "Reference":  "smarttraffic/alert-dispatcher:aws-lab",
+        "ImageId":  "sha256:b22c03c56974db3f835dcd018bf197a52842c6f88ae4a2bee52d1b33f4d933e4"
+    },
+    {
+        "Zone":  "app",
+        "Reference":  "smarttraffic/query-client:aws-lab",
+        "ImageId":  "sha256:02025256bba4b52436ec20e6732cdb1e9b3ff0cca9d0bb3b507e60790161cd08"
+    },
+    {
+        "Zone":  "app",
+        "Reference":  "smarttraffic/traffic-dashboard:aws-lab",
+        "ImageId":  "sha256:e6b462b25866d08e2391a4188fa32d2f12f3f0e63c162c979b4284f998b61e37"
+    },
+    {
+        "Zone":  "auth",
+        "Reference":  "smarttraffic/auth-server:aws-lab",
+        "ImageId":  "sha256:fefed341914e13779dfd930acf6f9d14087ed71e93a182de9ba9d936256ff643"
+    },
+    {
+        "Zone":  "core",
+        "Reference":  "smarttraffic/density-processor:aws-lab",
+        "ImageId":  "sha256:6a22279a5a480f5a9f7d7a65bd220ba8ccde8b7ff36e2af50977153bad79405d"
+    },
+    {
+        "Zone":  "core",
+        "Reference":  "smarttraffic/traffic-archiver:aws-lab",
+        "ImageId":  "sha256:ed8fbb3676d29873e3db3a3b2fd2a45affe824c521a2f9fbac538feb12ec4ad1"
+    },
+    {
+        "Zone":  "data",
+        "Reference":  "confluentinc/cp-kafka:7.6.1",
+        "ImageId":  "sha256:620734d9fc0bb1f9886932e5baf33806074469f40e3fe246a3fdbb59309535fa"
+    },
+    {
+        "Zone":  "data",
+        "Reference":  "postgres:16-alpine",
+        "ImageId":  "sha256:f377d590e5474681d4d7838635031a2b50647923b7abfa803ce9b5ff35d5c663"
+    },
+    {
+        "Zone":  "data",
+        "Reference":  "rabbitmq:3.13-alpine",
+        "ImageId":  "sha256:d7af1c87c5f1eda13fcfca06db452bf3aeab6619fc3358b68535c0c02c4e52bc"
+    },
+    {
+        "Zone":  "ingest",
+        "Reference":  "smarttraffic/traffic-sensor-simulator:aws-lab",
+        "ImageId":  "sha256:b3f7946e7ddb5346201d34bdf810ba3e138eea39e4de5ac9329c9492fd1a55d6"
+    }
+]

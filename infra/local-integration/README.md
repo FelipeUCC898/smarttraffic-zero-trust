@@ -5,6 +5,37 @@ an isolated `smarttraffic-e2e` project, and stops its containers in `finally`.
 It does not use AWS APIs, create cloud resources, alter the default local Compose
 stack, or remove volumes.
 
+Current workstation evidence, PostgreSQL roles and deployment preparation are in
+[RELEASE-READINESS.md](../aws/RELEASE-READINESS.md). The issuer in this local
+Compose uses **60-second JWTs** to expose renewal failures; deployment keeps its
+normal 900-second lifetime. Initial dependency downloads or a suspended/overloaded
+workstation can interrupt this short-lived test. An old OK query is insufficient:
+the probes require fresh timestamps. Images now build sequentially by service.
+
+Additional checks, after the baseline succeeds (PowerShell 7):
+
+```powershell
+./infra/local-integration/Test-EndToEnd.ps1 -KeepRunning
+./infra/local-integration/Test-ApplicationFlow.ps1
+./infra/local-integration/Test-PostgresRoles.ps1
+./infra/local-integration/Test-Recovery.ps1
+./infra/local-security/Test-Security.ps1
+```
+
+ApplicationFlow pauses only its own simulator, publishes controlled transitions,
+checks a real alert consumer/WebSocket and waits beyond token expiry. PostgresRoles
+adds separate credentials to the existing ignored fixture env, provisions roles,
+rebuilds only archiver and checks fresh persistence. It retains a dedicated tiny
+fresh-schema test database. Recovery uses the roles overlays and keeps volumes.
+Use those same overlays when operating this local stack after the role test:
+
+```powershell
+docker compose --env-file .tools/secure-e2e/runtime.env -f infra/local-integration/compose.yml -f infra/aws/zones/data-roles.yml -f infra/aws/zones/core-roles.yml stop -t 60
+```
+
+Do not switch the role-enabled archiver back to bootstrap by accidentally omitting
+the overlays. No fixture from either harness is suitable for AWS delivery.
+
 Run only one SmartTraffic stack at a time on memory-constrained Docker Desktop.
 The test machine exposes about 3.5 GiB to Docker: running the old development stack
 alongside this full secure stack caused severe memory pressure, slow token requests
@@ -54,7 +85,8 @@ docker compose --env-file .tools/secure-e2e/runtime.env -f infra/local-integrati
 ```
 
 This is single-node functional/security validation, not a cloud network test,
-soak test, load test, failover test, or proof of WebSocket/alert delivery. No real
+soak test, load test or failover test. WebSocket/alert delivery is checked by the
+separate ApplicationFlow probe, not the baseline assertion. No real
 road graph is supplied. Deployment requirements are listed in
 [`../aws/zones/README.md`](../aws/zones/README.md).
 

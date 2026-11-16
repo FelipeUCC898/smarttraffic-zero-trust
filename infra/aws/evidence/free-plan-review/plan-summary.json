@@ -1,0 +1,35 @@
+{
+    "TerraformVersion":  "1.13.5",
+    "Creates":  53,
+    "Updates":  0,
+    "Deletes":  0,
+    "CutoffUtc":  "2026-11-23T05:00:00Z",
+    "BootLimitMinutes":  60,
+    "Instances":  [
+                      {
+                          "Address":  "aws_instance.zone[\"app\"]",
+                          "Type":  "t3.small",
+                          "GiB":  24
+                      },
+                      {
+                          "Address":  "aws_instance.zone[\"auth\"]",
+                          "Type":  "t3.small",
+                          "GiB":  16
+                      },
+                      {
+                          "Address":  "aws_instance.zone[\"core\"]",
+                          "Type":  "c7i-flex.large",
+                          "GiB":  24
+                      },
+                      {
+                          "Address":  "aws_instance.zone[\"data\"]",
+                          "Type":  "m7i-flex.large",
+                          "GiB":  40
+                      },
+                      {
+                          "Address":  "aws_instance.zone[\"ingest\"]",
+                          "Type":  "t3.small",
+                          "GiB":  16
+                      }
+                  ]
+}

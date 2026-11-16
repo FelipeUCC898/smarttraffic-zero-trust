@@ -1,0 +1,76 @@
+{
+    "Date":  "2026-11-16",
+    "Timezone":  "America/Bogota",
+    "Branch":  "dev-codex/feat-aws-readiness",
+    "AwsApplied":  false,
+    "BaselineNewSimulatorRows":  18,
+    "RealSuites":  [
+                       {
+                           "Name":  "com.smarttraffic.probe.BrokerSecurityTest",
+                           "Tests":  10,
+                           "Failures":  0,
+                           "Errors":  0,
+                           "Skipped":  0,
+                           "Seconds":  "7.448"
+                       },
+                       {
+                           "Name":  "com.smarttraffic.probe.ApplicationFlowTest",
+                           "Tests":  1,
+                           "Failures":  0,
+                           "Errors":  0,
+                           "Skipped":  0,
+                           "Seconds":  "78.926"
+                       },
+                       {
+                           "Name":  "com.smarttraffic.probe.PostgresRuntimeTest",
+                           "Tests":  2,
+                           "Failures":  0,
+                           "Errors":  0,
+                           "Skipped":  0,
+                           "Seconds":  "6.888"
+                       },
+                       {
+                           "Name":  "com.smarttraffic.auth.security.RabbitSecurityIntegrationTest",
+                           "Tests":  8,
+                           "Failures":  0,
+                           "Errors":  0,
+                           "Skipped":  0,
+                           "Seconds":  "1.515"
+                       },
+                       {
+                           "Name":  "com.smarttraffic.security.AuthHttpsIntegrationTest",
+                           "Tests":  1,
+                           "Failures":  0,
+                           "Errors":  0,
+                           "Skipped":  0,
+                           "Seconds":  "0.947"
+                       },
+                       {
+                           "Name":  "com.smarttraffic.archiver.PostgreSqlConnectionTest",
+                           "Tests":  2,
+                           "Failures":  0,
+                           "Errors":  0,
+                           "Skipped":  0,
+                           "Seconds":  "30.513"
+                       }
+                   ],
+    "Recovery":  {
+                     "MeasuredAt":  "2026-11-16T23:03:56.867601417Z",
+                     "Before":  481,
+                     "Retained":  481,
+                     "QueryStatus":  "OK",
+                     "After":  488
+                 },
+    "ReceiverLocalTests":  4,
+    "TerraformMockPlanTests":  5,
+    "TerraformRealPlan":  {
+                              "Create":  53,
+                              "Destroy":  0,
+                              "Applied":  false,
+                              "Update":  0
+                          },
+    "FirstShortTokenAttempt":  "Failed with expired credentials and stale query; controlled restart followed by successful repeat. Root cause not established.",
+    "ImageManifest":  "deployment-images-2026-11-16.json",
+    "Secrets":  "Ignored local .tools/aws-deployment-20261116; never copied to AWS",
+    "PluginVersion":  "1.2.896.0"
+}

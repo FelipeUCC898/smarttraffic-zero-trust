@@ -1,5 +1,12 @@
 # Preparation validation — 2026-11-16
 
+Current local integration, roles, delivery and recovery evidence is in
+[RELEASE-READINESS.md](RELEASE-READINESS.md). The results below are historical.
+
+Historical evidence from the preceding workstation/session. Current revalidation,
+missing AWS access and all unverified items are recorded in [READINESS.md](READINESS.md).
+Do not treat the authenticated identity, balance or plan below as current evidence.
+
 User scope: prepare and validate only. No AWS resources were applied or started.
 
 ## Passed

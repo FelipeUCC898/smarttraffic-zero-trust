@@ -1,0 +1,8 @@
+{
+    "Version":  "1.2.896.0",
+    "InstallerExitCode":  0,
+    "SignatureStatus":  "Valid",
+    "Publisher":  "CN=\"Amazon Web Services, Inc.\", OU=AWS Systems Manager, O=\"Amazon Web Services, Inc.\", L=Seattle, S=Washington, C=US, SERIALNUMBER=4152954, OID.2.5.4.15=Private Organization, OID.1.3.6.1.4.1.311.60.2.1.2=Delaware, OID.1.3.6.1.4.1.311.60.2.1.3=US",
+    "InstallerSha256":  "116A121CA6A781B7985D0C9FA3C5C9143440ACDE7822DE2E32733665EED30347",
+    "Binary":  "C:\\Program Files\\Amazon\\SessionManagerPlugin\\bin\\session-manager-plugin.exe"
+}

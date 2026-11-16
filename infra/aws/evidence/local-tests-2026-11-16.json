@@ -1,0 +1,78 @@
+{
+    "date":  "2026-11-16",
+    "timezone":  "America/Bogota",
+    "base":  "72e69cb",
+    "branch":  "dev-codex/feat-aws-readiness",
+    "source":  "Maven Surefire TEST-*.xml on this workstation",
+    "awsAuthenticated":  false,
+    "awsDeployed":  false,
+    "endToEnd":  "blocked: Linux Docker engine unavailable",
+    "modules":  [
+                    {
+                        "module":  "alert-dispatcher",
+                        "discovered":  4,
+                        "executed":  4,
+                        "skipped":  0,
+                        "errors":  0,
+                        "failures":  0
+                    },
+                    {
+                        "module":  "auth-server",
+                        "discovered":  15,
+                        "executed":  7,
+                        "skipped":  8,
+                        "errors":  0,
+                        "failures":  0
+                    },
+                    {
+                        "module":  "density-processor",
+                        "discovered":  308,
+                        "executed":  308,
+                        "skipped":  0,
+                        "errors":  0,
+                        "failures":  0
+                    },
+                    {
+                        "module":  "query-client",
+                        "discovered":  3,
+                        "executed":  3,
+                        "skipped":  0,
+                        "errors":  0,
+                        "failures":  0
+                    },
+                    {
+                        "module":  "service-security",
+                        "discovered":  4,
+                        "executed":  4,
+                        "skipped":  0,
+                        "errors":  0,
+                        "failures":  0
+                    },
+                    {
+                        "module":  "traffic-archiver",
+                        "discovered":  9,
+                        "executed":  7,
+                        "skipped":  2,
+                        "errors":  0,
+                        "failures":  0
+                    },
+                    {
+                        "module":  "traffic-dashboard",
+                        "discovered":  2,
+                        "executed":  2,
+                        "skipped":  0,
+                        "errors":  0,
+                        "failures":  0
+                    },
+                    {
+                        "module":  "traffic-sensor-simulator",
+                        "discovered":  68,
+                        "executed":  68,
+                        "skipped":  0,
+                        "errors":  0,
+                        "failures":  0
+                    }
+                ],
+    "observationPhase":  "Historical initial preparation before AWS authentication and Docker startup",
+    "supersededBy":  "release-validation-2026-11-16.json"
+}

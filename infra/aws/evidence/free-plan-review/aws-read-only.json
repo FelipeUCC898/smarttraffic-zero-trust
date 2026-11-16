@@ -1,0 +1,241 @@
+{
+    "observedUtc":  "2026-11-16T21:55:23.5375189Z",
+    "region":  "us-east-2",
+    "identity":  {
+                     "UserId":  "AROATIBXWCBYUDGK7GKAY:f4387408-00c1-7012-0778-866721c7fd97",
+                     "Account":  "223455088753",
+                     "Arn":  "arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97"
+                 },
+    "checks":  {
+                   "plan":  {
+                                "value":  {
+                                              "accountId":  "223455088753",
+                                              "accountPlanType":  "PAID",
+                                              "accountPlanStatus":  "ACTIVE",
+                                              "accountPlanRemainingCredits":  {
+                                                                                  "amount":  100.0,
+                                                                                  "unit":  "USD"
+                                                                              }
+                                          },
+                                "status":  "OK"
+                            },
+                   "freeUsage":  {
+                                     "value":  {
+                                                   "freeTierUsages":  [
+
+                                                                      ]
+                                               },
+                                     "status":  "OK"
+                                 },
+                   "organization":  {
+                                        "value":  {
+                                                      "Id":  "o-ba0y79umu2",
+                                                      "FeatureSet":  "ALL",
+                                                      "ManagementAccountId":  "342718283791"
+                                                  },
+                                        "status":  "OK"
+                                    },
+                   "instances":  {
+                                     "value":  null,
+                                     "status":  "OK"
+                                 },
+                   "volumes":  {
+                                   "value":  null,
+                                   "status":  "OK"
+                               },
+                   "addresses":  {
+                                     "value":  null,
+                                     "status":  "OK"
+                                 },
+                   "snapshots":  {
+                                     "value":  null,
+                                     "status":  "OK"
+                                 },
+                   "vpcs":  {
+                                "value":  {
+                                              "Id":  "vpc-05591669f1929891f",
+                                              "Default":  true,
+                                              "Cidr":  "172.31.0.0/16"
+                                          },
+                                "status":  "OK"
+                            },
+                   "natGateways":  {
+                                       "value":  null,
+                                       "status":  "OK"
+                                   },
+                   "endpoints":  {
+                                     "value":  null,
+                                     "status":  "OK"
+                                 },
+                   "eligibleTypes":  {
+                                         "value":  [
+                                                       {
+                                                           "Type":  "c7i-flex.large",
+                                                           "vCPU":  2,
+                                                           "MiB":  4096
+                                                       },
+                                                       {
+                                                           "Type":  "m7i-flex.large",
+                                                           "vCPU":  2,
+                                                           "MiB":  8192
+                                                       },
+                                                       {
+                                                           "Type":  "t4g.small",
+                                                           "vCPU":  2,
+                                                           "MiB":  2048
+                                                       },
+                                                       {
+                                                           "Type":  "t3.small",
+                                                           "vCPU":  2,
+                                                           "MiB":  2048
+                                                       },
+                                                       {
+                                                           "Type":  "t4g.micro",
+                                                           "vCPU":  2,
+                                                           "MiB":  1024
+                                                       },
+                                                       {
+                                                           "Type":  "t8i.small",
+                                                           "vCPU":  2,
+                                                           "MiB":  2048
+                                                       },
+                                                       {
+                                                           "Type":  "t3.micro",
+                                                           "vCPU":  2,
+                                                           "MiB":  1024
+                                                       },
+                                                       {
+                                                           "Type":  "t8i.micro",
+                                                           "vCPU":  2,
+                                                           "MiB":  1024
+                                                       }
+                                                   ],
+                                         "status":  "OK"
+                                     },
+                   "offerings":  {
+                                     "value":  {
+                                                   "InstanceTypeOfferings":  [
+                                                                                 {
+                                                                                     "InstanceType":  "t3.small",
+                                                                                     "LocationType":  "availability-zone",
+                                                                                     "Location":  "us-east-2a"
+                                                                                 },
+                                                                                 {
+                                                                                     "InstanceType":  "c7i-flex.large",
+                                                                                     "LocationType":  "availability-zone",
+                                                                                     "Location":  "us-east-2a"
+                                                                                 },
+                                                                                 {
+                                                                                     "InstanceType":  "m7i-flex.large",
+                                                                                     "LocationType":  "availability-zone",
+                                                                                     "Location":  "us-east-2a"
+                                                                                 }
+                                                                             ]
+                                               },
+                                     "status":  "OK"
+                                 },
+                   "standardQuota":  {
+                                         "value":  {
+                                                       "Quota":  {
+                                                                     "ServiceCode":  "ec2",
+                                                                     "ServiceName":  "Amazon Elastic Compute Cloud (Amazon EC2)",
+                                                                     "QuotaArn":  "arn:aws:servicequotas:us-east-2:223455088753:ec2/L-1216C47A",
+                                                                     "QuotaCode":  "L-1216C47A",
+                                                                     "QuotaName":  "Running On-Demand Standard (A, C, D, H, I, M, R, T, Z) instances",
+                                                                     "Value":  32.0,
+                                                                     "Unit":  "None",
+                                                                     "Adjustable":  true,
+                                                                     "GlobalQuota":  false,
+                                                                     "UsageMetric":  {
+                                                                                         "MetricNamespace":  "AWS/Usage",
+                                                                                         "MetricName":  "ResourceCount",
+                                                                                         "MetricDimensions":  {
+                                                                                                                  "Class":  "Standard/OnDemand",
+                                                                                                                  "Resource":  "vCPU",
+                                                                                                                  "Service":  "EC2",
+                                                                                                                  "Type":  "Resource"
+                                                                                                              },
+                                                                                         "MetricStatisticRecommendation":  "Maximum"
+                                                                                     },
+                                                                     "QuotaAppliedAtLevel":  "ACCOUNT",
+                                                                     "Description":  "Maximum number of vCPUs assigned to the Running On-Demand Standard (A, C, D, H, I, M, R, T, Z) instances."
+                                                                 }
+                                                   },
+                                         "status":  "OK"
+                                     },
+                   "budgets":  {
+                                   "value":  null,
+                                   "status":  "OK"
+                               },
+                   "amiParameter":  {
+                                        "value":  "ami-0df8a753693e6366d",
+                                        "status":  "OK"
+                                    },
+                   "databases":  {
+                                     "value":  null,
+                                     "status":  "OK"
+                                 },
+                   "loadBalancers":  {
+                                         "value":  null,
+                                         "status":  "OK"
+                                     },
+                   "mq":  {
+                              "value":  {
+                                            "BrokerSummaries":  [
+
+                                                                ]
+                                        },
+                              "status":  "OK"
+                          },
+                   "kafka":  {
+                                 "value":  null,
+                                 "status":  "OK"
+                             },
+                   "ami":  {
+                               "value":  {
+                                             "Id":  "ami-0df8a753693e6366d",
+                                             "Name":  "al2023-ami-2023.12.20261112.0-kernel-6.18-x86_64",
+                                             "Architecture":  "x86_64",
+                                             "Owner":  "137112412989",
+                                             "FreeTierEligible":  true
+                                         },
+                               "status":  "OK"
+                           },
+                   "price-t3.small":  {
+                                          "value":  [
+                                                        {
+                                                            "sku":  "BQPEB7HYTVEZPKJW",
+                                                            "type":  "t3.small",
+                                                            "unit":  "Hrs",
+                                                            "usd":  "0.0208000000",
+                                                            "description":  "$0.0208 per On Demand Linux t3.small Instance Hour"
+                                                        }
+                                                    ],
+                                          "status":  "OK"
+                                      },
+                   "price-m7i-flex.large":  {
+                                                "value":  [
+                                                              {
+                                                                  "sku":  "NF94DUQA29AU4W9G",
+                                                                  "type":  "m7i-flex.large",
+                                                                  "unit":  "Hrs",
+                                                                  "usd":  "0.0957600000",
+                                                                  "description":  "$0.09576 per On Demand Linux m7i-flex.large Instance Hour"
+                                                              }
+                                                          ],
+                                                "status":  "OK"
+                                            },
+                   "price-c7i-flex.large":  {
+                                                "value":  [
+                                                              {
+                                                                  "sku":  "UR7G3ZBXJYWMGZQK",
+                                                                  "type":  "c7i-flex.large",
+                                                                  "unit":  "Hrs",
+                                                                  "usd":  "0.0847900000",
+                                                                  "description":  "$0.08479 per On Demand Linux c7i-flex.large Instance Hour"
+                                                              }
+                                                          ],
+                                                "status":  "OK"
+                                            }
+               }
+}

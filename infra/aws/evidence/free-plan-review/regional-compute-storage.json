@@ -1,0 +1,362 @@
+{
+  "regions": [
+    {
+      "region": "ap-northeast-1",
+      "checks": {
+        "instances": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeInstances with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "volumes": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeVolumes operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeVolumes with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "addresses": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeAddresses operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeAddresses with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "snapshots": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeSnapshots operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeSnapshots with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        }
+      }
+    },
+    {
+      "region": "ap-northeast-2",
+      "checks": {
+        "instances": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeInstances with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "volumes": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeVolumes operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeVolumes with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "addresses": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeAddresses operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeAddresses with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "snapshots": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeSnapshots operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeSnapshots with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        }
+      }
+    },
+    {
+      "region": "ap-northeast-3",
+      "checks": {
+        "instances": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeInstances with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "volumes": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeVolumes operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeVolumes with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "addresses": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeAddresses operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeAddresses with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "snapshots": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeSnapshots operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeSnapshots with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        }
+      }
+    },
+    {
+      "region": "ap-south-1",
+      "checks": {
+        "instances": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeInstances with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "volumes": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeVolumes operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeVolumes with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "addresses": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeAddresses operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeAddresses with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "snapshots": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeSnapshots operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeSnapshots with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        }
+      }
+    },
+    {
+      "region": "ap-southeast-1",
+      "checks": {
+        "instances": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeInstances with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "volumes": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeVolumes operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeVolumes with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "addresses": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeAddresses operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeAddresses with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "snapshots": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeSnapshots operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeSnapshots with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        }
+      }
+    },
+    {
+      "region": "ap-southeast-2",
+      "checks": {
+        "instances": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeInstances with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "volumes": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeVolumes operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeVolumes with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "addresses": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeAddresses operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeAddresses with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "snapshots": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeSnapshots operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeSnapshots with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        }
+      }
+    },
+    {
+      "region": "ca-central-1",
+      "checks": {
+        "instances": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeInstances with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "volumes": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeVolumes operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeVolumes with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "addresses": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeAddresses operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeAddresses with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "snapshots": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeSnapshots operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeSnapshots with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        }
+      }
+    },
+    {
+      "region": "eu-central-1",
+      "checks": {
+        "instances": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeInstances with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "volumes": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeVolumes operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeVolumes with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "addresses": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeAddresses operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeAddresses with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "snapshots": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeSnapshots operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeSnapshots with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        }
+      }
+    },
+    {
+      "region": "eu-north-1",
+      "checks": {
+        "instances": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeInstances with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "volumes": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeVolumes operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeVolumes with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "addresses": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeAddresses operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeAddresses with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "snapshots": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeSnapshots operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeSnapshots with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        }
+      }
+    },
+    {
+      "region": "eu-west-1",
+      "checks": {
+        "instances": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeInstances with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "volumes": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeVolumes operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeVolumes with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "addresses": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeAddresses operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeAddresses with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "snapshots": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeSnapshots operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeSnapshots with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        }
+      }
+    },
+    {
+      "region": "eu-west-2",
+      "checks": {
+        "instances": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeInstances with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "volumes": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeVolumes operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeVolumes with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "addresses": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeAddresses operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeAddresses with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "snapshots": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeSnapshots operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeSnapshots with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        }
+      }
+    },
+    {
+      "region": "eu-west-3",
+      "checks": {
+        "instances": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeInstances with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "volumes": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeVolumes operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeVolumes with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "addresses": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeAddresses operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeAddresses with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "snapshots": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeSnapshots operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeSnapshots with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        }
+      }
+    },
+    {
+      "region": "sa-east-1",
+      "checks": {
+        "instances": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeInstances with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "volumes": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeVolumes operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeVolumes with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "addresses": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeAddresses operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeAddresses with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "snapshots": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeSnapshots operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeSnapshots with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        }
+      }
+    },
+    {
+      "region": "us-east-1",
+      "checks": {
+        "instances": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeInstances with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4. Go to https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/authorization-details/8bne3wcffo1niwan3wm0w3z2u for complete details, or call the GetRequestAuthorizationDetails API with the following authorization id: 8bne3wcffo1niwan3wm0w3z2u"
+        },
+        "volumes": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeVolumes operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeVolumes with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4. Go to https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/authorization-details/azjxtedcyujlnbr01g2dl27b7 for complete details, or call the GetRequestAuthorizationDetails API with the following authorization id: azjxtedcyujlnbr01g2dl27b7"
+        },
+        "addresses": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeAddresses operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeAddresses with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4. Go to https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/authorization-details/8wo2r68j5hyqbptkom8ezcy6j for complete details, or call the GetRequestAuthorizationDetails API with the following authorization id: 8wo2r68j5hyqbptkom8ezcy6j"
+        },
+        "snapshots": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeSnapshots operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeSnapshots with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4. Go to https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/authorization-details/9jidg6pkyqhmah49zgledm4zz for complete details, or call the GetRequestAuthorizationDetails API with the following authorization id: 9jidg6pkyqhmah49zgledm4zz"
+        }
+      }
+    },
+    {
+      "region": "us-east-2",
+      "checks": {
+        "instances": {
+          "status": "OK",
+          "value": []
+        },
+        "volumes": {
+          "status": "OK",
+          "value": []
+        },
+        "addresses": {
+          "status": "OK",
+          "value": []
+        },
+        "snapshots": {
+          "status": "OK",
+          "value": []
+        }
+      }
+    },
+    {
+      "region": "us-west-1",
+      "checks": {
+        "instances": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeInstances with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "volumes": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeVolumes operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeVolumes with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "addresses": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeAddresses operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeAddresses with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "snapshots": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeSnapshots operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeSnapshots with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        }
+      }
+    },
+    {
+      "region": "us-west-2",
+      "checks": {
+        "instances": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeInstances operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeInstances with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "volumes": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeVolumes operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeVolumes with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "addresses": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeAddresses operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeAddresses with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        },
+        "snapshots": {
+          "status": "UNVERIFIED",
+          "error": "System.Management.Automation.RemoteException\naws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the DescribeSnapshots operation: You are not authorized to perform this operation. User: arn:aws:sts::223455088753:assumed-role/AccountFullAccessRole/f4387408-00c1-7012-0778-866721c7fd97 is not authorized to perform: ec2:DescribeSnapshots with an explicit deny in a service control policy: arn:aws:organizations::342718283791:policy/o-ba0y79umu2/service_control_policy/p-gm1otkm4"
+        }
+      }
+    }
+  ],
+  "observedUtc": "2026-11-16T21:59:29.9213796Z"
+}

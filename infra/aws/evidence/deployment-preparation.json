@@ -1,0 +1,13 @@
+{
+    "PrivateCaOnlyOffline":  true,
+    "JwtPrivateOnlyAuth":  true,
+    "CoreBootstrapPasswordAbsent":  true,
+    "FiveZoneEnvironmentValidation":  "PASS",
+    "PreparedUpload":  "Auth smoke package preserved under uploads/auth-smoke-corrected with a dummy ID; not sent",
+    "ReceiverTests":  4,
+    "ImageExportZones":  5,
+    "ActualCloudDelivery":  false,
+    "RealImageImportAuth":  "PASS: sha256sum, docker load, immutable image ID",
+    "PostgreSqlPasswordBytesMatchCore":  true,
+    "ManifestLineEndings":  "UTF-8 without BOM, LF"
+}

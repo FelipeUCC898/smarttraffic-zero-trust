@@ -1,5 +1,11 @@
 # Five-VM runtime (prepared, not deployed)
 
+Current deployment uses the reviewed `data-roles.yml` and `core-roles.yml`
+overlays as described in [DEPLOYMENT.md](../DEPLOYMENT.md). The explicit SQL
+provisioning step separates bootstrap (data only), migration and runtime roles;
+runtime DML and DDL rejection passed locally. Never send the bootstrap password
+to core. Local end-to-end evidence is in [RELEASE-READINESS.md](../RELEASE-READINESS.md).
+
 These independent Compose files use host networking, matching Terraform's
 default-deny forwarding rules. JSON syntax is valid YAML. `infra/runtime/services.yml`
 is the common service catalog used by the local integration test; `Test-Zones.ps1`
@@ -30,12 +36,13 @@ configuration and broker restart. This is not an HA deployment.
 
 ## Before a future authorized launch
 
-1. Install the Docker Compose plugin on each host (the current EC2 bootstrap only
-   installs Docker Engine). Verify its version; no Compose installation or VM
+1. The prepared EC2 bootstrap installs Compose 5.1.3 with a pinned SHA-256 before
+   Docker starts. Verify its version; no Compose installation or VM
    execution is claimed by local validation.
 2. Build images locally with the integration harness. Transfer the reviewed images
-   using `docker save` / `docker load` through an approved delivery channel, or
-   provision a private registry separately. The `smarttraffic/*:aws-lab` names are
+   using [Export-Images.ps1](../Export-Images.ps1) and [Import-Images.sh](../Import-Images.sh)
+   through an approved delivery channel. These record and verify per-zone image IDs
+   and archive SHA-256; no registry or cloud storage is provisioned. The `smarttraffic/*:aws-lab` names are
    local tags, not published Docker Hub images. Start with `--no-build --pull never`.
 3. Place the repository's `infra/runtime` and `infra/aws/zones` under PROJECT_ROOT.
    Create each VM's environment file from `runtime.env.example`, including **only**
@@ -64,9 +71,10 @@ configuration and broker restart. This is not an HA deployment.
 
 Persist named volumes. Do not use `down -v` on a deployment. PostgreSQL enables
 TLS and rejects TCP plaintext; the archiver uses `sslmode=verify-full`. Database
-credentials are scoped to the laboratory database but the initial database role
-is still the image's bootstrap superuser: split migration/runtime roles before
-production. No public UI port is opened; use SSM forwarding to 127.0.0.1:8081
+credentials in the base definition still use the image bootstrap superuser:
+apply the roles overlays and explicit provisioning for deployment. Core retains
+migrator credentials for Flyway startup; independent migration credential removal
+is still a production hardening task. No public UI port is opened; use SSM forwarding to 127.0.0.1:8081
 (dashboard) or 127.0.0.1:8092 (query).
 
 Validate the definitions without starting anything:

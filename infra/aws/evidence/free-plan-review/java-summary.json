@@ -1,0 +1,58 @@
+[
+    {
+        "Module":  "alert-dispatcher-tests",
+        "Tests":  4,
+        "Failures":  0,
+        "Errors":  0,
+        "Skipped":  0
+    },
+    {
+        "Module":  "auth-server-tests",
+        "Tests":  15,
+        "Failures":  0,
+        "Errors":  0,
+        "Skipped":  8
+    },
+    {
+        "Module":  "density-processor-tests",
+        "Tests":  308,
+        "Failures":  0,
+        "Errors":  0,
+        "Skipped":  0
+    },
+    {
+        "Module":  "query-client-tests",
+        "Tests":  3,
+        "Failures":  0,
+        "Errors":  0,
+        "Skipped":  0
+    },
+    {
+        "Module":  "service-security-tests",
+        "Tests":  4,
+        "Failures":  0,
+        "Errors":  0,
+        "Skipped":  1
+    },
+    {
+        "Module":  "traffic-archiver-tests",
+        "Tests":  9,
+        "Failures":  0,
+        "Errors":  0,
+        "Skipped":  2
+    },
+    {
+        "Module":  "traffic-dashboard-tests",
+        "Tests":  2,
+        "Failures":  0,
+        "Errors":  0,
+        "Skipped":  0
+    },
+    {
+        "Module":  "traffic-sensor-simulator-tests",
+        "Tests":  68,
+        "Failures":  0,
+        "Errors":  0,
+        "Skipped":  0
+    }
+]
