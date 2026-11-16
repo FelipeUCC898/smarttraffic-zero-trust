@@ -11,6 +11,8 @@ El Auth Server valida tres clientes independientes:
 | Simulador | `traffic-simulator` | `AUTH_CLIENT_TRAFFIC_SIMULATOR_SECRET` |
 | Procesador | `processor` | `AUTH_CLIENT_PROCESSOR_SECRET` |
 | Archivador | `traffic-archiver` | `AUTH_CLIENT_TRAFFIC_ARCHIVER_SECRET` |
+| Alertas | `alert-dispatcher` | `AUTH_CLIENT_ALERT_DISPATCHER_SECRET` |
+| Consultas | `query-client` | `AUTH_CLIENT_QUERY_CLIENT_SECRET` |
 
 Los secretos sólo deben existir en `.env` local o en el gestor de secretos del proveedor cloud. No se deben escribir en `docker-compose.yml`, commits, logs ni Pull Requests.
 
@@ -30,7 +32,7 @@ El preflight comprueba que el endpoint sea HTTPS y termine en `/token`, que Kafk
 
 ```powershell
 docker compose --profile secure-integration build traffic-sensor-simulator density-processor
-docker compose --profile secure-integration up -d traffic-sensor-simulator density-processor traffic-archiver-secure traffic-dashboard-secure
+docker compose --profile secure-integration up -d traffic-sensor-simulator density-processor traffic-archiver-secure traffic-dashboard-secure alert-dispatcher-secure query-client-secure
 docker compose --profile secure-integration ps
 docker compose --profile secure-integration logs --tail=100 traffic-sensor-simulator density-processor
 ```

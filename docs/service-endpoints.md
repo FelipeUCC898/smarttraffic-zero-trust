@@ -25,6 +25,7 @@ Desde la máquina host, los mismos servicios se exponen sólo por loopback:
 | RabbitMQ AMQP | `127.0.0.1:5672` |
 | RabbitMQ Management | `http://127.0.0.1:15672` |
 | Dashboard | `http://127.0.0.1:8081` |
+| Query Client | `http://127.0.0.1:8092/api/traffic/{zoneId}` |
 
 ## Contratos de mensajería
 
@@ -33,6 +34,8 @@ Desde la máquina host, los mismos servicios se exponen sólo por loopback:
 - RabbitMQ exchange: `traffic_updates`.
 - Tipo de exchange: `fanout`.
 - El dashboard escucha estados por WebSocket en `/ws/zones`.
+- `query-client` mantiene una vista de consulta por zona en su propia cola RabbitMQ.
+- `alert-dispatcher` consume `traffic_updates` y publica alertas de congestión en `traffic_alerts`.
 - La especificación completa está en `docs/traffic-contracts.md`.
 
 ## Variables que deben consumir los microservicios
@@ -66,6 +69,9 @@ RABBITMQ_VHOST=/smarttraffic
 En cloud, Kafka debe usar `SASL_SSL` con `OAUTHBEARER` y RabbitMQ debe usar
 TLS con validación de hostname y JWT como credencial de servicio. Los
 truststores se montan desde el secret manager; nunca se suben al repositorio.
+Los clientes OAuth2 independientes son `traffic-simulator`, `processor`,
+`traffic-archiver`, `alert-dispatcher` y `query-client`. Las credenciales se
+inyectan con `AUTH_CLIENT_*_SECRET`; no se guardan en Compose ni en Git.
 
 ## Criterio de integración
 

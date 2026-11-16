@@ -12,5 +12,5 @@ security:
       traffic-simulator: ${AUTH_CLIENT_TRAFFIC_SIMULATOR_SECRET:}
       processor: ${AUTH_CLIENT_PROCESSOR_SECRET:}
       traffic-archiver: ${AUTH_CLIENT_TRAFFIC_ARCHIVER_SECRET:}
-
-      traffic-archiver: ${AUTH_CLIENT_TRAFFIC_ARCHIVER_SECRET:}
+      alert-dispatcher: ${AUTH_CLIENT_ALERT_DISPATCHER_SECRET:}
+      query-client: ${AUTH_CLIENT_QUERY_CLIENT_SECRET:}
