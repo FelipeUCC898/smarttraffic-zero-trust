@@ -22,4 +22,4 @@ traffic:
     issuer: ${AUTH_JWT_ISSUER:smarttraffic-auth}
     audience: ${AUTH_JWT_AUDIENCE:smarttraffic-brokers}
     public-key: ${AUTH_JWT_PUBLIC_KEY:}
-  ca-certificate: ${AUTH_CA_CERTIFICATE:}
+    ca-certificate: ${AUTH_CA_CERTIFICATE:}

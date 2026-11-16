@@ -1,0 +1,169 @@
+{
+  "name": "smarttraffic-app",
+  "services": {
+    "dispatcher": {
+      "image": "smarttraffic/alert-dispatcher:aws-lab",
+      "environment": {
+        "JAVA_TOOL_OPTIONS": "-XX:MaxRAMPercentage=65.0 -XX:+ExitOnOutOfMemoryError",
+        "AUTH_TOKEN_ENDPOINT": "${AUTH_URL:?}/token",
+        "AUTH_CA_CERTIFICATE": "/run/secrets/ca.pem",
+        "AUTH_TIMEOUT_MS": "5000",
+        "AUTH_JWT_PUBLIC_KEY": "/run/secrets/jwt-public.pem",
+        "AUTH_JWT_ISSUER": "smarttraffic-auth",
+        "AUTH_JWT_AUDIENCE": "smarttraffic-brokers",
+        "TRUSTSTORE_PASSWORD": "${TRUSTSTORE_PASSWORD:?}",
+        "RABBITMQ_HOST": "${DATA_HOST:?}",
+        "RABBITMQ_PORT": "5671",
+        "RABBITMQ_VHOST": "/smarttraffic",
+        "RABBITMQ_SSL_ENABLED": "true",
+        "RABBITMQ_SSL_VALIDATE_SERVER_CERTIFICATE": "true",
+        "RABBITMQ_SSL_VERIFY_HOSTNAME": "true",
+        "RABBITMQ_TRUSTSTORE": "file:/run/secrets/truststore.p12",
+        "RABBITMQ_TRUSTSTORE_PASSWORD": "${TRUSTSTORE_PASSWORD:?}",
+        "RABBITMQ_TRUSTSTORE_TYPE": "PKCS12",
+        "SPRING_PROFILES_ACTIVE": "secure",
+        "AUTH_CLIENT_ID": "alert-dispatcher",
+        "AUTH_CLIENT_SECRET": "${AUTH_CLIENT_ALERT_DISPATCHER_SECRET:?}",
+        "SPRING_RABBITMQ_SSL_ENABLED": "true",
+        "SPRING_RABBITMQ_SSL_TRUST_STORE": "file:/run/secrets/truststore.p12",
+        "SPRING_RABBITMQ_SSL_TRUST_STORE_PASSWORD": "${TRUSTSTORE_PASSWORD:?}",
+        "SPRING_RABBITMQ_SSL_TRUST_STORE_TYPE": "PKCS12",
+        "QUERY_CLIENT_PORT": "8092",
+        "DASHBOARD_PORT": "8081",
+        "DASHBOARD_BIND_ADDRESS": "0.0.0.0"
+      },
+      "volumes": [
+        "${SECRETS_DIR:?}/ca.pem:/run/secrets/ca.pem:ro",
+        "${SECRETS_DIR:?}/truststore.p12:/run/secrets/truststore.p12:ro",
+        "${SECRETS_DIR:?}/jwt-public.pem:/run/secrets/jwt-public.pem:ro"
+      ],
+      "mem_limit": "384m",
+      "cpus": 0.75,
+      "restart": "unless-stopped",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      },
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "cap_drop": [
+        "ALL"
+      ],
+      "network_mode": "host"
+    },
+    "query": {
+      "image": "smarttraffic/query-client:aws-lab",
+      "environment": {
+        "JAVA_TOOL_OPTIONS": "-XX:MaxRAMPercentage=65.0 -XX:+ExitOnOutOfMemoryError",
+        "AUTH_TOKEN_ENDPOINT": "${AUTH_URL:?}/token",
+        "AUTH_CA_CERTIFICATE": "/run/secrets/ca.pem",
+        "AUTH_TIMEOUT_MS": "5000",
+        "AUTH_JWT_PUBLIC_KEY": "/run/secrets/jwt-public.pem",
+        "AUTH_JWT_ISSUER": "smarttraffic-auth",
+        "AUTH_JWT_AUDIENCE": "smarttraffic-brokers",
+        "TRUSTSTORE_PASSWORD": "${TRUSTSTORE_PASSWORD:?}",
+        "RABBITMQ_HOST": "${DATA_HOST:?}",
+        "RABBITMQ_PORT": "5671",
+        "RABBITMQ_VHOST": "/smarttraffic",
+        "RABBITMQ_SSL_ENABLED": "true",
+        "RABBITMQ_SSL_VALIDATE_SERVER_CERTIFICATE": "true",
+        "RABBITMQ_SSL_VERIFY_HOSTNAME": "true",
+        "RABBITMQ_TRUSTSTORE": "file:/run/secrets/truststore.p12",
+        "RABBITMQ_TRUSTSTORE_PASSWORD": "${TRUSTSTORE_PASSWORD:?}",
+        "RABBITMQ_TRUSTSTORE_TYPE": "PKCS12",
+        "SPRING_PROFILES_ACTIVE": "secure",
+        "AUTH_CLIENT_ID": "query-client",
+        "AUTH_CLIENT_SECRET": "${AUTH_CLIENT_QUERY_CLIENT_SECRET:?}",
+        "SPRING_RABBITMQ_SSL_ENABLED": "true",
+        "SPRING_RABBITMQ_SSL_TRUST_STORE": "file:/run/secrets/truststore.p12",
+        "SPRING_RABBITMQ_SSL_TRUST_STORE_PASSWORD": "${TRUSTSTORE_PASSWORD:?}",
+        "SPRING_RABBITMQ_SSL_TRUST_STORE_TYPE": "PKCS12",
+        "QUERY_CLIENT_PORT": "8092",
+        "DASHBOARD_PORT": "8081",
+        "DASHBOARD_BIND_ADDRESS": "0.0.0.0",
+        "SERVER_ADDRESS": "127.0.0.1"
+      },
+      "volumes": [
+        "${SECRETS_DIR:?}/ca.pem:/run/secrets/ca.pem:ro",
+        "${SECRETS_DIR:?}/truststore.p12:/run/secrets/truststore.p12:ro",
+        "${SECRETS_DIR:?}/jwt-public.pem:/run/secrets/jwt-public.pem:ro"
+      ],
+      "mem_limit": "384m",
+      "cpus": 0.75,
+      "restart": "unless-stopped",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      },
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "cap_drop": [
+        "ALL"
+      ],
+      "network_mode": "host"
+    },
+    "dashboard": {
+      "image": "smarttraffic/traffic-dashboard:aws-lab",
+      "environment": {
+        "JAVA_TOOL_OPTIONS": "-XX:MaxRAMPercentage=65.0 -XX:+ExitOnOutOfMemoryError",
+        "AUTH_TOKEN_ENDPOINT": "${AUTH_URL:?}/token",
+        "AUTH_CA_CERTIFICATE": "/run/secrets/ca.pem",
+        "AUTH_TIMEOUT_MS": "5000",
+        "AUTH_JWT_PUBLIC_KEY": "/run/secrets/jwt-public.pem",
+        "AUTH_JWT_ISSUER": "smarttraffic-auth",
+        "AUTH_JWT_AUDIENCE": "smarttraffic-brokers",
+        "TRUSTSTORE_PASSWORD": "${TRUSTSTORE_PASSWORD:?}",
+        "RABBITMQ_HOST": "${DATA_HOST:?}",
+        "RABBITMQ_PORT": "5671",
+        "RABBITMQ_VHOST": "/smarttraffic",
+        "RABBITMQ_SSL_ENABLED": "true",
+        "RABBITMQ_SSL_VALIDATE_SERVER_CERTIFICATE": "true",
+        "RABBITMQ_SSL_VERIFY_HOSTNAME": "true",
+        "RABBITMQ_TRUSTSTORE": "file:/run/secrets/truststore.p12",
+        "RABBITMQ_TRUSTSTORE_PASSWORD": "${TRUSTSTORE_PASSWORD:?}",
+        "RABBITMQ_TRUSTSTORE_TYPE": "PKCS12",
+        "SPRING_PROFILES_ACTIVE": "secure",
+        "AUTH_CLIENT_ID": "traffic-dashboard",
+        "AUTH_CLIENT_SECRET": "${AUTH_CLIENT_TRAFFIC_DASHBOARD_SECRET:?}",
+        "SPRING_RABBITMQ_SSL_ENABLED": "true",
+        "SPRING_RABBITMQ_SSL_TRUST_STORE": "file:/run/secrets/truststore.p12",
+        "SPRING_RABBITMQ_SSL_TRUST_STORE_PASSWORD": "${TRUSTSTORE_PASSWORD:?}",
+        "SPRING_RABBITMQ_SSL_TRUST_STORE_TYPE": "PKCS12",
+        "QUERY_CLIENT_PORT": "8092",
+        "DASHBOARD_PORT": "8081",
+        "DASHBOARD_BIND_ADDRESS": "127.0.0.1",
+        "SERVER_ADDRESS": "127.0.0.1"
+      },
+      "volumes": [
+        "${SECRETS_DIR:?}/ca.pem:/run/secrets/ca.pem:ro",
+        "${SECRETS_DIR:?}/truststore.p12:/run/secrets/truststore.p12:ro",
+        "${SECRETS_DIR:?}/jwt-public.pem:/run/secrets/jwt-public.pem:ro"
+      ],
+      "mem_limit": "512m",
+      "cpus": 0.75,
+      "restart": "unless-stopped",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      },
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "cap_drop": [
+        "ALL"
+      ],
+      "network_mode": "host"
+    }
+  }
+}

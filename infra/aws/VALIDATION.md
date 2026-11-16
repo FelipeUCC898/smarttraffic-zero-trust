@@ -1,6 +1,6 @@
 # Preparation validation — 2026-11-16
 
-User scope: prepare and validate only. No resources were applied or started.
+User scope: prepare and validate only. No AWS resources were applied or started.
 
 ## Passed
 
@@ -21,8 +21,8 @@ User scope: prepare and validate only. No resources were applied or started.
 ## Not exercised
 
 EC2 launch permissions/capacity, bootstrap execution, host nftables enforcement,
-SSM registration, cloud certificate delivery, Kafka TLS/OAuth2 connections and
-end-to-end traffic have not been tested. Terraform planning cannot establish these.
+SSM registration and cloud certificate delivery have not been tested. Terraform
+planning cannot establish these. Local Kafka/application results are recorded below.
 The deployment gates in README.md remain open; this is not application sign-off.
 
 ## Application findings and current resolution
@@ -62,7 +62,44 @@ The deployment gates in README.md remain open; this is not application sign-off.
   Clean dashboard Docker build passed with compiled targets and sensitive files
   excluded from the context. Compose configuration and diff whitespace checks passed.
 
-The local broker uses static public-key pinning. Cloud JWKS discovery/rotation,
-Kafka ACLs and end-to-end application deployment have not been exercised.
+RabbitMQ uses static public-key pinning. Cloud JWKS discovery/rotation and
+end-to-end application deployment on EC2 have not been exercised.
+
+## Secure Kafka and VM runtime follow-up
+
+- Added an isolated full application harness in `infra/local-integration` and a
+  shared service catalog in `infra/runtime`.
+- Kafka KRaft validates OAuth2 JWT signatures through Auth Server HTTPS JWKS,
+  issuer and audience, with default-deny ACLs. Administration/controller listeners
+  bind to loopback and require mutual TLS. No unsecured JWT validator is used.
+- Ten real broker/database tests passed: authorized Kafka writes, denied topics
+  and identities, wrong issuer/audience/signature/expiry, untrusted CA, hostname
+  mismatch, and PostgreSQL verified TLS/plaintext rejection.
+- Added independent auth/data/ingest/core/app Compose files with host networking,
+  persistent volumes, CPU/memory limits and individual secret mounts. Each passed
+  validation using only its own required environment variables. A consistency
+  check compares every VM service with the locally tested service catalog.
+- Fixed dispatcher CA property nesting, RabbitMQ truststore resource paths,
+  processor state-directory ownership and archiver Kafka callback visibility.
+  A regression test proves Kafka's reflection helper can instantiate the callback.
+- Restricted metadata access to root in host nftables; IMDS hop limit alone cannot
+  isolate host-network containers. Actual VM firewall enforcement remains untested.
+- Terraform validate passed after the local test stack was stopped. An earlier
+  concurrent attempt failed from Docker memory pressure, not an IaC validation error.
+- Complete local harness passed: **16 new simulator observations** persisted by the
+  real archiver through Kafka SASL_SSL into PostgreSQL with `verify-full`; the live
+  query returned `OK` with state newer than the start of that run. This additionally
+  exercises processor Kafka Streams, RabbitMQ TLS/OAuth2, dispatcher and query replies.
+- All ten security tests passed in that final run (0 failures/errors/skips), and the
+  callback regression test passed separately. Test containers stopped afterwards.
+- Docker Desktop exposes about 3.5 GiB RAM. The previous development stack was
+  temporarily paused to avoid running two full stacks concurrently. Kafka permits
+  two CPUs; fresh installations use three partitions for internal offset/transaction
+  topics. Existing topic partition counts are not changed. Negative security probes
+  allow 30 seconds for connection establishment but still require the specific
+  authentication/authorization failure; a generic timeout fails the test.
+- Regenerated the authenticated Terraform plan after the firewall update:
+  **53 additions, 0 changes, 0 deletions**, not applied. Restored the seven original
+  development containers after completing the isolated test.
 
 No AWS resources were created or started during these changes.

@@ -1,0 +1,54 @@
+{
+  "name": "smarttraffic-auth",
+  "services": {
+    "auth-server": {
+      "image": "smarttraffic/auth-server:aws-lab",
+      "environment": {
+        "JAVA_TOOL_OPTIONS": "-XX:MaxRAMPercentage=65.0 -XX:+ExitOnOutOfMemoryError",
+        "AUTH_TOKEN_ENDPOINT": "${AUTH_URL:?}/token",
+        "AUTH_CA_CERTIFICATE": "/run/secrets/ca.pem",
+        "AUTH_TIMEOUT_MS": "5000",
+        "AUTH_JWT_PUBLIC_KEY": "/run/secrets/jwt-public.pem",
+        "AUTH_JWT_ISSUER": "smarttraffic-auth",
+        "AUTH_JWT_AUDIENCE": "smarttraffic-brokers",
+        "TRUSTSTORE_PASSWORD": "${TRUSTSTORE_PASSWORD:?}",
+        "SPRING_PROFILES_ACTIVE": "secure",
+        "AUTH_SERVER_PORT": "8443",
+        "SERVER_SSL_KEY_STORE": "/run/secrets/auth-server.p12",
+        "SERVER_SSL_KEY_STORE_PASSWORD": "${TRUSTSTORE_PASSWORD:?}",
+        "SECURITY_JWT_PRIVATE_KEY": "/run/secrets/jwt-private.pem",
+        "SECURITY_JWT_PUBLIC_KEY": "/run/secrets/jwt-public.pem",
+        "AUTH_CLIENT_TRAFFIC_SIMULATOR_SECRET": "${AUTH_CLIENT_TRAFFIC_SIMULATOR_SECRET:?}",
+        "AUTH_CLIENT_PROCESSOR_SECRET": "${AUTH_CLIENT_PROCESSOR_SECRET:?}",
+        "AUTH_CLIENT_TRAFFIC_ARCHIVER_SECRET": "${AUTH_CLIENT_TRAFFIC_ARCHIVER_SECRET:?}",
+        "AUTH_CLIENT_ALERT_DISPATCHER_SECRET": "${AUTH_CLIENT_ALERT_DISPATCHER_SECRET:?}",
+        "AUTH_CLIENT_QUERY_CLIENT_SECRET": "${AUTH_CLIENT_QUERY_CLIENT_SECRET:?}",
+        "AUTH_CLIENT_TRAFFIC_DASHBOARD_SECRET": "${AUTH_CLIENT_TRAFFIC_DASHBOARD_SECRET:?}"
+      },
+      "volumes": [
+        "${SECRETS_DIR:?}/ca.pem:/run/secrets/ca.pem:ro",
+        "${SECRETS_DIR:?}/truststore.p12:/run/secrets/truststore.p12:ro",
+        "${SECRETS_DIR:?}/jwt-public.pem:/run/secrets/jwt-public.pem:ro",
+        "${SECRETS_DIR:?}/auth-server.p12:/run/secrets/auth-server.p12:ro",
+        "${SECRETS_DIR:?}/jwt-private.pem:/run/secrets/jwt-private.pem:ro"
+      ],
+      "mem_limit": "512m",
+      "cpus": 0.75,
+      "restart": "unless-stopped",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      },
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "cap_drop": [
+        "ALL"
+      ],
+      "network_mode": "host"
+    }
+  }
+}

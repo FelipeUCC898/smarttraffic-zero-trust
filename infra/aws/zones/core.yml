@@ -1,0 +1,119 @@
+{
+  "name": "smarttraffic-core",
+  "services": {
+    "processor": {
+      "image": "smarttraffic/density-processor:aws-lab",
+      "environment": {
+        "JAVA_TOOL_OPTIONS": "-XX:MaxRAMPercentage=65.0 -XX:+ExitOnOutOfMemoryError",
+        "AUTH_TOKEN_ENDPOINT": "${AUTH_URL:?}/token",
+        "AUTH_CA_CERTIFICATE": "/run/secrets/ca.pem",
+        "AUTH_TIMEOUT_MS": "5000",
+        "AUTH_JWT_PUBLIC_KEY": "/run/secrets/jwt-public.pem",
+        "AUTH_JWT_ISSUER": "smarttraffic-auth",
+        "AUTH_JWT_AUDIENCE": "smarttraffic-brokers",
+        "TRUSTSTORE_PASSWORD": "${TRUSTSTORE_PASSWORD:?}",
+        "RABBITMQ_HOST": "${DATA_HOST:?}",
+        "RABBITMQ_PORT": "5671",
+        "RABBITMQ_VHOST": "/smarttraffic",
+        "RABBITMQ_SSL_ENABLED": "true",
+        "RABBITMQ_SSL_VALIDATE_SERVER_CERTIFICATE": "true",
+        "RABBITMQ_SSL_VERIFY_HOSTNAME": "true",
+        "RABBITMQ_TRUSTSTORE": "file:/run/secrets/truststore.p12",
+        "RABBITMQ_TRUSTSTORE_PASSWORD": "${TRUSTSTORE_PASSWORD:?}",
+        "RABBITMQ_TRUSTSTORE_TYPE": "PKCS12",
+        "SPRING_PROFILES_ACTIVE": "processor-demo",
+        "AUTH_CLIENT_ID": "processor",
+        "AUTH_CLIENT_SECRET": "${AUTH_CLIENT_PROCESSOR_SECRET:?}",
+        "KAFKA_BOOTSTRAP_SERVERS": "${DATA_HOST:?}:9093",
+        "PROCESSOR_APPLICATION_ID": "density-processor-demo",
+        "PROCESSOR_STATE_DIRECTORY": "/var/lib/smarttraffic/state",
+        "PROCESSOR_ZONE_STORE": "zone-store",
+        "PROCESSOR_PENDING_STORE": "pending-store",
+        "PROCESSOR_RETRY_INTERVAL_MS": "1000",
+        "PROCESSOR_RETRY_BATCH_SIZE": "100",
+        "PROCESSOR_CONFIRMATION_TIMEOUT_MS": "5000",
+        "PROCESSOR_SHUTDOWN_TIMEOUT_MS": "10000",
+        "RABBITMQ_CONNECTION_TIMEOUT": "5000",
+        "SPRING_CONFIG_ADDITIONAL_LOCATION": "/run/config/processor.yml"
+      },
+      "volumes": [
+        "${SECRETS_DIR:?}/ca.pem:/run/secrets/ca.pem:ro",
+        "${SECRETS_DIR:?}/truststore.p12:/run/secrets/truststore.p12:ro",
+        "${SECRETS_DIR:?}/jwt-public.pem:/run/secrets/jwt-public.pem:ro",
+        "${PROJECT_ROOT:?}/infra/runtime/processor.yml:/run/config/processor.yml:ro",
+        "processor_state:/var/lib/smarttraffic/state"
+      ],
+      "mem_limit": "768m",
+      "cpus": 0.75,
+      "restart": "unless-stopped",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      },
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "cap_drop": [
+        "ALL"
+      ],
+      "network_mode": "host"
+    },
+    "archiver": {
+      "image": "smarttraffic/traffic-archiver:aws-lab",
+      "environment": {
+        "JAVA_TOOL_OPTIONS": "-XX:MaxRAMPercentage=65.0 -XX:+ExitOnOutOfMemoryError",
+        "AUTH_TOKEN_ENDPOINT": "${AUTH_URL:?}/token",
+        "AUTH_CA_CERTIFICATE": "/run/secrets/ca.pem",
+        "AUTH_TIMEOUT_MS": "5000",
+        "AUTH_JWT_PUBLIC_KEY": "/run/secrets/jwt-public.pem",
+        "AUTH_JWT_ISSUER": "smarttraffic-auth",
+        "AUTH_JWT_AUDIENCE": "smarttraffic-brokers",
+        "TRUSTSTORE_PASSWORD": "${TRUSTSTORE_PASSWORD:?}",
+        "SPRING_PROFILES_ACTIVE": "secure-integration",
+        "SECURE_AUTH_TOKEN_ENDPOINT": "${AUTH_URL:?}/token",
+        "SECURE_KAFKA_BOOTSTRAP_SERVERS": "${DATA_HOST:?}:9093",
+        "AUTH_CLIENT_ID": "traffic-archiver",
+        "AUTH_CLIENT_SECRET": "${AUTH_CLIENT_TRAFFIC_ARCHIVER_SECRET:?}",
+        "POSTGRES_HOST": "${DATA_HOST:?}",
+        "POSTGRES_DB": "smarttraffic",
+        "POSTGRES_USER": "smarttraffic",
+        "POSTGRES_PASSWORD": "${POSTGRES_PASSWORD:?}",
+        "SPRING_DATASOURCE_URL": "jdbc:postgresql://${DATA_HOST:?}:5432/smarttraffic?sslmode=verify-full&sslrootcert=/run/secrets/ca.pem",
+        "SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_LOCATION": "/run/secrets/truststore.p12",
+        "SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_TYPE": "PKCS12",
+        "SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_PASSWORD": "${TRUSTSTORE_PASSWORD:?}"
+      },
+      "volumes": [
+        "${SECRETS_DIR:?}/ca.pem:/run/secrets/ca.pem:ro",
+        "${SECRETS_DIR:?}/truststore.p12:/run/secrets/truststore.p12:ro",
+        "${SECRETS_DIR:?}/jwt-public.pem:/run/secrets/jwt-public.pem:ro"
+      ],
+      "mem_limit": "640m",
+      "cpus": 0.75,
+      "restart": "unless-stopped",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      },
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "cap_drop": [
+        "ALL"
+      ],
+      "healthcheck": {
+        "disable": true
+      },
+      "network_mode": "host"
+    }
+  },
+  "volumes": {
+    "processor_state": {}
+  }
+}

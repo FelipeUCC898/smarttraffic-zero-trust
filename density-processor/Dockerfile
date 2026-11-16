@@ -7,6 +7,7 @@ RUN mvn -q -DskipTests package
 
 FROM eclipse-temurin:17-jre
 RUN useradd --system --uid 10001 --create-home appuser
+RUN mkdir -p /var/lib/smarttraffic/state && chown appuser /var/lib/smarttraffic/state
 WORKDIR /app
 COPY --from=build /workspace/target/density-processor-*.jar app.jar
 USER appuser

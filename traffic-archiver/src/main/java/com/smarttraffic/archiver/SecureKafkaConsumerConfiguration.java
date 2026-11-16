@@ -35,7 +35,7 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 @Configuration
 @Profile("secure-integration")
 @EnableConfigurationProperties(SecureKafkaProperties.class)
-class SecureKafkaConsumerConfiguration {
+public class SecureKafkaConsumerConfiguration {
     @Bean
     DefaultKafkaConsumerFactory<String, byte[]> secureConsumerFactory(KafkaProperties kafka,
             SecureKafkaProperties secure, ObjectMapper mapper) {
@@ -60,7 +60,7 @@ class SecureKafkaConsumerConfiguration {
         return result;
     }
 
-    static final class TokenCallback implements AuthenticateCallbackHandler {
+    public static final class TokenCallback implements AuthenticateCallbackHandler {
         private TokenProvider provider;
         @Override public void configure(Map<String, ?> configs, String mechanism, List<AppConfigurationEntry> entries) {
             if (!"OAUTHBEARER".equals(mechanism) || !(configs.get("smarttraffic.auth.token-provider") instanceof TokenProvider value))

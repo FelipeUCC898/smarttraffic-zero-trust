@@ -15,7 +15,7 @@ mean that SmartTraffic or its secure message flow has been deployed.
 | core | 10.42.10.13 | c7i-flex.large | 4 GiB | 24 GiB |
 | app | 10.42.10.14 | t3.small | 2 GiB | 24 GiB |
 
-Dedicated VPC and security group per zone. All nodes are in one AZ for this lab.
+One dedicated VPC and a security group per zone. All nodes are in one AZ for this lab.
 Private IPv4 addresses are stable. Public IPv4 addresses provide outbound access
 for SSM and package/image downloads without a NAT gateway. No public ingress,
 SSH, broker management ports or database access is allowed. Initially access the
@@ -33,8 +33,10 @@ restricted production egress. DNS, DHCP, EC2 metadata and AWS time synchronizati
 have explicit rules. Packages install before the host firewall activates; SG rules
 already restrict ingress. nftables rules are syntax-checked before activation.
 
-EBS is encrypted. IMDSv2 is required; hop limit 1 because application containers
-must not obtain the instance role via bridge networking. SSM uses a separate role
+EBS is encrypted. IMDSv2 is required. Hop limit 1 alone does not isolate containers
+using host networking: nftables permits metadata access only to root for SSM.
+Application processes must run as non-root. Host/container root remains a trusted
+administrative boundary. SSM uses a separate role
 per zone. No secrets are placed in user data or Terraform. Application-specific
 secret permissions and delivery remain to be added after broker validation.
 
@@ -67,18 +69,22 @@ NAT gateways or paid VPC interface endpoints are declared.
 
 ## Gates before application rollout
 
-- Configure and test actual Kafka OAUTHBEARER and RabbitMQ OAuth2 broker validators.
+- Local Kafka OAUTHBEARER and RabbitMQ OAuth2 validators are configured and tested.
+  Repeat those checks against the deployed brokers and deployment certificates.
 - Per-service RabbitMQ scopes and dashboard JWT registration are implemented and
   locally tested; supply deployment secrets and verify them with the cloud broker.
 - Supply a CA, matching RS256 keys, server certificates with correct SANs, and JVM
   trust stores for HTTPS and broker TLS. Test rejection of wrong CA/hostname/token.
-- Complete per-zone Compose, resource limits, persistent volumes and image delivery.
+- Per-zone Compose, resource limits and persistent volumes are prepared in
+  [zones](zones/README.md). Image/certificate delivery and Compose plugin installation
+  on actual VMs remain deployment steps.
 - Exclusive reply queues and observed-state queries are implemented and tested.
   Road-graph routing/travel-time calculation still needs domain data and logic.
 - Run complete ingest -> Kafka -> processor/archiver -> RabbitMQ -> dashboard,
   alert and query tests. Unit/build checks are not substitutes for these tests.
 
-These are deployment prerequisites, not completed validation claims.
+See [VALIDATION.md](VALIDATION.md) and the local integration harness for the exact
+executed checks. Local results do not prove VM bootstrap or cloud network behavior.
 
 ## Price snapshot (2026-11-16)
 
