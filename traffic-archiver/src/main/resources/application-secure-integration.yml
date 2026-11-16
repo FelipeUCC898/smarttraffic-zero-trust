@@ -1,0 +1,11 @@
+spring:
+  kafka:
+    bootstrap-servers: ${SECURE_KAFKA_BOOTSTRAP_SERVERS}
+    consumer:
+      group-id: ${KAFKA_ARCHIVER_GROUP:traffic-archiver-v1}
+traffic:
+  archiver:
+    auth:
+      token-endpoint: ${SECURE_AUTH_TOKEN_ENDPOINT}
+      client-id: ${AUTH_CLIENT_ID:traffic-archiver}
+      client-secret: ${AUTH_CLIENT_SECRET}

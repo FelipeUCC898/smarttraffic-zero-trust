@@ -14,6 +14,8 @@ El Auth Server valida tres clientes independientes:
 
 Los secretos sólo deben existir en `.env` local o en el gestor de secretos del proveedor cloud. No se deben escribir en `docker-compose.yml`, commits, logs ni Pull Requests.
 
+El mismo secreto de `traffic-archiver` debe estar registrado en el Auth Server seguro y en el `.env` del entorno que ejecuta el archivador. Si ambos valores no coinciden, el Auth Server rechazará el token.
+
 ## Arranque del perfil seguro
 
 Completar `.env` a partir de `.env.example`, colocar los certificados/truststores en un directorio fuera del repositorio y verificar que los endpoints pertenezcan al entorno TLS real. Después:
