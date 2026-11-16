@@ -9,6 +9,8 @@ services:
       AUTH_CLIENT_TRAFFIC_SIMULATOR_SECRET: ${AUTH_CLIENT_TRAFFIC_SIMULATOR_SECRET:?AUTH_CLIENT_TRAFFIC_SIMULATOR_SECRET must be set in .env}
       AUTH_CLIENT_PROCESSOR_SECRET: ${AUTH_CLIENT_PROCESSOR_SECRET:?AUTH_CLIENT_PROCESSOR_SECRET must be set in .env}
       AUTH_CLIENT_TRAFFIC_ARCHIVER_SECRET: ${AUTH_CLIENT_TRAFFIC_ARCHIVER_SECRET:?AUTH_CLIENT_TRAFFIC_ARCHIVER_SECRET must be set in .env}
+      AUTH_CLIENT_ALERT_DISPATCHER_SECRET: ${AUTH_CLIENT_ALERT_DISPATCHER_SECRET:?AUTH_CLIENT_ALERT_DISPATCHER_SECRET must be set in .env}
+      AUTH_CLIENT_QUERY_CLIENT_SECRET: ${AUTH_CLIENT_QUERY_CLIENT_SECRET:?AUTH_CLIENT_QUERY_CLIENT_SECRET must be set in .env}
     ports:
       - "127.0.0.1:8080:8080"
     networks: [data-net]
@@ -155,14 +157,49 @@ services:
           cpus: "0.75"
           memory: 768M
 
+  alert-dispatcher:
+    build:
+      context: .
+      dockerfile: alert-dispatcher/Dockerfile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: ${RABBITMQ_USER:-guest}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-guest}
+      AUTH_CLIENT_ID: alert-dispatcher
+      AUTH_CLIENT_SECRET: ${AUTH_CLIENT_ALERT_DISPATCHER_SECRET:-local-only}
+    networks: [data-net]
+
+  query-client:
+    build:
+      context: .
+      dockerfile: query-client/Dockerfile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      QUERY_CLIENT_PORT: 8092
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: ${RABBITMQ_USER:-guest}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-guest}
+      AUTH_CLIENT_ID: query-client
+      AUTH_CLIENT_SECRET: ${AUTH_CLIENT_QUERY_CLIENT_SECRET:-local-only}
+    ports:
+      - "127.0.0.1:8092:8092"
+    networks: [data-net]
+
   traffic-sensor-simulator:
     profiles: [secure-integration]
     build:
       context: ./traffic-sensor-simulator
     environment:
       SPRING_PROFILES_ACTIVE: kafka
-      KAFKA_BOOTSTRAP_SERVERS: ${SECURE_KAFKA_BOOTSTRAP_SERVERS-}
-      AUTH_TOKEN_ENDPOINT: ${SECURE_AUTH_TOKEN_ENDPOINT-}
+      KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_BOOTSTRAP_SERVERS-}
+      AUTH_TOKEN_ENDPOINT: ${AUTH_TOKEN_ENDPOINT-}
       AUTH_CLIENT_ID: traffic-simulator
       AUTH_CLIENT_SECRET: ${AUTH_CLIENT_TRAFFIC_SIMULATOR_SECRET-}
       AUTH_TIMEOUT_MS: ${AUTH_TIMEOUT_MS:-5000}
@@ -185,7 +222,7 @@ services:
       context: ./density-processor
     environment:
       SPRING_PROFILES_ACTIVE: processor-demo
-      AUTH_TOKEN_ENDPOINT: ${SECURE_AUTH_TOKEN_ENDPOINT-}
+      AUTH_TOKEN_ENDPOINT: ${AUTH_TOKEN_ENDPOINT-}
       AUTH_CLIENT_ID: processor
       AUTH_CLIENT_SECRET: ${AUTH_CLIENT_PROCESSOR_SECRET-}
       AUTH_TIMEOUT_MS: ${AUTH_TIMEOUT_MS:-5000}
@@ -198,9 +235,9 @@ services:
       PROCESSOR_RETRY_BATCH_SIZE: ${PROCESSOR_RETRY_BATCH_SIZE:-100}
       PROCESSOR_CONFIRMATION_TIMEOUT_MS: ${PROCESSOR_CONFIRMATION_TIMEOUT_MS:-5000}
       PROCESSOR_SHUTDOWN_TIMEOUT_MS: ${PROCESSOR_SHUTDOWN_TIMEOUT_MS:-10000}
-      RABBITMQ_HOST: ${SECURE_RABBITMQ_HOST-}
-      RABBITMQ_PORT: ${SECURE_RABBITMQ_PORT:-5671}
-      RABBITMQ_VHOST: ${SECURE_RABBITMQ_VHOST:-/smarttraffic}
+      RABBITMQ_HOST: ${RABBITMQ_HOST-}
+      RABBITMQ_PORT: ${RABBITMQ_PORT:-5671}
+      RABBITMQ_VHOST: ${RABBITMQ_VHOST:-/smarttraffic}
       RABBITMQ_CONNECTION_TIMEOUT: ${RABBITMQ_CONNECTION_TIMEOUT:-5000}
       AUTH_CA_CERTIFICATE: ${AUTH_CA_CERTIFICATE-}
       KAFKA_TRUSTSTORE: ${KAFKA_TRUSTSTORE-}
@@ -226,7 +263,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-smarttraffic}
       POSTGRES_USER: ${POSTGRES_USER:-smarttraffic}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD-}
-      KAFKA_BOOTSTRAP_SERVERS: ${SECURE_KAFKA_BOOTSTRAP_SERVERS-}
+      KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_BOOTSTRAP_SERVERS-}
       KAFKA_ARCHIVER_GROUP: ${KAFKA_ARCHIVER_GROUP:-traffic-archiver-v1}
       SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_LOCATION: ${KAFKA_TRUSTSTORE-}
       SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_TYPE: ${KAFKA_TRUSTSTORE_TYPE:-PKCS12}
@@ -255,9 +292,9 @@ services:
     environment:
       DASHBOARD_BIND_ADDRESS: 0.0.0.0
       DASHBOARD_PORT: 8081
-      RABBITMQ_HOST: ${SECURE_RABBITMQ_HOST-}
-      RABBITMQ_PORT: ${SECURE_RABBITMQ_PORT:-5671}
-      RABBITMQ_VHOST: ${SECURE_RABBITMQ_VHOST:-/smarttraffic}
+      RABBITMQ_HOST: ${RABBITMQ_HOST-}
+      RABBITMQ_PORT: ${RABBITMQ_PORT:-5671}
+      RABBITMQ_VHOST: ${RABBITMQ_VHOST:-/smarttraffic}
       SPRING_RABBITMQ_SSL_ENABLED: "true"
       SPRING_RABBITMQ_SSL_VALIDATE_SERVER_CERTIFICATE: "true"
       SPRING_RABBITMQ_SSL_VERIFY_HOSTNAME: "true"
@@ -268,6 +305,67 @@ services:
       - ${SECURE_CERTS_DIR-./infra/tls}:/run/secrets:ro
     ports:
       - "127.0.0.1:${DASHBOARD_PORT:-8081}:8081"
+    networks: [data-net]
+
+  alert-dispatcher-secure:
+    profiles: [secure-integration]
+    build:
+      context: .
+      dockerfile: alert-dispatcher/Dockerfile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: secure
+      AUTH_TOKEN_ENDPOINT: ${SECURE_AUTH_TOKEN_ENDPOINT-}
+      AUTH_CLIENT_ID: alert-dispatcher
+      AUTH_CLIENT_SECRET: ${AUTH_CLIENT_ALERT_DISPATCHER_SECRET-}
+      AUTH_JWT_ISSUER: ${AUTH_JWT_ISSUER:-smarttraffic-auth}
+      AUTH_JWT_AUDIENCE: ${AUTH_JWT_AUDIENCE:-smarttraffic-brokers}
+      AUTH_JWT_PUBLIC_KEY: ${SECURITY_JWT_PUBLIC_KEY-}
+      RABBITMQ_HOST: ${RABBITMQ_HOST-}
+      RABBITMQ_PORT: ${RABBITMQ_PORT:-5671}
+      RABBITMQ_VHOST: ${RABBITMQ_VHOST:-/smarttraffic}
+      RABBITMQ_SSL_ENABLED: "true"
+      RABBITMQ_SSL_VALIDATE_SERVER_CERTIFICATE: "true"
+      RABBITMQ_SSL_VERIFY_HOSTNAME: "true"
+      RABBITMQ_TRUSTSTORE: ${RABBITMQ_TRUSTSTORE-}
+      RABBITMQ_TRUSTSTORE_TYPE: ${RABBITMQ_TRUSTSTORE_TYPE:-PKCS12}
+      RABBITMQ_TRUSTSTORE_PASSWORD: ${RABBITMQ_TRUSTSTORE_PASSWORD-}
+    volumes:
+      - ${SECURE_CERTS_DIR-./infra/tls}:/run/secrets:ro
+    networks: [data-net]
+
+  query-client-secure:
+    profiles: [secure-integration]
+    build:
+      context: .
+      dockerfile: query-client/Dockerfile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: secure
+      QUERY_CLIENT_PORT: 8092
+      AUTH_TOKEN_ENDPOINT: ${SECURE_AUTH_TOKEN_ENDPOINT-}
+      AUTH_CLIENT_ID: query-client
+      AUTH_CLIENT_SECRET: ${AUTH_CLIENT_QUERY_CLIENT_SECRET-}
+      AUTH_JWT_ISSUER: ${AUTH_JWT_ISSUER:-smarttraffic-auth}
+      AUTH_JWT_AUDIENCE: ${AUTH_JWT_AUDIENCE:-smarttraffic-brokers}
+      AUTH_JWT_PUBLIC_KEY: ${SECURITY_JWT_PUBLIC_KEY-}
+      RABBITMQ_HOST: ${SECURE_RABBITMQ_HOST-}
+      RABBITMQ_PORT: ${SECURE_RABBITMQ_PORT:-5671}
+      RABBITMQ_VHOST: ${SECURE_RABBITMQ_VHOST:-/smarttraffic}
+      RABBITMQ_SSL_ENABLED: "true"
+      RABBITMQ_SSL_VALIDATE_SERVER_CERTIFICATE: "true"
+      RABBITMQ_SSL_VERIFY_HOSTNAME: "true"
+      RABBITMQ_TRUSTSTORE: ${RABBITMQ_TRUSTSTORE-}
+      RABBITMQ_TRUSTSTORE_TYPE: ${RABBITMQ_TRUSTSTORE_TYPE:-PKCS12}
+      RABBITMQ_TRUSTSTORE_PASSWORD: ${RABBITMQ_TRUSTSTORE_PASSWORD-}
+    volumes:
+      - ${SECURE_CERTS_DIR-./infra/tls}:/run/secrets:ro
+    ports:
+      - "127.0.0.1:8092:8092"
     networks: [data-net]
 
 networks:

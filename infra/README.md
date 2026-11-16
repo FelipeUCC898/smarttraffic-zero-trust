@@ -32,3 +32,9 @@ de desarrollo en `infra/tls/README.md`.
 La política Zero Trust mantiene el acceso mínimo: Kafka sólo acepta clientes
 de `vm-ingest` y `vm-core`, RabbitMQ sólo de `vm-core` y `vm-app`, PostgreSQL
 sólo de `vm-core`, y Auth Server sólo de los clientes de servicio autorizados.
+
+En `vm-app`, `alert-dispatcher` y `query-client` son procesos separados. El
+perfil seguro usa `RABBITMQ_HOST`, `RABBITMQ_PORT=5671`, `RABBITMQ_VHOST` y
+`AUTH_TOKEN_ENDPOINT` como nombres canónicos; los secretos y las claves RS256
+se inyectan desde el gestor de secretos. El broker debe tener habilitado
+OAuth2/JWT y permisos mínimos por vhost, exchange y cola.

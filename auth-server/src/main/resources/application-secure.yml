@@ -6,3 +6,11 @@ server:
     key-store-password: ${SERVER_SSL_KEY_STORE_PASSWORD}
     key-store-type: ${SERVER_SSL_KEY_STORE_TYPE:PKCS12}
     key-alias: ${SERVER_SSL_KEY_ALIAS:auth-server}
+security:
+  jwt:
+    mode: rs256
+    private-key: ${SECURITY_JWT_PRIVATE_KEY}
+    public-key: ${SECURITY_JWT_PUBLIC_KEY}
+    issuer: ${AUTH_JWT_ISSUER:smarttraffic-auth}
+    audience: ${AUTH_JWT_AUDIENCE:smarttraffic-brokers}
+    expiration-seconds: ${JWT_EXPIRATION_SECONDS:900}

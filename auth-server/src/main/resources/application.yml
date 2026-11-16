@@ -7,8 +7,13 @@ security:
   jwt:
     secret: ${JWT_SECRET}
     expiration-seconds: ${JWT_EXPIRATION_SECONDS:900}
+    mode: hmac
+    issuer: ${AUTH_JWT_ISSUER:smarttraffic-auth}
+    audience: ${AUTH_JWT_AUDIENCE:smarttraffic-brokers}
   clients:
     secrets:
       traffic-simulator: ${AUTH_CLIENT_TRAFFIC_SIMULATOR_SECRET:}
       processor: ${AUTH_CLIENT_PROCESSOR_SECRET:}
       traffic-archiver: ${AUTH_CLIENT_TRAFFIC_ARCHIVER_SECRET:}
+      alert-dispatcher: ${AUTH_CLIENT_ALERT_DISPATCHER_SECRET:}
+      query-client: ${AUTH_CLIENT_QUERY_CLIENT_SECRET:}
