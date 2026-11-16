@@ -36,6 +36,7 @@ Desde la máquina host, los mismos servicios se exponen sólo por loopback:
 - El dashboard escucha estados por WebSocket en `/ws/zones`.
 - `query-client` mantiene una vista de consulta por zona en su propia cola RabbitMQ.
 - `alert-dispatcher` consume `traffic_updates` y publica alertas de congestión en `traffic_alerts`.
+- `query-client` publica consultas en `query_traffic` y espera respuestas correlacionadas en `query_answers`; vence con HTTP 504 después de dos segundos.
 - La especificación completa está en `docs/traffic-contracts.md`.
 
 ## Variables que deben consumir los microservicios

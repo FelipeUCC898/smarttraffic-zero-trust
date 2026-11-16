@@ -19,3 +19,6 @@ traffic.auth:
   client-id: ${AUTH_CLIENT_ID:query-client}
   client-secret: ${AUTH_CLIENT_SECRET:local-only}
   timeout-ms: ${AUTH_TIMEOUT_MS:5000}
+  issuer: ${AUTH_JWT_ISSUER:smarttraffic-auth}
+  audience: ${AUTH_JWT_AUDIENCE:smarttraffic-brokers}
+  public-key: ${AUTH_JWT_PUBLIC_KEY:}

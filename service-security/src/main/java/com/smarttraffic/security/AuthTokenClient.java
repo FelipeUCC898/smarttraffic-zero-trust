@@ -10,11 +10,17 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.Map;
+import java.security.KeyFactory;
+import java.security.PublicKey;
+import java.security.spec.X509EncodedKeySpec;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import io.jsonwebtoken.Jwts;
 
 public final class AuthTokenClient implements ServiceAccessTokenProvider {
     private final AuthClientProperties properties; private final ObjectMapper mapper; private final HttpClient http; private final Clock clock;
     public AuthTokenClient(AuthClientProperties properties, ObjectMapper mapper, Clock clock) {
-        this.properties = properties; this.mapper = mapper; this.clock = clock; this.http = HttpClient.newBuilder().connectTimeout(Duration.ofMillis(properties.timeoutMs())).build();
+        properties.validate(); this.properties = properties; this.mapper = mapper; this.clock = clock; this.http = HttpClient.newBuilder().connectTimeout(Duration.ofMillis(properties.timeoutMs())).build();
     }
     @Override public ServiceAccessToken obtainToken() {
         try {
@@ -32,10 +38,13 @@ public final class AuthTokenClient implements ServiceAccessTokenProvider {
     }
     private ServiceAccessToken metadata(String value) throws Exception {
         String[] parts = value.split("\\.", -1); if (parts.length != 3 || parts[2].isBlank()) throw new IllegalArgumentException("JWT inválido");
-        JsonNode header = mapper.readTree(Base64.getUrlDecoder().decode(parts[0])); JsonNode claims = mapper.readTree(Base64.getUrlDecoder().decode(parts[1]));
-        if (!header.path("alg").isTextual() || "none".equalsIgnoreCase(header.path("alg").asText())) throw new IllegalArgumentException("JWT sin firma");
-        long exp = claims.path("exp").asLong(0); String sub = claims.path("sub").asText(); Instant now = clock.instant();
-        if (exp == 0 || sub.isBlank() || !properties.clientId().equals(sub) || !Instant.ofEpochSecond(exp).isAfter(now)) throw new IllegalArgumentException("Claims JWT inválidos");
-        return new ServiceAccessToken(value, sub, claims.has("iat") ? Instant.ofEpochSecond(claims.path("iat").asLong()) : null, Instant.ofEpochSecond(exp));
+        if (properties.publicKey()==null || properties.publicKey().isBlank()) throw new IllegalArgumentException("Falta clave pública para validar JWT");
+        PublicKey key=publicKey(properties.publicKey()); var parser=Jwts.parser().verifyWith(key);
+        if(properties.issuer()!=null && !properties.issuer().isBlank()) parser.requireIssuer(properties.issuer());
+        if(properties.audience()!=null && !properties.audience().isBlank()) parser.requireAudience(properties.audience());
+        var claims=parser.build().parseSignedClaims(value).getPayload(); String sub=claims.getSubject(); Instant now=clock.instant();
+        if(sub==null || !properties.clientId().equals(sub) || claims.getExpiration()==null || !claims.getExpiration().toInstant().isAfter(now)) throw new IllegalArgumentException("Claims JWT inválidos");
+        return new ServiceAccessToken(value, sub, claims.getIssuedAt()==null?null:claims.getIssuedAt().toInstant(), claims.getExpiration().toInstant());
     }
+    private PublicKey publicKey(String value) throws Exception { String pem=Files.exists(Path.of(value))?Files.readString(Path.of(value)):value; byte[] bytes=Base64.getDecoder().decode(pem.replace("-----BEGIN PUBLIC KEY-----","").replace("-----END PUBLIC KEY-----","").replaceAll("\\s", "")); return KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(bytes)); }
 }
