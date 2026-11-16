@@ -14,7 +14,7 @@ public class AlertDispatcherApplication { public static void main(String[] args)
 @org.springframework.context.annotation.Configuration
 class AlertMessagingTopology {
     @Bean DirectExchange queryExchange() { return new DirectExchange("query_traffic", true, false); }
-    @Bean DirectExchange answerExchange() { return new DirectExchange("query_answers", true, false); }
+    @Bean TopicExchange answerExchange() { return new TopicExchange("query_answers", true, false); }
     @Bean FanoutExchange updatesExchange() { return new FanoutExchange("traffic_updates", true, false); }
     @Bean FanoutExchange alertsExchange() { return new FanoutExchange("traffic_alerts", true, false); }
     @Bean Queue queryQueue() { return QueueBuilder.durable("query_traffic_queue").build(); }

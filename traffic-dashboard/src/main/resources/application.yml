@@ -13,4 +13,13 @@ spring:
     host: ${RABBITMQ_HOST:localhost}
     port: ${RABBITMQ_PORT:5672}
     username: ${RABBITMQ_USER:guest}
-    password: ${RABBITMQ_PASSWORD}
+    password: ${RABBITMQ_PASSWORD:}
+    virtual-host: ${RABBITMQ_VHOST:/}
+traffic.auth:
+  token-endpoint: ${AUTH_TOKEN_ENDPOINT:https://localhost:8443/token}
+  client-id: ${AUTH_CLIENT_ID:traffic-dashboard}
+  client-secret: ${AUTH_CLIENT_SECRET:}
+  issuer: ${AUTH_JWT_ISSUER:smarttraffic-auth}
+  audience: ${AUTH_JWT_AUDIENCE:smarttraffic-brokers}
+  public-key: ${AUTH_JWT_PUBLIC_KEY:}
+  ca-certificate: ${AUTH_CA_CERTIFICATE:}

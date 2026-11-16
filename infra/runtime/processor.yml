@@ -1,0 +1,16 @@
+traffic:
+  auth:
+    tls:
+      ca-certificate: ${AUTH_CA_CERTIFICATE}
+  processor:
+    kafka:
+      "[ssl.truststore.location]": /run/secrets/truststore.p12
+      "[ssl.truststore.type]": PKCS12
+      "[ssl.truststore.password]": ${TRUSTSTORE_PASSWORD}
+      "[replication.factor]": 1
+spring:
+  rabbitmq:
+    ssl:
+      trust-store: file:/run/secrets/truststore.p12
+      trust-store-type: PKCS12
+      trust-store-password: ${TRUSTSTORE_PASSWORD}

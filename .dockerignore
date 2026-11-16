@@ -1,0 +1,13 @@
+.git
+.tools
+**/target
+**/.terraform
+**/*.tfstate*
+**/*.tfplan
+.env
+.env.*
+**/*.pem
+**/*.key
+**/*.p12
+**/*.jks
+install.ps1

@@ -1,0 +1,97 @@
+{
+  "name": "smarttraffic-e2e",
+  "services": {
+    "auth-server": {
+      "extends": {
+        "file": "../runtime/services.yml",
+        "service": "auth-server"
+      }
+    },
+    "kafka": {
+      "extends": {
+        "file": "../runtime/services.yml",
+        "service": "kafka"
+      },
+      "networks": {
+        "default": {
+          "aliases": [
+            "data-kafka"
+          ]
+        }
+      }
+    },
+    "rabbitmq": {
+      "extends": {
+        "file": "../runtime/services.yml",
+        "service": "rabbitmq"
+      }
+    },
+    "postgres": {
+      "extends": {
+        "file": "../runtime/services.yml",
+        "service": "postgres"
+      }
+    },
+    "simulator": {
+      "extends": {
+        "file": "../runtime/services.yml",
+        "service": "simulator"
+      }
+    },
+    "archiver": {
+      "extends": {
+        "file": "../runtime/services.yml",
+        "service": "archiver"
+      },
+      "environment": {
+        "POSTGRES_HOST": "postgres",
+        "SPRING_DATASOURCE_URL": "jdbc:postgresql://postgres:5432/smarttraffic?sslmode=verify-full&sslrootcert=/run/secrets/ca.pem"
+      }
+    },
+    "processor": {
+      "extends": {
+        "file": "../runtime/services.yml",
+        "service": "processor"
+      },
+      "environment": {
+        "RABBITMQ_HOST": "rabbitmq"
+      }
+    },
+    "dispatcher": {
+      "extends": {
+        "file": "../runtime/services.yml",
+        "service": "dispatcher"
+      },
+      "environment": {
+        "RABBITMQ_HOST": "rabbitmq"
+      }
+    },
+    "query": {
+      "extends": {
+        "file": "../runtime/services.yml",
+        "service": "query"
+      },
+      "ports": [
+        "127.0.0.1:18092:8092"
+      ],
+      "environment": {
+        "RABBITMQ_HOST": "rabbitmq"
+      }
+    },
+    "dashboard": {
+      "extends": {
+        "file": "../runtime/services.yml",
+        "service": "dashboard"
+      },
+      "environment": {
+        "RABBITMQ_HOST": "rabbitmq"
+      }
+    }
+  },
+  "volumes": {
+    "kafka_data": {},
+    "rabbit_data": {},
+    "postgres_data": {},
+    "processor_state": {}
+  }
+}

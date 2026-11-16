@@ -26,7 +26,8 @@ public class JwtService {
             @Value("${security.jwt.secret:}") String secret, @Value("${security.jwt.mode:hmac}") String mode,
             @Value("${security.jwt.private-key:}") String privateKey, @Value("${security.jwt.expiration-seconds:900}") long expirationSeconds,
             @Value("${security.jwt.issuer:smarttraffic-auth}") String issuer, @Value("${security.jwt.audience:smarttraffic-brokers}") String audience) {
-        this.mode=mode; this.issuer=issuer; this.audience=audience; this.signingKey=secret.isBlank()?null:Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret)); this.privateKey="rs256".equalsIgnoreCase(mode)?load(privateKey):null; this.expirationSeconds = expirationSeconds;
+        if (!"hmac".equalsIgnoreCase(mode) && !"rs256".equalsIgnoreCase(mode)) throw new IllegalArgumentException("Unsupported JWT mode");
+        this.mode=mode; this.issuer=issuer; this.audience=audience; this.signingKey="hmac".equalsIgnoreCase(mode)?Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret)):null; this.privateKey="rs256".equalsIgnoreCase(mode)?load(privateKey):null; this.expirationSeconds = expirationSeconds;
         if("rs256".equalsIgnoreCase(mode) && this.privateKey==null) throw new IllegalArgumentException("El perfil RS256 requiere una clave privada externa");
     }
 
@@ -39,8 +40,8 @@ public class JwtService {
                 .issuer(issuer).audience().add(audience).and()
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(now.plusSeconds(expirationSeconds)))
-                .claim("roles", java.util.List.of("SERVICE")).claim("scope", "smarttraffic:broker");
-        return "rs256".equalsIgnoreCase(mode)?builder.signWith(privateKey).compact():builder.signWith(signingKey).compact();
+                .claim("roles", java.util.List.of("SERVICE")).claim("scope", BrokerScopes.forClient(clientId, audience));
+        return "rs256".equalsIgnoreCase(mode)?builder.header().keyId("smarttraffic-rs256-v1").and().signWith(privateKey, Jwts.SIG.RS256).compact():builder.signWith(signingKey).compact();
     }
     private PrivateKey load(String configured) { try { String pem=configured.contains("BEGIN")?configured:Files.readString(Path.of(configured)); byte[] bytes=Base64.getDecoder().decode(pem.replace("-----BEGIN PRIVATE KEY-----","").replace("-----END PRIVATE KEY-----","").replaceAll("\\s", "")); return KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(bytes)); } catch(Exception e){ throw new IllegalArgumentException("No se pudo cargar la clave privada RS256 externa"); } }
 }

@@ -14,6 +14,9 @@ target/
 !.env.example
 *.pem
 *.key
+*.p12
+*.pfx
+*.jks
 
 # OS
 .DS_Store
@@ -22,3 +25,11 @@ Thumbs.db
 # Generated artifacts
 tmp_pdf/
 .tools/
+
+# Terraform local state and saved plans (may contain sensitive values)
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfvars
+!*.tfvars.example

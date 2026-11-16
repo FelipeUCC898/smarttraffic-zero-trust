@@ -14,7 +14,7 @@ public class QueryClientApplication { public static void main(String[] args) { S
 @org.springframework.context.annotation.Configuration
 class QueryMessagingTopology {
     @Bean DirectExchange queryExchange() { return new DirectExchange("query_traffic", true, false); }
-    @Bean DirectExchange answerExchange() { return new DirectExchange("query_answers", true, false); }
-    @Bean Queue answerQueue() { return QueueBuilder.durable("query_answers.query-client.v1").build(); }
-    @Bean Binding answerBinding(Queue answerQueue, DirectExchange answerExchange) { return BindingBuilder.bind(answerQueue).to(answerExchange).with("query-client.answer"); }
+    @Bean TopicExchange answerExchange() { return new TopicExchange("query_answers", true, false); }
+    @Bean Queue answerQueue() { return new AnonymousQueue(() -> "query_answers.query-client." + java.util.UUID.randomUUID()); }
+    @Bean Binding answerBinding(Queue answerQueue, TopicExchange answerExchange) { return BindingBuilder.bind(answerQueue).to(answerExchange).with(answerQueue.getName()); }
 }

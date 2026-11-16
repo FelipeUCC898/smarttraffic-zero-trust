@@ -1,0 +1,20 @@
+# Artificial workshop fixture, not measured road data.
+traffic:
+  auth:
+    tls:
+      ca-certificate: ${AUTH_CA_CERTIFICATE}
+  simulator:
+    interval-ms: 3000
+    sensors:
+      - sensor-id: secure-e2e-sensor
+        zone-id: north
+        samples:
+          - vehicle-count: 42
+            average-speed-kmh: 21.0
+            congestion-state: CONGESTIONADA
+spring:
+  kafka:
+    properties:
+      ssl.truststore.location: /run/secrets/truststore.p12
+      ssl.truststore.type: PKCS12
+      ssl.truststore.password: ${TRUSTSTORE_PASSWORD}

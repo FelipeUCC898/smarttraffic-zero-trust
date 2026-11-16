@@ -1,0 +1,46 @@
+{
+  "name": "smarttraffic-ingest",
+  "services": {
+    "simulator": {
+      "image": "smarttraffic/traffic-sensor-simulator:aws-lab",
+      "environment": {
+        "JAVA_TOOL_OPTIONS": "-XX:MaxRAMPercentage=65.0 -XX:+ExitOnOutOfMemoryError",
+        "AUTH_TOKEN_ENDPOINT": "${AUTH_URL:?}/token",
+        "AUTH_CA_CERTIFICATE": "/run/secrets/ca.pem",
+        "AUTH_TIMEOUT_MS": "5000",
+        "AUTH_JWT_PUBLIC_KEY": "/run/secrets/jwt-public.pem",
+        "AUTH_JWT_ISSUER": "smarttraffic-auth",
+        "AUTH_JWT_AUDIENCE": "smarttraffic-brokers",
+        "TRUSTSTORE_PASSWORD": "${TRUSTSTORE_PASSWORD:?}",
+        "SPRING_PROFILES_ACTIVE": "kafka",
+        "KAFKA_BOOTSTRAP_SERVERS": "${DATA_HOST:?}:9093",
+        "AUTH_CLIENT_ID": "traffic-simulator",
+        "AUTH_CLIENT_SECRET": "${AUTH_CLIENT_TRAFFIC_SIMULATOR_SECRET:?}",
+        "SPRING_CONFIG_ADDITIONAL_LOCATION": "/run/config/simulator.yml"
+      },
+      "volumes": [
+        "${SECRETS_DIR:?}/ca.pem:/run/secrets/ca.pem:ro",
+        "${SECRETS_DIR:?}/truststore.p12:/run/secrets/truststore.p12:ro",
+        "${SECRETS_DIR:?}/jwt-public.pem:/run/secrets/jwt-public.pem:ro",
+        "${PROJECT_ROOT:?}/infra/runtime/simulator.yml:/run/config/simulator.yml:ro"
+      ],
+      "mem_limit": "640m",
+      "cpus": 0.75,
+      "restart": "unless-stopped",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      },
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "cap_drop": [
+        "ALL"
+      ],
+      "network_mode": "host"
+    }
+  }
+}
