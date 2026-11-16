@@ -13,3 +13,4 @@ security:
       processor: ${AUTH_CLIENT_PROCESSOR_SECRET:}
       traffic-archiver: ${AUTH_CLIENT_TRAFFIC_ARCHIVER_SECRET:}
 
+      traffic-archiver: ${AUTH_CLIENT_TRAFFIC_ARCHIVER_SECRET:}

@@ -4,7 +4,7 @@ El Compose local mantiene Kafka en `PLAINTEXT` y RabbitMQ con `guest` para prueb
 
 ## Credenciales
 
-El Auth Server valida dos clientes independientes:
+El Auth Server valida tres clientes independientes:
 
 | Servicio | `AUTH_CLIENT_ID` | Secreto inyectado |
 |---|---|---|
@@ -29,4 +29,4 @@ docker compose --profile secure-integration logs --tail=100 traffic-sensor-simul
 
 El perfil no se inicia con `docker compose up` normal, porque no sería correcto apuntar servicios que requieren TLS a los brokers locales PLAINTEXT. Antes de ejecutar, confirmar: `SECURE_AUTH_TOKEN_ENDPOINT` por HTTPS, Kafka en 9093, RabbitMQ en 5671, CA/truststores válidos y permisos de los clientes.
 
-> Nota: el archivador actual ya recibe las propiedades TLS de Kafka, pero todavía no implementa el proveedor OAuthBearer usado por el procesador y el simulador. Por ello, la prueba completa con Kafka OAuth requiere completar ese adaptador antes de marcar este perfil como operativo.
+El archivador seguro usa su propia credencial para solicitar el JWT por HTTPS y consumir Kafka mediante SASL_SSL/OAUTHBEARER. El entorno seguro debe autorizar esa identidad en el tópico raw_traffic_data y en el grupo del archivador. Configura también la credencial del dashboard con infraestructura antes de ejecutar la prueba completa.
