@@ -22,6 +22,26 @@ variable "create_instances" {
   default     = false
 }
 
+variable "lab_duration_minutes" {
+  description = "Power off each lab VM after this many minutes from every boot; EBS remains billable."
+  type        = number
+  default     = 60
+  validation {
+    condition     = var.lab_duration_minutes >= 1 && var.lab_duration_minutes <= 480 && floor(var.lab_duration_minutes) == var.lab_duration_minutes
+    error_message = "The lab window must be a whole number of minutes between 1 and 480."
+  }
+}
+
+variable "lab_deadline_utc" {
+  description = "Absolute lab cutoff: end of Sunday 2026-11-22 in America/Bogota. Prepared only; no automation is active until an approved apply."
+  type        = string
+  default     = "2026-11-23T05:00:00Z"
+  validation {
+    condition     = can(formatdate("YYYY-MM-DD hh:mm:ss", var.lab_deadline_utc))
+    error_message = "Supply the absolute cutoff as an RFC3339 timestamp."
+  }
+}
+
 locals {
   zones = {
     auth   = { ip = "10.42.10.10", type = "t3.small", disk = 16 }
@@ -151,10 +171,20 @@ resource "aws_instance" "zone" {
   iam_instance_profile        = aws_iam_instance_profile.zone[each.key].name
   user_data_replace_on_change = true
   user_data = templatefile("${path.module}/bootstrap.sh.tftpl", {
-    zone     = each.key
-    incoming = [for f in values(local.flows) : "ip saddr ${local.zones[f.from].ip} tcp dport ${f.port} accept" if f.to == each.key]
-    outgoing = [for f in values(local.flows) : "ip daddr ${local.zones[f.to].ip} tcp dport ${f.port} accept" if f.from == each.key]
+    zone                 = each.key
+    lab_duration_minutes = var.lab_duration_minutes
+    deadline_calendar    = "${formatdate("YYYY-MM-DD hh:mm:ss", var.lab_deadline_utc)} UTC"
+    deadline_epoch       = formatdate("YYYY-MM-DD'T'hh:mm:ssZ", var.lab_deadline_utc)
+    incoming             = [for f in values(local.flows) : "ip saddr ${local.zones[f.from].ip} tcp dport ${f.port} accept" if f.to == each.key]
+    outgoing             = [for f in values(local.flows) : "ip daddr ${local.zones[f.to].ip} tcp dport ${f.port} accept" if f.from == each.key]
   })
+  instance_initiated_shutdown_behavior = "stop"
+  lifecycle {
+    precondition {
+      condition     = timecmp(var.lab_deadline_utc, plantimestamp()) > 0
+      error_message = "The lab cutoff has passed. Review the window and costs before planning new instances."
+    }
+  }
   metadata_options {
     http_endpoint               = "enabled"
     http_tokens                 = "required"

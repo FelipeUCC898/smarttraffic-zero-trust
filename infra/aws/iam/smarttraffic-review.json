@@ -1,0 +1,50 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "InspectOhioInfrastructure",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeInstances", "ec2:DescribeInstanceTypes", "ec2:DescribeInstanceTypeOfferings",
+        "ec2:DescribeImages", "ec2:DescribeImageAttribute", "ec2:DescribeAvailabilityZones",
+        "ec2:DescribeVpcs", "ec2:DescribeVpcAttribute", "ec2:DescribeSubnets",
+        "ec2:DescribeInternetGateways", "ec2:DescribeRouteTables",
+        "ec2:DescribeSecurityGroups", "ec2:DescribeSecurityGroupRules",
+        "ec2:DescribeVolumes", "ec2:DescribeVolumeAttribute", "ec2:DescribeAddresses",
+        "ec2:DescribeNetworkInterfaces", "ec2:DescribeTags", "ec2:DescribeAccountAttributes"
+      ],
+      "Resource": "*",
+      "Condition": {"StringEquals": {"aws:RequestedRegion": "us-east-2"}}
+    },
+    {
+      "Sid": "ReadOnlyPublicAmazonLinuxAmi",
+      "Effect": "Allow",
+      "Action": "ssm:GetParameter",
+      "Resource": "arn:aws:ssm:us-east-2::parameter/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
+    },
+    {
+      "Sid": "InspectProjectRoles",
+      "Effect": "Allow",
+      "Action": ["iam:GetRole", "iam:ListRolePolicies", "iam:ListAttachedRolePolicies", "iam:GetRolePolicy", "iam:GetInstanceProfile"],
+      "Resource": ["arn:aws:iam::223455088753:role/smarttraffic-lab-*", "arn:aws:iam::223455088753:instance-profile/smarttraffic-lab-*"]
+    },
+    {
+      "Sid": "IdentifyExistingUsers",
+      "Effect": "Allow",
+      "Action": ["iam:ListUsers", "iam:GetUser"],
+      "Resource": "*"
+    },
+    {
+      "Sid": "ReadFreeTierAndPublicPrices",
+      "Effect": "Allow",
+      "Action": ["freetier:GetAccountPlanState", "freetier:GetFreeTierUsage", "pricing:GetProducts", "servicequotas:GetServiceQuota"],
+      "Resource": "*"
+    },
+    {
+      "Sid": "InspectBudgetAlerts",
+      "Effect": "Allow",
+      "Action": "budgets:ViewBudget",
+      "Resource": "arn:aws:budgets::223455088753:budget/*"
+    }
+  ]
+}

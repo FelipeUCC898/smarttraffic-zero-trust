@@ -1,7 +1,78 @@
 #!/bin/bash
 set -euo pipefail
+# Arm the stop guard before package/network operations can fail.
+cat > /etc/systemd/system/smarttraffic-lab-stop.service <<'UNIT'
+[Unit]
+Description=Stop the approved SmartTraffic lab window
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl poweroff
+UNIT
+cat > /etc/systemd/system/smarttraffic-lab-stop.timer <<'UNIT'
+[Unit]
+Description=Bound SmartTraffic VM uptime (EBS is retained)
+[Timer]
+OnBootSec=${lab_duration_minutes}min
+AccuracySec=1s
+Unit=smarttraffic-lab-stop.service
+[Install]
+WantedBy=timers.target
+UNIT
+systemctl daemon-reload
+systemctl enable --now smarttraffic-lab-stop.timer
+# Independent absolute cutoff. Persisted calendar timer plus boot guard prevents
+# a later manual start from bypassing the Sunday deadline. This stops, not deletes.
+cat > /etc/systemd/system/smarttraffic-lab-deadline.timer <<'UNIT'
+[Unit]
+Description=End SmartTraffic at the approved calendar deadline
+[Timer]
+OnCalendar=${deadline_calendar}
+Persistent=true
+AccuracySec=1s
+Unit=smarttraffic-lab-stop.service
+[Install]
+WantedBy=timers.target
+UNIT
+cat > /usr/local/sbin/smarttraffic-deadline-check <<'GUARD'
+#!/bin/bash
+if [ "$(date -u +%s)" -ge "$(date -u -d '${deadline_epoch}' +%s)" ]; then
+  systemctl poweroff
+fi
+GUARD
+chmod 0755 /usr/local/sbin/smarttraffic-deadline-check
+cat > /etc/systemd/system/smarttraffic-deadline-check.service <<'UNIT'
+[Unit]
+Description=Reject SmartTraffic startup after the calendar cutoff
+Before=docker.service
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/smarttraffic-deadline-check
+[Install]
+WantedBy=multi-user.target
+UNIT
+systemctl daemon-reload
+systemctl enable --now smarttraffic-lab-deadline.timer smarttraffic-deadline-check.service
+if [ "$(date -u +%s)" -ge "$(date -u -d '${deadline_epoch}' +%s)" ]; then
+  systemctl poweroff
+  exit 0
+fi
 # Secrets must be delivered separately; never place them in EC2 user data.
-dnf install -y docker nftables
+dnf install -y docker nftables python3
+command -v curl >/dev/null || dnf install -y curl-minimal
+# Official Compose release, installed system-wide and verified before execution.
+# Update version and checksum together after reviewing the upstream release.
+compose_version=5.1.3
+compose_sha256=a0298760c9772d2c06888fc8703a487c94c3c3b0134adeef830742a2fc7647b4
+install -d -m 0755 /usr/local/lib/docker/cli-plugins
+compose_tmp=$(mktemp)
+trap 'rm -f "$compose_tmp"' EXIT
+curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' \
+  --retry 3 --connect-timeout 15 --max-time 180 \
+  "https://github.com/docker/compose/releases/download/v$compose_version/docker-compose-linux-x86_64" \
+  --output "$compose_tmp"
+printf '%s  %s\n' "$compose_sha256" "$compose_tmp" | sha256sum --check --status
+install -m 0755 "$compose_tmp" /usr/local/lib/docker/cli-plugins/docker-compose
+test "$(docker compose version --short)" = "$compose_version"
 install -d -m 0700 /opt/smarttraffic/secrets
 install -d -m 0755 /etc/nftables
 hostnamectl set-hostname vm-${zone}
@@ -53,6 +124,13 @@ ExecStart=/usr/sbin/nft -f /etc/nftables/smarttraffic.nft
 RemainAfterExit=yes
 [Install]
 WantedBy=multi-user.target
+UNIT
+install -d -m 0755 /etc/systemd/system/docker.service.d
+cat > /etc/systemd/system/docker.service.d/smarttraffic.conf <<'UNIT'
+[Unit]
+Requires=smarttraffic-firewall.service
+Requires=smarttraffic-deadline-check.service
+After=smarttraffic-firewall.service smarttraffic-deadline-check.service
 UNIT
 systemctl daemon-reload
 systemctl enable --now smarttraffic-firewall.service

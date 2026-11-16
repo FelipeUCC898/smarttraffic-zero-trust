@@ -1,6 +1,8 @@
 # Java / Maven
 target/
 *.class
+__pycache__/
+*.py[cod]
 *.log
 
 # IDEs
