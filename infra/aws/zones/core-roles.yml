@@ -1,0 +1,7 @@
+services:
+  archiver:
+    environment:
+      POSTGRES_USER: smarttraffic_archiver
+      POSTGRES_PASSWORD: ${ARCHIVER_DB_PASSWORD:?}
+      SPRING_FLYWAY_USER: smarttraffic_migrator
+      SPRING_FLYWAY_PASSWORD: ${MIGRATOR_DB_PASSWORD:?}

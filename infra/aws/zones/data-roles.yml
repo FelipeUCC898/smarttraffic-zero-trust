@@ -1,0 +1,6 @@
+services:
+  postgres:
+    volumes:
+      - ${PROJECT_ROOT:?}/infra/runtime/configure-postgres-roles.sh:/run/config/configure-postgres-roles.sh:ro
+      - ${SECRETS_DIR:?}/migrator-password:/run/secrets/migrator-password:ro
+      - ${SECRETS_DIR:?}/archiver-password:/run/secrets/archiver-password:ro
