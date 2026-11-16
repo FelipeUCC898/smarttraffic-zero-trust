@@ -9,3 +9,8 @@ traffic:
       token-endpoint: ${SECURE_AUTH_TOKEN_ENDPOINT}
       client-id: ${AUTH_CLIENT_ID:traffic-archiver}
       client-secret: ${AUTH_CLIENT_SECRET}
+      ca-certificate: ${AUTH_CA_CERTIFICATE:}
+      trust-store: ${AUTH_TRUSTSTORE:}
+      trust-store-type: ${AUTH_TRUSTSTORE_TYPE:PKCS12}
+      trust-store-password: ${AUTH_TRUSTSTORE_PASSWORD:}
+      timeout-ms: ${AUTH_TIMEOUT_MS:5000}

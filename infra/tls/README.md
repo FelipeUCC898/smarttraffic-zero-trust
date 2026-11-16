@@ -21,4 +21,6 @@ Antes de activar el perfil seguro, A debe recibir del proveedor:
 4. Ubicación del secret manager y procedimiento de rotación.
 
 Los endpoints se documentan en `infra/secure.env.example`; nunca se sustituyen
-por valores ficticios en el Compose de producción.
+por valores ficticios en el Compose de producción. Antes de arrancar, ejecuta
+`infra/validate-secure-config.ps1`. El script valida formato y archivos locales,
+pero no puede verificar el registro remoto de clientes ni permisos del broker.

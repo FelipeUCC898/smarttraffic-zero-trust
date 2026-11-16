@@ -47,7 +47,8 @@ class SecureKafkaConsumerConfiguration {
         props.put(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required;");
         props.put(SaslConfigs.SASL_LOGIN_CALLBACK_HANDLER_CLASS, TokenCallback.class);
         props.put(SslConfigs.SSL_ENDPOINT_IDENTIFICATION_ALGORITHM_CONFIG, "https");
-        props.put("smarttraffic.auth.token-provider", new TokenProvider(secure, mapper));
+        props.put("smarttraffic.auth.token-provider", new TokenProvider(secure, mapper,
+                AuthHttpClientFactory.create(secure)));
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
@@ -88,13 +89,18 @@ class SecureKafkaConsumerConfiguration {
 
     static final class TokenProvider {
         private final SecureKafkaProperties config; private final ObjectMapper mapper;
-        TokenProvider(SecureKafkaProperties config, ObjectMapper mapper) { this.config = config; this.mapper = mapper; }
+        private final HttpClient http;
+        TokenProvider(SecureKafkaProperties config, ObjectMapper mapper, HttpClient http) {
+            this.config = config; this.mapper = mapper; this.http = http;
+        }
         Token get() {
             try {
                 byte[] body = mapper.writeValueAsBytes(Map.of("clientId", config.clientId(), "clientSecret", config.clientSecret()));
-                var request = HttpRequest.newBuilder(config.tokenEndpoint()).header("Content-Type", "application/json")
+                var request = HttpRequest.newBuilder(config.tokenEndpoint())
+                        .timeout(java.time.Duration.ofMillis(config.timeoutMs()))
+                        .header("Content-Type", "application/json")
                         .POST(HttpRequest.BodyPublishers.ofByteArray(body)).build();
-                var response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofByteArray());
+                var response = http.send(request, HttpResponse.BodyHandlers.ofByteArray());
                 if (response.statusCode() != 200) throw new IllegalStateException("Auth Server rechazó el cliente");
                 String value = mapper.readTree(response.body()).path("accessToken").asText();
                 String[] parts = value.split("\\.", -1);
