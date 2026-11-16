@@ -1,0 +1,8 @@
+traffic:
+  auth:
+    token-endpoint: ${TRAFFIC_AUTH_TOKEN_ENDPOINT:}
+    client-id: ${TRAFFIC_AUTH_CLIENT_ID:}
+    client-secret: ${TRAFFIC_AUTH_CLIENT_SECRET:}
+    timeout-ms: ${TRAFFIC_AUTH_TIMEOUT_MS:5000}
+    tls:
+      ca-certificate: ${TRAFFIC_AUTH_TLS_CA_CERTIFICATE:}
