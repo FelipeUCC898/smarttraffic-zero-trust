@@ -1,7 +1,8 @@
 [CmdletBinding()]
-param([string]$MavenCommand = 'mvn')
+param([string]$MavenCommand = 'mvn', [string]$MavenRepository = '')
 $ErrorActionPreference = 'Stop'
 $repo = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
+if (!$MavenRepository) { $MavenRepository = Join-Path $repo '.tools/m2' }
 $fixtures = Join-Path $repo '.tools/rabbit-security'
 $compose = Join-Path $PSScriptRoot 'compose.yml'
 New-Item -ItemType Directory -Force $fixtures | Out-Null
@@ -12,9 +13,9 @@ try {
     & docker compose -p smarttraffic-security-test -f $compose up -d --wait --wait-timeout 120
     if ($LASTEXITCODE -ne 0) { throw 'Local secure RabbitMQ did not become healthy' }
     $env:SMARTTRAFFIC_RABBIT_TEST_DIR = $fixtures
-    & $MavenCommand -q -f (Join-Path $repo 'auth-server/pom.xml') '-Dtest=RabbitSecurityIntegrationTest' test
+    & $MavenCommand -B -ntp "-Dmaven.repo.local=$MavenRepository" -f (Join-Path $repo 'auth-server/pom.xml') '-Dtest=RabbitSecurityIntegrationTest' '-DargLine=-Xmx256m' test
     if ($LASTEXITCODE -ne 0) { throw 'RabbitMQ security integration tests failed' }
-    & $MavenCommand -q -f (Join-Path $repo 'service-security/pom.xml') '-Dtest=AuthHttpsIntegrationTest' test
+    & $MavenCommand -B -ntp "-Dmaven.repo.local=$MavenRepository" -f (Join-Path $repo 'service-security/pom.xml') '-Dtest=AuthHttpsIntegrationTest' '-DargLine=-Xmx256m' test
     if ($LASTEXITCODE -ne 0) { throw 'Auth HTTPS integration test failed' }
 } finally {
     $env:SMARTTRAFFIC_RABBIT_TEST_DIR = $previous

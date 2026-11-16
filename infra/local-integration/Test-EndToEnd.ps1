@@ -1,6 +1,10 @@
+#requires -Version 7.0
 [CmdletBinding()]
 param([switch]$SkipBuild, [switch]$KeepRunning)
 $ErrorActionPreference = 'Stop'
+# Fail before creating credentials or entering cleanup when the engine is absent.
+$engine = & docker info --format '{{.OSType}}'
+if ($LASTEXITCODE -ne 0 -or $engine -ne 'linux') { throw 'A running Linux Docker engine is required. No test services were started.' }
 $root = (Resolve-Path "$PSScriptRoot/../..").Path
 $fixtures = Join-Path $root '.tools/secure-e2e'
 $envFile = Join-Path $fixtures 'runtime.env'
@@ -26,7 +30,13 @@ $compose = @('compose','--env-file',$envFile,'-f',"$PSScriptRoot/compose.yml")
 try {
     Invoke-Docker run --rm --env-file $envFile -v "${fixtures}:/certs" -v "${PSScriptRoot}/generate.sh:/generate.sh:ro" alpine:3.21 sh /generate.sh
     Invoke-Docker @compose config -q
-    if (!$SkipBuild) { Invoke-Docker @compose build }
+    if (!$SkipBuild) {
+        # BuildKit may parallelize a multi-service build even with Compose's
+        # operation limit. Separate invocations bound JVM build concurrency.
+        foreach ($service in @('auth-server','archiver','processor','simulator','dispatcher','query','dashboard')) {
+            Invoke-Docker @compose build $service
+        }
+    }
     # Start the real HTTPS issuer before Kafka fetches JWKS. No curl -k fallback.
     Invoke-Docker @compose up -d auth-server
     $ready = $false
@@ -48,7 +58,7 @@ try {
         if ($LASTEXITCODE -eq 0 -and [int]($rows | Select-Object -Last 1) -gt 0) {
             try {
                 $answer = Invoke-RestMethod 'http://127.0.0.1:18092/api/traffic/north' -TimeoutSec 8
-                if ($answer.status -eq 'OK' -and [DateTime]$answer.state.measuredAt -ge [DateTime]$started) { $passed=$true; break }
+                if ($answer.status -eq 'OK' -and [DateTimeOffset]$answer.state.measuredAt -ge [DateTimeOffset]$started) { $passed=$true; break }
             } catch { }
         }
         Start-Sleep -Seconds 3

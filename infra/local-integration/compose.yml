@@ -2,6 +2,7 @@
   "name": "smarttraffic-e2e",
   "services": {
     "auth-server": {
+      "environment": { "JWT_EXPIRATION_SECONDS": "60" },
       "extends": {
         "file": "../runtime/services.yml",
         "service": "auth-server"
