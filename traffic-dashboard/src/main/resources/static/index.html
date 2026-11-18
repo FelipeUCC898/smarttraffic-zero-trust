@@ -3,56 +3,65 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SmartTraffic | Estado por zona</title>
+  <title>SmartTraffic | Tráfico en vivo</title>
   <style>
-    body { font: 16px system-ui, sans-serif; max-width: 52rem; margin: 3rem auto; padding: 0 1rem; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: .65rem; border-bottom: 1px solid #ddd; text-align: left; }
+    :root { color-scheme: dark; font: 16px system-ui, sans-serif; color: #edf2f8; background: #080d16; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; grid-template-columns: 220px minmax(0, 1fr); }
+    aside { padding: 24px 18px; background: #0a101a; border-right: 1px solid #202b3b; }
+    .brand { display: flex; align-items: center; gap: 12px; letter-spacing: .04em; }
+    .mark { display: flex; align-items: end; gap: 3px; }
+    .mark i { width: 6px; height: 15px; background: #70a9ff; border-radius: 5px; transform: skewY(-24deg); }
+    .mark i:nth-child(2) { height: 23px; }
+    .mark i:nth-child(3) { height: 31px; }
+    aside a { display: block; margin-top: 32px; padding: 12px; border-radius: 8px; color: #a9ceff; background: #131f32; text-decoration: none; }
+    main { padding: clamp(1rem, 4vw, 3rem); background: radial-gradient(ellipse at top, #14253d, transparent 48%); }
+    header { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+    h1 { margin: 0; font-size: clamp(1.7rem, 4vw, 2.5rem); }
+    h2 { margin: 0; font-size: 1.15rem; }
+    #status { border: 1px solid #30425b; border-radius: 20px; padding: 7px 13px; color: #b3c3d8; font-size: .85rem; }
+    #status[data-connected="true"] { color: #55d6a5; }
+    .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 12px; margin: 24px 0; }
+    .card, .panel { background: #0e1522; border: 1px solid #202b3b; border-radius: 12px; padding: 18px; }
+    .card span { display: block; color: #a5b2c6; font-size: .9rem; }
+    .card strong { display: block; font-size: 1.7rem; margin-top: 8px; }
+    .panel header { margin-bottom: 14px; }
+    input { padding: 9px 12px; border: 1px solid #30425b; border-radius: 8px; background: #111a29; color: inherit; font: inherit; max-width: 100%; }
+    .scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; white-space: nowrap; }
+    th, td { padding: 13px 10px; text-align: left; border-bottom: 1px solid #202b3b; }
+    th, #empty { color: #a5b2c6; }
+    .badge { display: inline-block; border: 1px solid currentColor; border-radius: 12px; padding: 3px 8px; font-size: .82rem; }
+    [data-state="DESPEJADA"] { color: #55d6a5; }
+    [data-state="MODERADA"] { color: #f5bd4f; }
+    [data-state="CONGESTIONADA"] { color: #ff7657; }
+    @media (max-width: 680px) { body { grid-template-columns: minmax(0, 1fr); } aside { border-right: 0; border-bottom: 1px solid #202b3b; } aside nav { display: none; } }
   </style>
+  <script src="dashboard.js" defer></script>
 </head>
 <body>
-  <h1>Estado del tráfico por zona</h1>
-  <p id="status" role="status">Conectando…</p>
-  <table>
-    <thead><tr><th>Zona</th><th>Densidad</th><th>Congestión</th><th>Actualizado</th></tr></thead>
-    <tbody id="zones"></tbody>
-  </table>
-  <script>
-    const status = document.querySelector('#status');
-    const table = document.querySelector('#zones');
-    const rows = new Map();
-
-    function connect() {
-      const endpoint = new URL('/ws/zones', window.location.href);
-      endpoint.protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-      const socket = new WebSocket(endpoint);
-
-      socket.onopen = () => {
-        rows.clear();
-        table.replaceChildren();
-        status.textContent = 'Conectado. Esperando estados de tráfico.';
-      };
-      socket.onmessage = ({data}) => {
-        const event = JSON.parse(data);
-        if (!rows.has(event.zoneId)) {
-          const row = table.insertRow();
-          for (let i = 0; i < 4; i++) row.insertCell();
-          rows.set(event.zoneId, row);
-        }
-        const values = [event.zoneId, event.density, event.congestionState,
-          new Date(event.measuredAt).toLocaleString()];
-        values.forEach((value, index) => {
-          rows.get(event.zoneId).cells[index].textContent = value;
-        });
-        status.textContent = 'Conectado. Recibiendo estados de tráfico.';
-      };
-      socket.onclose = () => {
-        status.textContent = 'Conexión interrumpida. Reconectando…';
-        setTimeout(connect, 2000);
-      };
-    }
-
-    connect();
-  </script>
+  <aside>
+    <div class="brand"><span class="mark" aria-hidden="true"><i></i><i></i><i></i></span><strong>SmartTraffic</strong></div>
+    <nav aria-label="Dashboard"><a href="#traffic">Estado por zona</a></nav>
+  </aside>
+  <main id="traffic">
+    <header><h1>Estado del tráfico</h1><span id="status" role="status">Conectando…</span></header>
+    <section class="metrics" aria-label="Resumen de zonas">
+      <div class="card"><span>Zonas con datos</span><strong id="total">0</strong></div>
+      <div class="card"><span>Despejadas</span><strong id="DESPEJADA" data-state="DESPEJADA">0</strong></div>
+      <div class="card"><span>Moderadas</span><strong id="MODERADA" data-state="MODERADA">0</strong></div>
+      <div class="card"><span>Congestionadas</span><strong id="CONGESTIONADA" data-state="CONGESTIONADA">0</strong></div>
+    </section>
+    <section class="panel" aria-labelledby="zones-title">
+      <header><h2 id="zones-title">Zonas en vivo</h2><input type="search" id="filter" placeholder="Buscar zona" aria-label="Buscar zona"></header>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Zona</th><th>Densidad</th><th>Congestión</th><th>Actualizado</th></tr></thead>
+          <tbody id="zones"></tbody>
+        </table>
+      </div>
+      <p id="empty">Esperando estados de tráfico.</p>
+    </section>
+  </main>
 </body>
 </html>
