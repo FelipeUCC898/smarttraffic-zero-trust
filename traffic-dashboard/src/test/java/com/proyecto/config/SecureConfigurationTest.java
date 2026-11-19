@@ -1,9 +1,5 @@
 package com.proyecto.config;
 
-import com.proyecto.config.*;
-import com.proyecto.service.*;
-
-import com.proyecto.config.RabbitOAuthConfiguration;
 import com.proyecto.service.ServiceAccessTokenProvider;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
