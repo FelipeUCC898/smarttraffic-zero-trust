@@ -1,8 +1,8 @@
-package com.smarttraffic.processor.domain.strategy;
+package com.smarttraffic.processor.model.strategy;
 
 import static org.assertj.core.api.Assertions.*;
-import com.smarttraffic.processor.domain.model.CongestionState;
-import com.smarttraffic.processor.domain.model.TrafficObservation;
+import com.smarttraffic.processor.model.CongestionState;
+import com.smarttraffic.processor.model.TrafficObservation;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashMap;

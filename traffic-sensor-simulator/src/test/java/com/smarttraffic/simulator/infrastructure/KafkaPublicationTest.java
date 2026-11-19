@@ -13,9 +13,9 @@ import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.smarttraffic.simulator.domain.model.CongestionState;
-import com.smarttraffic.simulator.domain.model.SensorReading;
-import com.smarttraffic.simulator.infrastructure.messaging.kafka.KafkaTrafficObservationPublisher;
+import com.smarttraffic.simulator.model.CongestionState;
+import com.smarttraffic.simulator.model.SensorReading;
+import com.smarttraffic.simulator.service.messaging.kafka.KafkaTrafficObservationPublisher;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;

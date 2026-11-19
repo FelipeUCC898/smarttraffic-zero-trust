@@ -1,4 +1,4 @@
-package com.smarttraffic.processor.domain.model;
+package com.smarttraffic.processor.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;

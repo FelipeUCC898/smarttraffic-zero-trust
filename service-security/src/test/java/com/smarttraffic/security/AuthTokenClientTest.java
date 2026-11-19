@@ -1,5 +1,9 @@
 package com.smarttraffic.security;
 
+import com.smarttraffic.security.config.*;
+import com.smarttraffic.security.model.*;
+import com.smarttraffic.security.service.*;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import java.security.KeyPair;

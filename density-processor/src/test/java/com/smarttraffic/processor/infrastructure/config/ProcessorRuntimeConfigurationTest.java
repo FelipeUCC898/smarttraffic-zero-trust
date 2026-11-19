@@ -1,11 +1,11 @@
-package com.smarttraffic.processor.infrastructure.config;
+package com.smarttraffic.processor.config;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.smarttraffic.processor.domain.model.CongestionThresholds;
-import com.smarttraffic.processor.infrastructure.security.ServiceAccessTokenProvider;
+import com.smarttraffic.processor.model.CongestionThresholds;
+import com.smarttraffic.processor.service.security.ServiceAccessTokenProvider;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.Map;

@@ -3,7 +3,7 @@ package com.smarttraffic.simulator.infrastructure;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.smarttraffic.simulator.SimulatorApplication;
-import com.smarttraffic.simulator.infrastructure.scheduling.SensorSimulationScheduler;
+import com.smarttraffic.simulator.service.scheduling.SensorSimulationScheduler;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;

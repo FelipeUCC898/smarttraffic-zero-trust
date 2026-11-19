@@ -1,4 +1,4 @@
-package com.smarttraffic.processor.infrastructure.config;
+package com.smarttraffic.processor.config;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;

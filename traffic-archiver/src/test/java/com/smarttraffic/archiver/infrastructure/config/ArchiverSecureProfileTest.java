@@ -1,4 +1,10 @@
-package com.smarttraffic.archiver.infrastructure.config;
+package com.smarttraffic.archiver.config;
+
+import com.smarttraffic.archiver.config.*;
+import com.smarttraffic.archiver.dto.*;
+import com.smarttraffic.archiver.model.*;
+import com.smarttraffic.archiver.repository.*;
+import com.smarttraffic.archiver.service.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

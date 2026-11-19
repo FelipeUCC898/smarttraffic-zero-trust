@@ -1,5 +1,10 @@
 package com.smarttraffic.auth.security;
 
+import com.smarttraffic.auth.config.*;
+import com.smarttraffic.auth.controller.*;
+import com.smarttraffic.auth.model.*;
+import com.smarttraffic.auth.service.*;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;

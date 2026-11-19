@@ -1,11 +1,11 @@
-package com.smarttraffic.processor.application.model;
+package com.smarttraffic.processor.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-import com.smarttraffic.processor.application.model.ProcessingResult.Outcome;
-import com.smarttraffic.processor.domain.model.CongestionState;
-import com.smarttraffic.processor.domain.model.ZoneTrafficState;
+import com.smarttraffic.processor.dto.ProcessingResult.Outcome;
+import com.smarttraffic.processor.model.CongestionState;
+import com.smarttraffic.processor.model.ZoneTrafficState;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Optional;

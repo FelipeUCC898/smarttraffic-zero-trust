@@ -1,4 +1,4 @@
-package com.smarttraffic.processor.infrastructure.messaging.kafka;
+package com.smarttraffic.processor.service.messaging.kafka;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -6,12 +6,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.smarttraffic.processor.domain.model.CongestionState;
-import com.smarttraffic.processor.domain.model.CongestionThresholds;
-import com.smarttraffic.processor.domain.model.TrafficObservation;
-import com.smarttraffic.processor.domain.model.ZoneTrafficAggregate;
-import com.smarttraffic.processor.domain.model.ZoneTrafficSnapshot;
-import com.smarttraffic.processor.domain.strategy.DensityCalculationStrategy;
+import com.smarttraffic.processor.model.CongestionState;
+import com.smarttraffic.processor.model.CongestionThresholds;
+import com.smarttraffic.processor.model.TrafficObservation;
+import com.smarttraffic.processor.model.ZoneTrafficAggregate;
+import com.smarttraffic.processor.model.ZoneTrafficSnapshot;
+import com.smarttraffic.processor.model.strategy.DensityCalculationStrategy;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.time.Instant;

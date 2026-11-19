@@ -1,4 +1,4 @@
-package com.smarttraffic.processor.infrastructure.messaging.kafka;
+package com.smarttraffic.processor.service.messaging.kafka;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -12,16 +12,16 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-import com.smarttraffic.processor.application.model.ProcessingResult;
-import com.smarttraffic.processor.application.port.in.ProcessTrafficObservationUseCase;
-import com.smarttraffic.processor.application.port.out.TrafficStatePublisher;
-import com.smarttraffic.processor.application.port.out.ZoneTrafficStateStore;
-import com.smarttraffic.processor.application.service.ProcessTrafficObservationService;
-import com.smarttraffic.processor.domain.model.CongestionState;
-import com.smarttraffic.processor.domain.model.CongestionThresholds;
-import com.smarttraffic.processor.domain.model.TrafficObservation;
-import com.smarttraffic.processor.domain.model.ZoneTrafficAggregate;
-import com.smarttraffic.processor.domain.model.ZoneTrafficState;
+import com.smarttraffic.processor.dto.ProcessingResult;
+import com.smarttraffic.processor.service.port.in.ProcessTrafficObservationUseCase;
+import com.smarttraffic.processor.repository.TrafficStatePublisher;
+import com.smarttraffic.processor.repository.ZoneTrafficStateStore;
+import com.smarttraffic.processor.service.ProcessTrafficObservationService;
+import com.smarttraffic.processor.model.CongestionState;
+import com.smarttraffic.processor.model.CongestionThresholds;
+import com.smarttraffic.processor.model.TrafficObservation;
+import com.smarttraffic.processor.model.ZoneTrafficAggregate;
+import com.smarttraffic.processor.model.ZoneTrafficState;
 import java.math.BigDecimal;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;

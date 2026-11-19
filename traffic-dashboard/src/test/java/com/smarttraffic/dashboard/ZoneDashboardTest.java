@@ -1,5 +1,8 @@
 package com.smarttraffic.dashboard;
 
+import com.smarttraffic.dashboard.config.*;
+import com.smarttraffic.dashboard.service.*;
+
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

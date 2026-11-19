@@ -1,5 +1,7 @@
 package com.smarttraffic.alerts;
 
+import com.smarttraffic.alerts.service.*;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;

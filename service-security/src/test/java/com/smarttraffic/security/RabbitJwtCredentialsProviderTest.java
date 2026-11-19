@@ -1,5 +1,9 @@
 package com.smarttraffic.security;
 
+import com.smarttraffic.security.config.*;
+import com.smarttraffic.security.model.*;
+import com.smarttraffic.security.service.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.time.Clock;

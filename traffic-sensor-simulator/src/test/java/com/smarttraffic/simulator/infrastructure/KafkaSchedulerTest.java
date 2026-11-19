@@ -10,11 +10,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-import com.smarttraffic.simulator.application.port.out.TrafficObservationPublisher;
-import com.smarttraffic.simulator.application.service.SimulateTrafficService;
-import com.smarttraffic.simulator.domain.model.CongestionState;
-import com.smarttraffic.simulator.domain.model.SensorReading;
-import com.smarttraffic.simulator.infrastructure.scheduling.KafkaSimulationScheduler;
+import com.smarttraffic.simulator.repository.TrafficObservationPublisher;
+import com.smarttraffic.simulator.service.SimulateTrafficService;
+import com.smarttraffic.simulator.model.CongestionState;
+import com.smarttraffic.simulator.model.SensorReading;
+import com.smarttraffic.simulator.service.scheduling.KafkaSimulationScheduler;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;

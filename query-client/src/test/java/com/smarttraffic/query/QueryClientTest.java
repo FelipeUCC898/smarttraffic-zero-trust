@@ -1,5 +1,7 @@
 package com.smarttraffic.query;
 
+import com.smarttraffic.query.controller.*;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import com.fasterxml.jackson.databind.ObjectMapper;

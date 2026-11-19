@@ -1,10 +1,16 @@
-package com.smarttraffic.archiver.infrastructure.config;
+package com.smarttraffic.archiver.config;
+
+import com.smarttraffic.archiver.config.*;
+import com.smarttraffic.archiver.dto.*;
+import com.smarttraffic.archiver.model.*;
+import com.smarttraffic.archiver.repository.*;
+import com.smarttraffic.archiver.service.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.smarttraffic.archiver.infrastructure.security.ServiceAccessTokenProvider;
-import com.smarttraffic.archiver.infrastructure.security.ServiceOAuthCallbackHandler;
+import com.smarttraffic.archiver.service.security.ServiceAccessTokenProvider;
+import com.smarttraffic.archiver.service.security.ServiceOAuthCallbackHandler;
 import java.net.URI;
 import java.util.Map;
 import org.junit.jupiter.api.Test;

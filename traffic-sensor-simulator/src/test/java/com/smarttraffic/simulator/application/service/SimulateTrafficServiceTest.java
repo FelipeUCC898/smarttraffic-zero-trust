@@ -1,13 +1,13 @@
-package com.smarttraffic.simulator.application.service;
+package com.smarttraffic.simulator.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.smarttraffic.simulator.domain.model.CongestionState;
-import com.smarttraffic.simulator.domain.model.MeasurementSample;
-import com.smarttraffic.simulator.domain.model.SensorReading;
-import com.smarttraffic.simulator.domain.model.SensorScenario;
+import com.smarttraffic.simulator.model.CongestionState;
+import com.smarttraffic.simulator.model.MeasurementSample;
+import com.smarttraffic.simulator.model.SensorReading;
+import com.smarttraffic.simulator.model.SensorScenario;
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.Instant;

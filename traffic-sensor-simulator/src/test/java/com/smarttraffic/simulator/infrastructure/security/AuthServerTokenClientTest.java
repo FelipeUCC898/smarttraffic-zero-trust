@@ -1,4 +1,4 @@
-package com.smarttraffic.simulator.infrastructure.security;
+package com.smarttraffic.simulator.service.security;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -10,7 +10,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.smarttraffic.simulator.infrastructure.config.AuthClientProperties;
+import com.smarttraffic.simulator.config.AuthClientProperties;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;

@@ -1,9 +1,9 @@
-package com.smarttraffic.simulator.infrastructure.config;
+package com.smarttraffic.simulator.config;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-import com.smarttraffic.simulator.infrastructure.security.ServiceOAuthCallbackHandler;
+import com.smarttraffic.simulator.service.security.ServiceOAuthCallbackHandler;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
