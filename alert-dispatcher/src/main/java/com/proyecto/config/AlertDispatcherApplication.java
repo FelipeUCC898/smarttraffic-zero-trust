@@ -1,14 +1,11 @@
 package com.proyecto.config;
 
-import com.proyecto.config.security.RabbitOAuthConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Bean;
 import org.springframework.amqp.core.*;
 
 @SpringBootApplication(scanBasePackages = "com.proyecto")
-@Import(RabbitOAuthConfiguration.class)
 public class AlertDispatcherApplication { public static void main(String[] args) { SpringApplication.run(AlertDispatcherApplication.class, args); } }
 
 @org.springframework.context.annotation.Configuration
