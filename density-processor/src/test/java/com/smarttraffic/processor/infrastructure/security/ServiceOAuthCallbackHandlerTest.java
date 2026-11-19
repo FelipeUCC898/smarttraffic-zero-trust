@@ -1,4 +1,7 @@
-package com.smarttraffic.processor.service.security;
+package com.proyecto.service.security;
+
+import com.proyecto.exception.*;
+import com.proyecto.dto.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -8,8 +11,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.smarttraffic.processor.service.security.ServiceAccessToken;
-import com.smarttraffic.processor.service.security.ServiceAccessTokenProvider;
+import com.proyecto.dto.ServiceAccessToken;
+import com.proyecto.service.security.ServiceAccessTokenProvider;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.List;

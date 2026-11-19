@@ -1,0 +1,5 @@
+package com.proyecto.model;
+
+import java.time.Instant;
+
+public record ServiceAccessToken(String value, String principal, Instant issuedAt, Instant expiresAt) {}

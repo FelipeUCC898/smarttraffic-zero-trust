@@ -1,10 +1,10 @@
-package com.smarttraffic.dashboard;
+package com.proyecto;
 
-import com.smarttraffic.dashboard.config.*;
-import com.smarttraffic.dashboard.service.*;
+import com.proyecto.config.*;
+import com.proyecto.service.*;
 
-import com.smarttraffic.security.config.RabbitOAuthConfiguration;
-import com.smarttraffic.security.service.ServiceAccessTokenProvider;
+import com.proyecto.config.RabbitOAuthConfiguration;
+import com.proyecto.service.ServiceAccessTokenProvider;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.boot.autoconfigure.AutoConfigurations;

@@ -1,10 +1,10 @@
-package com.smarttraffic.simulator.infrastructure;
+package com.proyecto.infrastructure;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.smarttraffic.simulator.service.SimulateTrafficService;
-import com.smarttraffic.simulator.config.LocalSimulatorConfiguration;
-import com.smarttraffic.simulator.config.SimulatorProperties;
+import com.proyecto.service.SimulateTrafficService;
+import com.proyecto.config.LocalSimulatorConfiguration;
+import com.proyecto.config.SimulatorProperties;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;

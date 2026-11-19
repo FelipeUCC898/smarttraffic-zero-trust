@@ -1,14 +1,17 @@
-package com.smarttraffic.processor.service.messaging.kafka;
+package com.proyecto.service.messaging.kafka;
+
+import com.proyecto.exception.*;
+import com.proyecto.dto.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.smarttraffic.processor.model.CongestionState;
-import com.smarttraffic.processor.model.CongestionThresholds;
-import com.smarttraffic.processor.model.TrafficObservation;
-import com.smarttraffic.processor.model.ZoneTrafficAggregate;
-import com.smarttraffic.processor.model.ZoneTrafficSnapshot;
+import com.proyecto.model.CongestionState;
+import com.proyecto.model.CongestionThresholds;
+import com.proyecto.model.TrafficObservation;
+import com.proyecto.model.ZoneTrafficAggregate;
+import com.proyecto.model.ZoneTrafficSnapshot;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;

@@ -1,10 +1,13 @@
-package com.smarttraffic.processor.service.messaging.kafka;
+package com.proyecto.service.messaging.kafka;
+
+import com.proyecto.exception.*;
+import com.proyecto.dto.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.smarttraffic.processor.model.CongestionState;
-import com.smarttraffic.processor.model.TrafficObservation;
+import com.proyecto.model.CongestionState;
+import com.proyecto.model.TrafficObservation;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;

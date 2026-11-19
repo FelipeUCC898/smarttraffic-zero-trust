@@ -1,4 +1,4 @@
-package com.smarttraffic.simulator.infrastructure;
+package com.proyecto.infrastructure;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -13,9 +13,9 @@ import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.smarttraffic.simulator.model.CongestionState;
-import com.smarttraffic.simulator.model.SensorReading;
-import com.smarttraffic.simulator.service.messaging.kafka.KafkaTrafficObservationPublisher;
+import com.proyecto.model.CongestionState;
+import com.proyecto.model.SensorReading;
+import com.proyecto.service.messaging.kafka.KafkaTrafficObservationPublisher;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;

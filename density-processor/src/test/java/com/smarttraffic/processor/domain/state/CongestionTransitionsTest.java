@@ -1,10 +1,13 @@
-package com.smarttraffic.processor.model.state;
+package com.proyecto.model;
+
+import com.proyecto.exception.*;
+import com.proyecto.dto.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-import com.smarttraffic.processor.model.CongestionState;
-import com.smarttraffic.processor.model.CongestionThresholds;
+import com.proyecto.model.CongestionState;
+import com.proyecto.model.CongestionThresholds;
 import java.math.BigDecimal;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;

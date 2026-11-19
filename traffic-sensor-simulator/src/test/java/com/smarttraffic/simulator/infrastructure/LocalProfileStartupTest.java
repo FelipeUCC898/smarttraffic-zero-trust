@@ -1,9 +1,9 @@
-package com.smarttraffic.simulator.infrastructure;
+package com.proyecto.infrastructure;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.smarttraffic.simulator.SimulatorApplication;
-import com.smarttraffic.simulator.service.scheduling.SensorSimulationScheduler;
+import com.proyecto.config.SimulatorApplication;
+import com.proyecto.service.scheduling.SensorSimulationScheduler;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;

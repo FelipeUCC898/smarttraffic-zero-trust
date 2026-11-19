@@ -1,8 +1,8 @@
-package com.smarttraffic.security;
+package com.proyecto;
 
-import com.smarttraffic.security.config.*;
-import com.smarttraffic.security.model.*;
-import com.smarttraffic.security.service.*;
+import com.proyecto.config.*;
+import com.proyecto.model.*;
+import com.proyecto.service.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;

@@ -1,13 +1,16 @@
-package com.smarttraffic.processor.service.messaging.kafka;
+package com.proyecto.service.messaging.kafka;
+
+import com.proyecto.exception.*;
+import com.proyecto.dto.*;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.smarttraffic.processor.model.*;
-import com.smarttraffic.processor.model.strategy.VehiclesPerKilometerDensityStrategy;
-import com.smarttraffic.processor.service.messaging.rabbitmq.RabbitTrafficStatePublisher;
+import com.proyecto.model.*;
+import com.proyecto.service.strategy.VehiclesPerKilometerDensityStrategy;
+import com.proyecto.service.messaging.rabbitmq.RabbitTrafficStatePublisher;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.time.Duration;

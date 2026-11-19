@@ -1,4 +1,7 @@
-package com.smarttraffic.processor.infrastructure.messaging;
+package com.proyecto.infrastructure.messaging;
+
+import com.proyecto.exception.*;
+import com.proyecto.dto.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -12,16 +15,16 @@ import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.smarttraffic.processor.model.CongestionState;
-import com.smarttraffic.processor.model.CongestionThresholds;
-import com.smarttraffic.processor.model.TrafficObservation;
-import com.smarttraffic.processor.model.ZoneTrafficSnapshot;
-import com.smarttraffic.processor.model.strategy.DensityCalculationStrategy;
-import com.smarttraffic.processor.service.messaging.kafka.InvalidTrafficObservationException;
-import com.smarttraffic.processor.service.messaging.kafka.RawTrafficObservationDecoder;
-import com.smarttraffic.processor.service.messaging.kafka.TrafficProcessingTopology;
-import com.smarttraffic.processor.service.messaging.rabbitmq.RabbitTrafficStatePublisher;
-import com.smarttraffic.processor.service.messaging.rabbitmq.TrafficStatePublicationException;
+import com.proyecto.model.CongestionState;
+import com.proyecto.model.CongestionThresholds;
+import com.proyecto.model.TrafficObservation;
+import com.proyecto.model.ZoneTrafficSnapshot;
+import com.proyecto.service.strategy.DensityCalculationStrategy;
+import com.proyecto.exception.InvalidTrafficObservationException;
+import com.proyecto.service.messaging.kafka.RawTrafficObservationDecoder;
+import com.proyecto.service.messaging.kafka.TrafficProcessingTopology;
+import com.proyecto.service.messaging.rabbitmq.RabbitTrafficStatePublisher;
+import com.proyecto.exception.TrafficStatePublicationException;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.time.Instant;

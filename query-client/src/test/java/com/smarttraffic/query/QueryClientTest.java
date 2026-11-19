@@ -1,6 +1,6 @@
-package com.smarttraffic.query;
+package com.proyecto.config;
 
-import com.smarttraffic.query.controller.*;
+import com.proyecto.controller.*;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;

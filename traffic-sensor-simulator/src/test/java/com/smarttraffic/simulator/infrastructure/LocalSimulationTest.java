@@ -1,4 +1,4 @@
-package com.smarttraffic.simulator.infrastructure;
+package com.proyecto.infrastructure;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -10,11 +10,11 @@ import static org.mockito.Mockito.when;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.smarttraffic.simulator.service.SimulateTrafficService;
-import com.smarttraffic.simulator.model.CongestionState;
-import com.smarttraffic.simulator.model.SensorReading;
-import com.smarttraffic.simulator.service.output.LocalReadingLogger;
-import com.smarttraffic.simulator.service.scheduling.SensorSimulationScheduler;
+import com.proyecto.service.SimulateTrafficService;
+import com.proyecto.model.CongestionState;
+import com.proyecto.model.SensorReading;
+import com.proyecto.service.output.LocalReadingLogger;
+import com.proyecto.service.scheduling.SensorSimulationScheduler;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;

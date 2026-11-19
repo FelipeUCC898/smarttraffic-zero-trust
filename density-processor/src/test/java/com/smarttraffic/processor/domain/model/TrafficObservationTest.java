@@ -1,4 +1,7 @@
-package com.smarttraffic.processor.model;
+package com.proyecto.model;
+
+import com.proyecto.exception.*;
+import com.proyecto.dto.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;

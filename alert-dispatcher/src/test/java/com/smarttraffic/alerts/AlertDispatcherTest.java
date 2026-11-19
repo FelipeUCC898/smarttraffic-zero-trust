@@ -1,6 +1,6 @@
-package com.smarttraffic.alerts;
+package com.proyecto;
 
-import com.smarttraffic.alerts.service.*;
+import com.proyecto.service.*;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;

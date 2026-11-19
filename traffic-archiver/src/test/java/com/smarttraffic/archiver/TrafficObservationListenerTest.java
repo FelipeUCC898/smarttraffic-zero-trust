@@ -1,10 +1,10 @@
-package com.smarttraffic.archiver;
+package com.proyecto;
 
-import com.smarttraffic.archiver.config.*;
-import com.smarttraffic.archiver.dto.*;
-import com.smarttraffic.archiver.model.*;
-import com.smarttraffic.archiver.repository.*;
-import com.smarttraffic.archiver.service.*;
+import com.proyecto.config.*;
+import com.proyecto.dto.*;
+import com.proyecto.model.*;
+import com.proyecto.repository.*;
+import com.proyecto.service.*;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;

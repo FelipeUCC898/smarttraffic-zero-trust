@@ -1,10 +1,13 @@
-package com.smarttraffic.processor.model;
+package com.proyecto.model;
+
+import com.proyecto.exception.*;
+import com.proyecto.dto.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.smarttraffic.processor.model.strategy.DensityCalculationStrategy;
+import com.proyecto.service.strategy.DensityCalculationStrategy;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;

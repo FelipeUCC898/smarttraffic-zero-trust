@@ -1,4 +1,7 @@
-package com.smarttraffic.processor.service.messaging.rabbitmq;
+package com.proyecto.service.messaging.rabbitmq;
+
+import com.proyecto.exception.*;
+import com.proyecto.dto.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -12,13 +15,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.smarttraffic.processor.model.CongestionState;
-import com.smarttraffic.processor.repository.ZoneTrafficStateStore;
-import com.smarttraffic.processor.service.ProcessTrafficObservationService;
-import com.smarttraffic.processor.model.CongestionThresholds;
-import com.smarttraffic.processor.model.TrafficObservation;
-import com.smarttraffic.processor.model.ZoneTrafficAggregate;
-import com.smarttraffic.processor.model.ZoneTrafficState;
+import com.proyecto.model.CongestionState;
+import com.proyecto.repository.ZoneTrafficStateStore;
+import com.proyecto.service.ProcessTrafficObservationService;
+import com.proyecto.model.CongestionThresholds;
+import com.proyecto.model.TrafficObservation;
+import com.proyecto.model.ZoneTrafficAggregate;
+import com.proyecto.model.ZoneTrafficState;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;

@@ -1,11 +1,11 @@
-package com.smarttraffic.auth.security;
+package com.proyecto.security;
 
-import com.smarttraffic.auth.config.*;
-import com.smarttraffic.auth.controller.*;
-import com.smarttraffic.auth.model.*;
-import com.smarttraffic.auth.service.*;
+import com.proyecto.config.*;
+import com.proyecto.controller.*;
+import com.proyecto.model.*;
+import com.proyecto.service.*;
 
-import com.smarttraffic.auth.controller.JwksController;
+import com.proyecto.controller.JwksController;
 import io.jsonwebtoken.Jwts;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPublicKey;

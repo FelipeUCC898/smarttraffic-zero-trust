@@ -1,4 +1,4 @@
-package com.smarttraffic.probe;
+package com.proyecto;
 
 import io.jsonwebtoken.Jwts;
 import java.nio.file.Files;

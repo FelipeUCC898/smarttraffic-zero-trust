@@ -1,4 +1,7 @@
-package com.smarttraffic.processor.service.security;
+package com.proyecto.service.security;
+
+import com.proyecto.exception.*;
+import com.proyecto.dto.*;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;

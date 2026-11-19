@@ -1,8 +1,8 @@
-package com.smarttraffic.simulator.service.security;
+package com.proyecto.service.security;
 
 import static org.assertj.core.api.Assertions.*;
-import com.smarttraffic.simulator.config.AuthClientProperties;
-import com.smarttraffic.simulator.config.AuthTlsProperties;
+import com.proyecto.config.AuthClientProperties;
+import com.proyecto.config.AuthTlsProperties;
 import com.sun.net.httpserver.HttpsConfigurator;
 import com.sun.net.httpserver.HttpsServer;
 import java.net.InetSocketAddress;

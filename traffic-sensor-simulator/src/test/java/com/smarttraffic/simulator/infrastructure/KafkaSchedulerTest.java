@@ -1,4 +1,4 @@
-package com.smarttraffic.simulator.infrastructure;
+package com.proyecto.infrastructure;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.doNothing;
@@ -10,11 +10,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-import com.smarttraffic.simulator.repository.TrafficObservationPublisher;
-import com.smarttraffic.simulator.service.SimulateTrafficService;
-import com.smarttraffic.simulator.model.CongestionState;
-import com.smarttraffic.simulator.model.SensorReading;
-import com.smarttraffic.simulator.service.scheduling.KafkaSimulationScheduler;
+import com.proyecto.service.port.out.TrafficObservationPublisher;
+import com.proyecto.service.SimulateTrafficService;
+import com.proyecto.model.CongestionState;
+import com.proyecto.model.SensorReading;
+import com.proyecto.service.scheduling.KafkaSimulationScheduler;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
