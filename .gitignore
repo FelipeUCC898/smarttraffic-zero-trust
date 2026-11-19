@@ -6,7 +6,9 @@ target/
 # IDEs
 .idea/
 *.iml
-.vscode/
+.vscode/*
+!.vscode/settings.json
+.worktrees/
 
 # Local configuration and secrets
 .env

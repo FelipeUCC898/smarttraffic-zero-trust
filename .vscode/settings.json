@@ -1,0 +1,15 @@
+{
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.import.exclusions": [
+        "**/.worktrees/**",
+        "**/target/**"
+    ],
+    "files.exclude": {
+        "**/.worktrees": true,
+        "**/target": true
+    },
+    "search.exclude": {
+        "**/.worktrees": true,
+        "**/target": true
+    }
+}
