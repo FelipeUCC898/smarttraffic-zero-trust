@@ -1,7 +1,7 @@
-package com.proyecto.service;
+package com.proyecto.service.security;
 
-import com.proyecto.config.AuthClientProperties;
-import com.proyecto.model.ServiceAccessToken;
+import com.proyecto.config.security.AuthClientProperties;
+import com.proyecto.model.security.ServiceAccessToken;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.http.HttpClient;

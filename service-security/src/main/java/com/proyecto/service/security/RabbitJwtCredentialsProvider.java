@@ -1,6 +1,6 @@
-package com.proyecto.service;
+package com.proyecto.service.security;
 
-import com.proyecto.model.ServiceAccessToken;
+import com.proyecto.model.security.ServiceAccessToken;
 import com.rabbitmq.client.impl.CredentialsProvider;
 import java.time.Clock;
 import java.time.Duration;

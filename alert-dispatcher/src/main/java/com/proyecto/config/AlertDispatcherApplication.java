@@ -1,6 +1,6 @@
 package com.proyecto.config;
 
-import com.proyecto.config.RabbitOAuthConfiguration;
+import com.proyecto.config.security.RabbitOAuthConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;

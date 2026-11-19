@@ -1,8 +1,8 @@
-package com.proyecto.service;
+package com.proyecto.service.security;
 
-import com.proyecto.config.*;
-import com.proyecto.model.*;
-import com.proyecto.service.*;
+import com.proyecto.config.security.*;
+import com.proyecto.model.security.*;
+import com.proyecto.service.security.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpsServer;

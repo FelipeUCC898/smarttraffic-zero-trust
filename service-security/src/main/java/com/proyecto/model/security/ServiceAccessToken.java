@@ -1,4 +1,4 @@
-package com.proyecto.model;
+package com.proyecto.model.security;
 
 import java.time.Instant;
 

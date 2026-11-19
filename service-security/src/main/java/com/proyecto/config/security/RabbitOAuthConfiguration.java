@@ -1,9 +1,9 @@
-package com.proyecto.config;
+package com.proyecto.config.security;
 
 import com.rabbitmq.client.impl.DefaultCredentialsRefreshService;
-import com.proyecto.service.AuthTokenClient;
-import com.proyecto.service.RabbitJwtCredentialsProvider;
-import com.proyecto.service.ServiceAccessTokenProvider;
+import com.proyecto.service.security.AuthTokenClient;
+import com.proyecto.service.security.RabbitJwtCredentialsProvider;
+import com.proyecto.service.security.ServiceAccessTokenProvider;
 import java.time.Clock;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.RabbitConnectionFactoryBean;

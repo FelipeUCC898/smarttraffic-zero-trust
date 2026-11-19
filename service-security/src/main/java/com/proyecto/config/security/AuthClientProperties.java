@@ -1,4 +1,4 @@
-package com.proyecto.config;
+package com.proyecto.config.security;
 
 import java.net.URI;
 import org.springframework.boot.context.properties.ConfigurationProperties;

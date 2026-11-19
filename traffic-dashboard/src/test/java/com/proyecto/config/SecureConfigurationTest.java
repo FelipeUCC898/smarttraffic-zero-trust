@@ -1,6 +1,7 @@
 package com.proyecto.config;
 
-import com.proyecto.service.ServiceAccessTokenProvider;
+import com.proyecto.config.security.RabbitOAuthConfiguration;
+import com.proyecto.service.security.ServiceAccessTokenProvider;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
